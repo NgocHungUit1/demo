@@ -1,0 +1,20 @@
+:root {
+    // --sidebar-color: #f2eae0;
+    --sidebar-color: #fff;
+    --header-width: 70px;
+    --text-secondary-color: #9e9ea7;
+    --layout-color: #e8a286;
+}
+
+* {
+    margin: 0;
+    font-family: "Candara" !important;
+}
+
+body {
+    font-family: "Candara" !important;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+}
+
