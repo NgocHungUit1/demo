@@ -1,0 +1,68 @@
+.wrapper {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--sidebar-color);
+    border-right: 1px solid #ccc;
+    .title {
+        display: flex;
+        margin: 10px 0 20px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        gap: 20px;
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .information {
+            text-align: center;
+            .name {
+                text-transform: capitalize;
+                margin: 10px auto 5px;
+                
+            }
+            .role {
+                color: var(--text-secondary-color);
+                font-size: 1rem;
+            }
+        }
+    }
+    .btn-collapse {
+        cursor: pointer;
+        position: absolute;
+        top: 70px;
+        z-index: 100;
+        right: -20px;
+        height: 40px;
+        width: 40px;
+        border: 1.5px solid var(--primary);
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 5px 5px 5px #ccc;
+    }
+    .logout {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        bottom: -60%;
+        // margin: 10rem auto 1.5rem;
+    }
+}
+
+.tab-item {
+    font-size: 1.1rem;
+}
+
+@media  screen and (max-width:1100px) {
+    .btn-collapse {
+        display: none;
+        visibility: hidden;
+    }
+}

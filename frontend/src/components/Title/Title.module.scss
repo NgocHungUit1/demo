@@ -1,0 +1,18 @@
+%display {
+    display: flex;
+
+    align-items: center;
+}
+
+.wrapper {
+    @extend %display;
+    margin-bottom: 50px;
+    justify-content: space-between;
+    h1 {
+        font-size: 3rem;
+    }
+    div {
+        @extend %display;
+        gap: 5px;
+    }
+}
