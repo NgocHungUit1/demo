@@ -2,6 +2,10 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\GenreController;
+use App\Http\Controllers\MangaController;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,4 +29,21 @@ Route::middleware(['auth:api', 'role:admin'])->group(function () {
     Route::get('categories/{id}', [CategoryController::class, 'show']);
     Route::put('categories/{id}', [CategoryController::class, 'update']);
     Route::delete('categories/{id}', [CategoryController::class, 'destroy']);
+
+    Route::get('genres', [GenreController::class, 'index']);
+    Route::post('genres', [GenreController::class, 'store']);
+    Route::get('genres/{id}', [GenreController::class, 'show']);
+    Route::put('genres/{id}', [GenreController::class, 'update']);
+    Route::delete('genres/{id}', [GenreController::class, 'destroy']);
+
+    Route::get('/mangas', [MangaController::class, 'index']);
+    Route::get('/mangas/{id}', [MangaController::class, 'show']);
+    Route::post('/mangas', [MangaController::class, 'store']);
+    Route::patch('/mangas/{id}', [MangaController::class, 'update']);
+    Route::delete('/mangas/{id}', [MangaController::class, 'destroy']);
+    Route::get('/mangas/search/{tag}', [MangaController::class, 'tag']);
+
+    Route::post('/mangas/{id}/chapter', [ChapterController::class, 'store']);
+    Route::get('/mangas/{id}/chapter_index', [ChapterController::class, 'show']);
+    Route::delete('/mangas/{chapter_id}/chapter_delete', [ChapterController::class, 'destroy']);
 });

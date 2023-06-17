@@ -15,10 +15,12 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+
             // Kiểm tra mật khẩu
             if (!Hash::check($request->input('password'), $user->password)) {
                 return response()->json(['error' => 'Invalid credentials.'], 401);
             }
+
             $tokenResult = $user->createToken('Personal Access Token');
             $token = $tokenResult->plainTextToken;
 
