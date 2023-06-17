@@ -46,7 +46,7 @@ function Login() {
         infinite: true,
         slidesToShow: 1,
         slidesToScroll: 1,
-        autoplay: false,
+        autoplay: true,
         speed: 2000,
         autoplaySpeed: 4000,
         nextArrow: (

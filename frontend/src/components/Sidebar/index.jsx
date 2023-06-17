@@ -13,9 +13,10 @@ import { ReactComponent as GenresIcon } from "@/assets/images/archive-book-svgre
 import { ReactComponent as CategoryIcon } from "@/assets/images/category-svgrepo-com.svg";
 import { ReactComponent as DashboardIcon } from "@/assets/images/dashboard-svgrepo-com.svg";
 import { ReactComponent as LogoIcon } from "@/assets/images/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "@/store/Slice/user.slice";
 const cx = classNames.bind(styles);
 
 function getItem(label, key, icon, children, type) {
@@ -71,6 +72,13 @@ function Sidebar(props) {
     const toggleCollapsed = () => {
         setCollapsed(!collapsed);
     };
+    const { user } = useSelector((st) => st.user);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const handleLogout = () => {
+        navigate("/");
+        dispatch(setUser(undefined));
+    };
     return (
         <div
             className={cx("wrapper")}
@@ -115,12 +123,12 @@ function Sidebar(props) {
                 inlineCollapsed={collapsed}
                 items={items}
                 style={{
-                    
                     margin: "2rem auto ",
                 }}
             />
             <div className={cx("logout")}>
                 <Button
+                    onClick={() => handleLogout()}
                     shape="circle"
                     style={{ background: "#000" }}
                     icon={<LogoutOutlined style={{ color: "#fff" }} />}

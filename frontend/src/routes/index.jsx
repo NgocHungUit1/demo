@@ -12,13 +12,19 @@ import Auth from "./Auth";
 export const RoutesConfig = () => {
     return (
         <Routes>
+            <Route path="/login" element={<Login />}></Route>
             <Route path="/" element={<Auth />}>
                 <Route path="/" element={<DefaultLayout />}>
-                    <Route path="/" index element={<Dashboards />}></Route>
+                    <Route
+                        path="/"
+                        index
+                        element={<Dashboards />}
+                    ></Route>
                     <Route
                         path="/all-categories"
                         element={<Categories />}
                     ></Route>
+
                     <Route path="/all-genres" element={<Genres />}></Route>
                     <Route path="/all-comics" element={<Comics />}></Route>
                 </Route>
