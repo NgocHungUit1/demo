@@ -11,11 +11,35 @@ import { ReactComponent as LogoIcon } from "@/assets/images/logo.svg";
 import { ReactComponent as Slide_1 } from "@/assets/images/Login/slide-1.svg";
 import Slider from "react-slick";
 import imagesLogin from "@/assets/images/Login";
+import { setUser } from "@/store/Slice/user.slice";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 
 function Login() {
-    const onFinish = (values) => {
-        console.log("Received values of form: ", values);
+    const dispatch = useDispatch();
+    const [loginForm, setLoginForm] = useState({
+        email: "",
+        password: "",
+    });
+    const { user } = useSelector((st) => st.user);
+
+    const handleLogin = () => {
+        if (loginForm.email !== "" && loginForm.password !== "") {
+            const data = new FormData();
+            data.append("email", loginForm.email);
+            data.append("password", loginForm.password);
+            const requestOptions = {
+                method: "POST",
+                body: data,
+            };
+            fetch("http://127.0.0.1:8000/api/login", requestOptions)
+                .then((res) => res.json())
+                .then((json) => {
+                    console.log(json);
+                })
+                .then(dispatch(setUser(loginForm)));
+        }
     };
     const settings = {
         dots: true,
@@ -127,19 +151,18 @@ function Login() {
                     }}
                     labelCol={{ span: 6 }}
                     wrapperCol={{ span: 12 }}
-                    onFinish={onFinish}
                 >
                     <Form.Item label=" " colon={false}>
                         <h1>Welcome back!</h1>
                         <p>Start managing your page!</p>
                     </Form.Item>
                     <Form.Item
-                        label="Username"
-                        name="username"
+                        label="Email"
+                        name="Email"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input your Username!",
+                                message: "Please input your Email!",
                             },
                         ]}
                     >
@@ -148,7 +171,13 @@ function Login() {
                             prefix={
                                 <UserOutlined className="site-form-item-icon" />
                             }
-                            placeholder="Username"
+                            placeholder="Email"
+                            onChange={(e) =>
+                                setLoginForm({
+                                    ...loginForm,
+                                    email: e.target.value,
+                                })
+                            }
                         />
                     </Form.Item>
                     <Form.Item
@@ -160,6 +189,12 @@ function Login() {
                                 message: "Please input your Password!",
                             },
                         ]}
+                        onChange={(e) =>
+                            setLoginForm({
+                                ...loginForm,
+                                password: e.target.value,
+                            })
+                        }
                     >
                         <Input
                             size="large"
@@ -191,6 +226,7 @@ function Login() {
                             htmlType="submit"
                             className="login-form-button"
                             block={true}
+                            onClick={() => handleLogin()}
                         >
                             Log in
                         </Button>
