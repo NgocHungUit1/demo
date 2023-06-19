@@ -12,7 +12,7 @@ import { ReactComponent as Slide_1 } from "@/assets/images/Login/slide-1.svg";
 import Slider from "react-slick";
 import imagesLogin from "@/assets/images/Login";
 import { setUser } from "@/store/Slice/user.slice";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 
@@ -23,6 +23,13 @@ function Login() {
         password: "",
     });
     const { user } = useSelector((st) => st.user);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            dispatch(setUser(JSON.parse(storedUser)));
+        }
+    }, []);
 
     const handleLogin = () => {
         if (loginForm.email !== "" && loginForm.password !== "") {
@@ -37,10 +44,14 @@ function Login() {
                 .then((res) => res.json())
                 .then((json) => {
                     console.log(json);
+                    // Lưu thông tin người dùng vào local storage
+                    localStorage.setItem("user", JSON.stringify(loginForm));
+                    // Gửi action setUser
+                    dispatch(setUser(loginForm));
                 })
-                .then(dispatch(setUser(loginForm)));
         }
     };
+
     const settings = {
         dots: true,
         infinite: true,

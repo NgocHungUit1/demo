@@ -5,6 +5,11 @@ import Dashboards from "@/pages/Dashboards";
 import Categories from "@/pages/Categories";
 import Genres from "@/pages/Genres";
 import Comics from "@/pages/Comics";
+import Chapter from "@/pages/Chapter";
+import InserChapter from "@/pages/Chapter/create";
+import InsertComic from "@/pages/Comics/create";
+import ViewChapter from "@/pages/Chapter/view";
+import EditComic from "@/pages/Comics/edit";
 import Login from "@/pages/Login";
 import { useDispatch, useSelector } from "react-redux";
 import Auth from "./Auth";
@@ -27,6 +32,13 @@ export const RoutesConfig = () => {
 
                     <Route path="/all-genres" element={<Genres />}></Route>
                     <Route path="/all-comics" element={<Comics />}></Route>
+                    <Route path="/insert-comic" element={<InsertComic />} />
+                    <Route path="/edit-comic/:id" element={<EditComic />} />
+
+                    <Route path="/chapter/:id" element={<Chapter />} />
+                    <Route path="/insert-chapter/:id" element={<InserChapter />} />
+                    <Route path="/view-chapter/:id" element={<ViewChapter />} />
+
                 </Route>
             </Route>
         </Routes>

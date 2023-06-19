@@ -3,4 +3,26 @@
     background: #fff;
     border-radius: 30px;
     padding: 20px;
+    height: calc(100vh - 140px);
+    /* Chiều cao cố định của div.wrapper */
+    overflow-y: auto;
+    /* Hiển thị thanh cuộn khi nội dung vượt quá chiều cao của div.wrapper */
+
+    //...
+    img {
+        max-width: 200px;
+        max-height: 300px;
+    }
+
+
+
+}
+
+.title {
+    margin-bottom: 24px;
+}
+
+.ant-table-wrapper {
+    max-height: calc(100vh - 200px);
+    /* Chiều cao tối đa của div.ant-table-wrapper */
 }
