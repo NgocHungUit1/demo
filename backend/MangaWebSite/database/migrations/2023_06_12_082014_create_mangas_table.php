@@ -18,7 +18,6 @@ return new class extends Migration
 
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('slug');
             $table->text('des')->nullable();
             $table->boolean('active')->default(true);
             $table->boolean('complete')->default(false);

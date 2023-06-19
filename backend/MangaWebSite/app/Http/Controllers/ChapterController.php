@@ -73,6 +73,13 @@ class ChapterController extends Controller
         return response()->json(['data' => $chapters]);
     }
 
+    public function pageOfChapter($id)
+    {
+        $chapter = Chapter::findOrFail($id)->pages;
+
+        return response()->json(['data' => $chapter]);
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -95,6 +102,8 @@ class ChapterController extends Controller
     public function destroy($id)
     {
         $chapter = Chapter::findOrFail($id);
+        $path = "Manga/{$chapter->manga->slug}/{$chapter->slug_chapter}";
+        Storage::disk('google')->deleteDirectory($path);
         $chapter->pages()->delete(); // Xóa các trang liên quan trong bảng pages
         $chapter->delete(); // Xóa chapter
 

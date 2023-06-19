@@ -21,8 +21,6 @@ class StoreMangaRequest extends FormRequest
                 'max:255',
             ],
             'des' => 'nullable|string',
-            // 'active' => 'nullable|boolean',
-            // 'complete' => 'nullable|boolean',
             'image' => 'nullable|image|max:2048',
             'author' => 'required|string|max:255',
             'tag' => 'required|string|max:255',

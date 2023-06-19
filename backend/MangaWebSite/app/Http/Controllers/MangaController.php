@@ -9,6 +9,7 @@ use App\Services\MangaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class MangaController extends Controller
 {
@@ -27,7 +28,7 @@ class MangaController extends Controller
      */
     public function index()
     {
-        $mangas = Manga::paginate(10);
+        $mangas = Manga::all();
 
         foreach ($mangas as $manga) {
             $manga->unsetRelation('genres');
@@ -47,9 +48,6 @@ class MangaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
-
-
     public function store(StoreMangaRequest $request)
     {
         $data = $request->validated();
@@ -60,25 +58,13 @@ class MangaController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $data = $request->all();
+        Log::info('test', ['manga' => $data, 'id' => $id]);
 
         try {
             $manga = $this->mangaService->update($id, $data);
-
-            $imageUrl = Storage::disk('google')->url($manga->image);
-
-            return response()->json([
-                'data' => [
-                    'id' => $manga->id,
-                    'name' => $manga->name,
-                    'des' => $manga->des,
-                    'author' => $manga->author,
-                    'active' => $manga->active,
-                    'complete' => $manga->complete,
-                    'image' => $imageUrl,
-                    'genres' => $manga->genres->pluck('name'),
-                ]
-            ]);
+            return response()->json(['data' => $manga]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -147,13 +133,6 @@ class MangaController extends Controller
     public function show($id)
     {
         $manga = Manga::findOrFail($id);
-
-        // Lấy tên file từ đường dẫn
-        $fileName = basename($manga->image);
-
-        // Truy xuất đường dẫn file trên Google Drive
-        $imageUrl = Storage::disk('google')->url("Manga/{$manga->id}/$fileName");
-
         return response()->json([
             'data' => [
                 'id' => $manga->id,
@@ -162,9 +141,9 @@ class MangaController extends Controller
                 'author' => $manga->author,
                 'active' => $manga->active,
                 'complete' => $manga->complete,
-                'image' => $imageUrl,
-                'genres' => $manga->genres->pluck('name'),
-                // Thêm các trường thông tin khác của Manga tại đây
+                'image' =>  $manga->image,
+                'genres' => $manga->genres,
+                'tag' => $manga->tag,
             ]
         ]);
     }
@@ -186,8 +165,16 @@ class MangaController extends Controller
     public function destroy($id)
     {
         $manga = Manga::findOrFail($id);
+        $folderPath = "Manga/{$manga->slug}";
+
+        // Delete image
         $fileName = basename($manga->image);
-        Storage::disk('google')->delete("Manga/{$manga->id}/$fileName");
+        Storage::disk('google')->delete("{$folderPath}/{$fileName}");
+
+        // Delete manga folder
+        if (Storage::disk('google')->exists($folderPath)) {
+            Storage::disk('google')->deleteDirectory($folderPath);
+        }
 
         // Detach genres
         $manga->genres()->detach();
@@ -197,6 +184,7 @@ class MangaController extends Controller
 
         return response()->json(['status' => 'success', 'message' => 'Manga deleted successfully']);
     }
+
 
     public function tag($tag)
     {

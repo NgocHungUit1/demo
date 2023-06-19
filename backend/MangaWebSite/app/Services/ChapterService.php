@@ -32,7 +32,7 @@ class ChapterService
         $chapter->save();
 
         // Save images to Google Drive
-        $imageUrls = $this->saveChapterImages($validatedData['image_path'], $manga->id, $slug);
+        $imageUrls = $this->saveChapterImages($validatedData['image_path'], $manga->slug, $slug);
 
         // Thêm các ảnh vào bảng trung gian Pages
         foreach ($imageUrls as $index => $imageUrl) {
@@ -48,7 +48,7 @@ class ChapterService
     }
 
 
-    private function saveChapterImages($images, $mangaId, $slugChapter)
+    private function saveChapterImages($images, $mangaSlug, $slugChapter)
     {
         $imageUrls = [];
         $order = 1;
@@ -56,7 +56,7 @@ class ChapterService
         if (!empty($images)) {
             foreach ($images as $image) {
                 $fileName = $order . '.' . $image->getClientOriginalExtension();
-                $folderPath = "Manga/{$mangaId}/{$slugChapter}";
+                $folderPath = "Manga/{$mangaSlug}/{$slugChapter}";
 
                 if (!Storage::disk('google')->exists($folderPath)) {
                     Storage::disk('google')->makeDirectory($folderPath);

@@ -16,7 +16,7 @@ class MangaService
         $slug = Str::slug($manga->name);
         $manga->slug = $slug;
 
-        $imagePath = $this->saveImageAndGetFilePath($data['image'], $manga->id);
+        $imagePath = $this->saveImageAndGetFilePath($data['image'], $slug);
 
         $data['image'] = $imagePath;
         $manga->update($data);
@@ -26,10 +26,10 @@ class MangaService
         return $manga;
     }
 
-    private function saveImageAndGetFilePath($image, $mangaId)
+    private function saveImageAndGetFilePath($image, $slug)
     {
         $fileName = uniqid() . '.' . $image->getClientOriginalExtension();
-        $folderPath = "Manga/{$mangaId}";
+        $folderPath = "Manga/{$slug}";
 
         if (!Storage::disk('google')->exists($folderPath)) {
             Storage::disk('google')->makeDirectory($folderPath);
@@ -45,19 +45,35 @@ class MangaService
         $manga = Manga::findOrFail($id);
 
         if (isset($data['image'])) {
-            $fileName = $this->saveImageAndGetFileName($data['image'], $manga->id);
-            $data['image'] = "Manga/{$manga->id}/{$fileName}";
+            // Cập nhật hình ảnh
+            $folderPath = "Manga/{$manga->slug}";
+
+            // Delete image
+            $fileName = basename($manga->image);
+            Storage::disk('google')->delete("{$folderPath}/{$fileName}");
+
+            // Delete manga folder
+            if (Storage::disk('google')->exists($folderPath)) {
+                Storage::disk('google')->deleteDirectory($folderPath);
+            }
+            $data['image'] = $this->saveImageAndGetFilePath($data['image'], $manga->slug);
         }
 
         try {
+            // Cập nhật thông tin khác
+            if (isset($data['genres'])) {
+                $this->syncGenres($manga, $data['genres']);
+                unset($data['genres']);
+            }
             $manga->update($data);
 
-            $this->syncGenres($manga, $data['genres']);
             return $manga;
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
+
+
     private function syncGenres(Manga $manga, $genres)
     {
         if (!is_null($genres)) {
