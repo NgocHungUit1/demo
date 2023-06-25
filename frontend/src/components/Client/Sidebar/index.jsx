@@ -20,19 +20,19 @@ function Sidebar(props) {
             <div className={cx("item")}>
                 <div className={cx("title")}>Truyện tranh</div>
                 <ul>
-                    <li>Manga</li>
-                    <li>Manhua</li>
-                    <li>Manhwa</li>
-                    <li>Doujinshi</li>
+                    {props.categoriesData.map(item => (
+                        <li key={item.id}>{item.name}</li>
+                    ))}
+                    
                 </ul>
             </div>
             <div className={cx("item")}>
-                <div className={cx("title")}>Truyện tranh</div>
+                <div className={cx("title")}>Thể loại</div>
                 <ul>
-                    <li>Manga</li>
-                    <li>Manhua</li>
-                    <li>Manhwa</li>
-                    <li>Doujinshi</li>
+                {props.genres.slice(1,8).map((item) => (
+                    <li key={item.id}>{item.name}</li>
+                ))}
+                    
                 </ul>
             </div>
             <div className={cx("item")}>

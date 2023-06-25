@@ -1,14 +1,7 @@
 import classNames from "classnames/bind";
 import styles from "./Home.module.scss";
-import { Col, Row, Carousel, Button, Checkbox, Form, Input, Card } from "antd";
-import {
-    UserOutlined,
-    LockOutlined,
-    RightOutlined,
-    LeftOutlined,
-} from "@ant-design/icons";
-import { ReactComponent as LogoIcon } from "@/assets/images/logo.svg";
-import { ReactComponent as Slide_1 } from "@/assets/images/Login/slide-1.svg";
+import { Col, Row } from "antd";
+import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import Slider from "react-slick";
 import imagesLogin from "@/assets/images/Login";
 import { setUser } from "@/store/Slice/user.slice";
@@ -25,12 +18,6 @@ import {
 const cx = classNames.bind(styles);
 
 function Login() {
-    const chapterNewest = [
-        {
-            id: 1,
-            name: "Thất nghiệp chuyển sinh - Làm lại hết sức",
-        },
-    ];
     const settings = {
         dots: false,
         infinite: true,
@@ -50,19 +37,43 @@ function Login() {
             </ArrowButton>
         ),
     };
-    const [mangaPopular, setMangaPopular] = useState([]);
+    const [mangaLastUpdate, setMangaLastUpdate] = useState([]);
+    const [mangaPopular, setMangaPopular] = useState({
+        popular: [],
+        popularDay: [],
+        popularWeek: [],
+        popularMonth: [],
+    });
     useEffect(() => {
         async function fetchData() {
             const response = await fetch("http://localhost:8000/api/home");
             const data = await response.json();
-            if (Array.isArray(data.data)) {
-                setMangaPopular(data.data);
+            if (data) {
+                setMangaLastUpdate(data.getMangaLastUpdate);
             }
         }
         fetchData();
     }, []);
-
-
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch(
+                "http://localhost:8000/api/home/topviews"
+            );
+            const data = await response.json();
+            // if(data) {
+            //     setMangaPopular(popular = )
+            // }
+            if (data) {
+                setMangaPopular({
+                    popular: data.getMostViewedMangas,
+                    popularDay: data.getMostViewedMangasThisDay,
+                    popularWeek: data.getMostViewedMangasThisWeek,
+                    popularMonth: data.getMostViewedMangasThisMonth,
+                });
+            }
+        }
+        fetchData();
+    }, []);
     return (
         <div className={cx("wrapper")}>
             <Row style={{ position: "relative", height: "450px" }}>
@@ -70,150 +81,36 @@ function Login() {
                     {...settings}
                     style={{ position: "unset", width: "100%" }}
                 >
-                    <div>
-                        <div
-                            className={cx("chapter-newest-bg")}
-                            style={{
-                                backgroundImage: `url(${imagesHome.slide_1})`,
-                            }}
-                        ></div>
-                        <div className={cx("chapter-newest")}>
-                            <div className={cx("content")}>
-                                <h3>Chapter 83.5</h3>
-                                <h1>
-                                    Thất nghiệp chuyển sinh - Làm lại hết sức
-                                </h1>
-                                <h5>
-                                    Đại khái là một thanh niên neet không trẻ
-                                    mấy sau có cơ hội được làm lại cuộc đời và
-                                    trong lốt một thằng nhóc, anh ấy bắt đầu xây
-                                    dựng.... harem cho tương lai thằng nhóc đó
-                                    (mà thằng nhóc đó chính là ảnh)
-                                </h5>
-                                <ul>
-                                    <li>Comedy</li>
-                                    <li>Comedy</li>
-                                    <li>Comedy</li>
-                                    <li>Comedy</li>
-                                </ul>
-                                <div>
-                                    <button>Đọc ngay</button>
-                                    <button>Chi tiết</button>
+                    {mangaLastUpdate.map((item) => (
+                        <div>
+                            <div
+                                className={cx("chapter-newest-bg")}
+                                style={{
+                                    backgroundImage: `url(${item.image})`,
+                                }}
+                            ></div>
+                            <div className={cx("chapter-newest")}>
+                                <div className={cx("content")} key={item.id}>
+                                    <h3>Chapter 83.5</h3>
+                                    <h1>{item.name}</h1>
+                                    <h5>{item.des}</h5>
+                                    <ul>
+                                        <li>Comedy</li>
+                                        <li>Comedy</li>
+                                        <li>Comedy</li>
+                                        <li>Comedy</li>
+                                    </ul>
+                                    <div>
+                                        <button>Đọc ngay</button>
+                                        <button>Chi tiết</button>
+                                    </div>
+                                </div>
+                                <div className={cx("img")}>
+                                    <img src={item.image} alt="" />
                                 </div>
                             </div>
-                            <div className={cx("img")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <div
-                            className={cx("chapter-newest-bg")}
-                            style={{
-                                backgroundImage: `url(${imagesHome.slide_1})`,
-                            }}
-                        ></div>
-                        <div className={cx("chapter-newest")}>
-                            <div className={cx("content")}>
-                                <h3>Chapter 83.5</h3>
-                                <h1>
-                                    Thất nghiệp chuyển sinh - Làm lại hết sức
-                                </h1>
-                                <h5>
-                                    Đại khái là một thanh niên neet không trẻ
-                                    mấy sau có cơ hội được làm lại cuộc đời và
-                                    trong lốt một thằng nhóc, anh ấy bắt đầu xây
-                                    dựng.... harem cho tương lai thằng nhóc đó
-                                    (mà thằng nhóc đó chính là ảnh)
-                                </h5>
-                                <ul>
-                                    <li>Comedy</li>
-                                    <li>Comedy</li>
-                                    <li>Comedy</li>
-                                    <li>Comedy</li>
-                                </ul>
-                                <div>
-                                    <button>Đọc ngay</button>
-                                    <button>Chi tiết</button>
-                                </div>
-                            </div>
-                            <div className={cx("img")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div
-                            className={cx("chapter-newest-bg")}
-                            style={{
-                                backgroundImage: `url(${imagesHome.slide_1})`,
-                            }}
-                        ></div>
-                        <div className={cx("chapter-newest")}>
-                            <div className={cx("content")}>
-                                <h3>Chapter 83.5</h3>
-                                <h1>
-                                    Thất nghiệp chuyển sinh - Làm lại hết sức
-                                </h1>
-                                <h5>
-                                    Đại khái là một thanh niên neet không trẻ
-                                    mấy sau có cơ hội được làm lại cuộc đời và
-                                    trong lốt một thằng nhóc, anh ấy bắt đầu xây
-                                    dựng.... harem cho tương lai thằng nhóc đó
-                                    (mà thằng nhóc đó chính là ảnh)
-                                </h5>
-                                <ul>
-                                    <li>Comedy</li>
-                                    <li>Comedy</li>
-                                    <li>Comedy</li>
-                                    <li>Comedy</li>
-                                </ul>
-                                <div>
-                                    <button>Đọc ngay</button>
-                                    <button>Chi tiết</button>
-                                </div>
-                            </div>
-                            <div className={cx("img")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div
-                            className={cx("chapter-newest-bg")}
-                            style={{
-                                backgroundImage: `url(${imagesHome.slide_1})`,
-                            }}
-                        ></div>
-                        <div className={cx("chapter-newest")}>
-                            <div className={cx("content")}>
-                                <h3>Chapter 83.5</h3>
-                                <h1>
-                                    Thất nghiệp chuyển sinh - Làm lại hết sức
-                                </h1>
-                                <h5>
-                                    Đại khái là một thanh niên neet không trẻ
-                                    mấy sau có cơ hội được làm lại cuộc đời và
-                                    trong lốt một thằng nhóc, anh ấy bắt đầu xây
-                                    dựng.... harem cho tương lai thằng nhóc đó
-                                    (mà thằng nhóc đó chính là ảnh)
-                                </h5>
-                                <ul>
-                                    <li>Comedy</li>
-                                    <li>Comedy</li>
-                                    <li>Comedy</li>
-                                    <li>Comedy</li>
-                                </ul>
-                                <div>
-                                    <button>Đọc ngay</button>
-                                    <button>Chi tiết</button>
-                                </div>
-                            </div>
-                            <div className={cx("img")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                            </div>
-                        </div>
-                    </div>
+                    ))}
                 </Slider>
             </Row>
             <Row style={{ margin: "20px 100px" }}>
@@ -231,30 +128,13 @@ function Login() {
                 </Col>
                 <Col span={24} style={{ marginBottom: 40 }}>
                     <Slider {...newUpdateSettings}>
-                        <MangaCard
-                            image={imagesHome.slide_1}
-                            name="That nghiep chuyen sinh - làm lại hết sức"
-                        />
-                        <MangaCard
-                            image={imagesHome.slide_1}
-                            name="That nghiep chuyen sinh - làm lại hết sức"
-                        />
-                        <MangaCard
-                            image={imagesHome.slide_1}
-                            name="That nghiep chuyen sinh - làm lại hết sức"
-                        />
-                        <MangaCard
-                            image={imagesHome.slide_1}
-                            name="That nghiep chuyen sinh - làm lại hết sức"
-                        />
-                        <MangaCard
-                            image={imagesHome.slide_1}
-                            name="That nghiep chuyen sinh - làm lại hết sức"
-                        />
-                        <MangaCard
-                            image={imagesHome.slide_1}
-                            name="That nghiep chuyen sinh - làm lại hết sức"
-                        />
+                        {mangaLastUpdate.map((item) => (
+                            <MangaCard
+                                key={item.id}
+                                image={item.image}
+                                name={item.name}
+                            />
+                        ))}
                     </Slider>
                 </Col>
 
@@ -271,25 +151,22 @@ function Login() {
                 </Col>
                 <Col span={24} style={{ marginBottom: 40 }}>
                     <Slider {...comicsSeasonSettings}>
+                    {mangaLastUpdate.map((item) => (
                         <div>
                             <div className={cx("comic-by-season")}>
                                 <div className={cx("img")}>
-                                    <img src={imagesHome.slide_1} />
+                                    <img src={item.image} alt="" />
                                 </div>
                                 <div className={cx("content")}>
-                                    <h2>Uzaki-chan muốn đi chơi</h2>
+                                    <h2>{item.name}</h2>
                                     <p>
-                                        Tên khác: Uzaki-chan Wants to Hang Out!,
-                                        Uzaki-chan Wants to Play!Phiền phức!
-                                        Đáng yêu! Nhưng mà phiền phức!Câu truyện
-                                        thường ngày của một sinh viên trầm lặng
-                                        chỉ muốn được ở một mình, nhưng lại bị
-                                        trêu chọc bởi nhỏ Kouhai đáng yêu, ngực
-                                        bự
+                                        {item.des}
                                     </p>
                                 </div>
                             </div>
                         </div>
+                    ))}
+                        
                         <div>
                             <div className={cx("comic-by-season")}>
                                 <div className={cx("img")}>
@@ -411,71 +288,21 @@ function Login() {
                     <div className={cx("comic-outstanding")}>
                         <h2>Manga nổi bật nhất</h2>
                         <ul>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
+                            {mangaPopular.popular.slice(0, 5).map((item) => (
+                                <li className={cx("item")}>
+                                    <img src={item.image} alt="" />
+                                    <div>
+                                        <h3>{item.name}</h3>
+                                        <h4>Chappter 205</h4>
+                                        <ul>
+                                            <li>Fantasy</li>
+                                            <li>Comedy</li>
+                                            <li>Fantasy</li>
+                                            <li>Fantasy</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            ))}
                         </ul>
                         <div className={cx("more")}>
                             <p>Xem thêm</p>
@@ -485,73 +312,23 @@ function Login() {
                 </Col>
                 <Col xl={6} sm={12}>
                     <div className={cx("comic-outstanding")}>
-                        <h2>Manga nổi bật nhất</h2>
+                        <h2>Manga nổi bật tháng</h2>
                         <ul>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
+                            {mangaPopular.popularMonth.slice(0, 5).map((item) => (
+                                <li className={cx("item")}>
+                                    <img src={item.image} alt="" />
+                                    <div>
+                                        <h3>{item.name}</h3>
+                                        <h4>Chappter 205</h4>
+                                        <ul>
+                                            <li>Fantasy</li>
+                                            <li>Comedy</li>
+                                            <li>Fantasy</li>
+                                            <li>Fantasy</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            ))}
                         </ul>
                         <div className={cx("more")}>
                             <p>Xem thêm</p>
@@ -561,73 +338,23 @@ function Login() {
                 </Col>
                 <Col xl={6} sm={12}>
                     <div className={cx("comic-outstanding")}>
-                        <h2>Manga nổi bật nhất</h2>
+                        <h2>Manga nổi bật tuần</h2>
                         <ul>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
+                            {mangaPopular.popularWeek.slice(0, 5).map((item) => (
+                                <li className={cx("item")}>
+                                    <img src={item.image} alt="" />
+                                    <div>
+                                        <h3>{item.name}</h3>
+                                        <h4>Chappter 205</h4>
+                                        <ul>
+                                            <li>Fantasy</li>
+                                            <li>Comedy</li>
+                                            <li>Fantasy</li>
+                                            <li>Fantasy</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            ))}
                         </ul>
                         <div className={cx("more")}>
                             <p>Xem thêm</p>
@@ -637,73 +364,23 @@ function Login() {
                 </Col>
                 <Col xl={6} sm={12}>
                     <div className={cx("comic-outstanding")}>
-                        <h2>Manga nổi bật nhất</h2>
+                        <h2>Manga nổi bật ngày</h2>
                         <ul>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li className={cx("item")}>
-                                <img src={imagesHome.slide_1} alt="" />
-                                <div>
-                                    <h3>Thanh guom giet quy</h3>
-                                    <h4>Chappter 205</h4>
-                                    <ul>
-                                        <li>Fantasy</li>
-                                        <li>Comedy</li>
-                                        <li>Fantasy</li>
-                                        <li>Fantasy</li>
-                                    </ul>
-                                </div>
-                            </li>
+                            {mangaPopular.popularDay.slice(0, 5).map((item) => (
+                                <li className={cx("item")}>
+                                    <img src={item.image} alt="" />
+                                    <div>
+                                        <h3>{item.name}</h3>
+                                        <h4>Chappter 205</h4>
+                                        <ul>
+                                            <li>Fantasy</li>
+                                            <li>Comedy</li>
+                                            <li>Fantasy</li>
+                                            <li>Fantasy</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            ))}
                         </ul>
                         <div className={cx("more")}>
                             <p>Xem thêm</p>
@@ -726,30 +403,13 @@ function Login() {
                 </Col>
                 <Col span={24} style={{ marginBottom: 40 }}>
                     <Slider {...newUpdateSettings}>
-                        <MangaCard
-                            image={imagesHome.slide_1}
-                            name="That nghiep chuyen sinh - làm lại hết sức"
-                        />
-                        <MangaCard
-                            image={imagesHome.slide_1}
-                            name="That nghiep chuyen sinh - làm lại hết sức"
-                        />
-                        <MangaCard
-                            image={imagesHome.slide_1}
-                            name="That nghiep chuyen sinh - làm lại hết sức"
-                        />
-                        <MangaCard
-                            image={imagesHome.slide_1}
-                            name="That nghiep chuyen sinh - làm lại hết sức"
-                        />
-                        <MangaCard
-                            image={imagesHome.slide_1}
-                            name="That nghiep chuyen sinh - làm lại hết sức"
-                        />
-                        <MangaCard
-                            image={imagesHome.slide_1}
-                            name="That nghiep chuyen sinh - làm lại hết sức"
-                        />
+                        {mangaLastUpdate.map((item) => (
+                            <MangaCard
+                                key={item.id}
+                                image={item.image}
+                                name={item.name}
+                            />
+                        ))}
                     </Slider>
                 </Col>
             </Row>

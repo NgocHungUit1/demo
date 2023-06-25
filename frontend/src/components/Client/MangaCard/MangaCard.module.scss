@@ -2,7 +2,15 @@
           display: flex;
           flex-direction: column;
           margin: 0 10px;
-
+          .img {
+                    flex: 1;
+                    img {
+                              object-fit: cover;
+                              width: 100%;
+                              border-radius: 15px;
+                              aspect-ratio: 3/4;
+                    }
+          }
           h2 {
                     font-size: 1.1rem;
                     white-space: nowrap; 

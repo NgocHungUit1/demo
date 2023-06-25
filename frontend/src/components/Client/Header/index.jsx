@@ -32,10 +32,10 @@ function Header() {
   };
     const [openSearch, setOpenSearch] = useState(false);
     const categoriesData = [
-        { id: 1, name: "Action" },
-        { id: 2, name: "Adventure" },
-        { id: 3, name: "Comedy" },
-        { id: 4, name: "Horror" },
+        { id: 1, name: "Manga" },
+        { id: 2, name: "Manhua" },
+        { id: 3, name: "Manhwa" },
+        { id: 4, name: "Doujinshi" },
     ];
     const [genres, setGenres] = useState([]);
 
@@ -59,7 +59,7 @@ function Header() {
                     
                     <LogoIcon />
                 </div>
-                <Sidebar onClose={onCloseSidebar} open={openSidebar}/>
+                <Sidebar onClose={onCloseSidebar} open={openSidebar} genres={genres} categoriesData={categoriesData}/>
                 <div className={cx("tab")}>
                     <div className={cx("item")}>
                         <p>

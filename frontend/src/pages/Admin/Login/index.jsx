@@ -70,7 +70,7 @@ function Login() {
             <Col span={12} className={cx("left")}>
                 <div className={cx("logo")}>
                     <LogoIcon style={{ width: "39px", height: "55px" }} />
-                    <h1> Gid Gid</h1>
+                    <h1>Manga GG</h1>
                 </div>
                 <div className={cx("slider")}>
                     <Slider {...settings}>
