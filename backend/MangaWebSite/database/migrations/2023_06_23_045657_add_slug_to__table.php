@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
-            $table->foreignId('chapter_id')->constrained()->onDelete('cascade');
-            $table->id();
-            $table->integer('order')->unsigned();
-            $table->string('image_path');
+        Schema::table('genres', function (Blueprint $table) {
+            $table->string('slug_genre')->nullable();
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pages');
+        Schema::table('genres', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -26,9 +26,15 @@ class MangaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $mangas = Manga::all();
+        $params = $request->all();
+
+        if (!empty($params)) {
+            $mangas = Manga::searchManga($params);
+        } else {
+            $mangas = Manga::all();
+        }
 
         foreach ($mangas as $manga) {
             $manga->unsetRelation('genres');
@@ -39,6 +45,7 @@ class MangaController extends Controller
 
         return response()->json(['data' => $mangas]);
     }
+
 
 
 
@@ -58,7 +65,6 @@ class MangaController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $data = $request->all();
         Log::info('test', ['manga' => $data, 'id' => $id]);
 
@@ -133,6 +139,8 @@ class MangaController extends Controller
     public function show($id)
     {
         $manga = Manga::findOrFail($id);
+        views($manga)->record();
+
         return response()->json([
             'data' => [
                 'id' => $manga->id,
@@ -144,6 +152,7 @@ class MangaController extends Controller
                 'image' =>  $manga->image,
                 'genres' => $manga->genres,
                 'tag' => $manga->tag,
+                'highlight' => $manga->highlight,
             ]
         ]);
     }

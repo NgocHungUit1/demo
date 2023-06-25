@@ -23,9 +23,11 @@ class StoreMangaRequest extends FormRequest
             'des' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
             'author' => 'required|string|max:255',
+            'complete' => 'required|boolean',
             'tag' => 'required|string|max:255',
             'genres' => 'required|array|min:1',
-            'genres' => ['required', 'array', Rule::exists('genres', 'id')],
+            'genres.*' => ['required', 'exists:genres,id'],
+            'highlight' => ['required', 'string', Rule::in(['new', 'popular'])],
         ];
     }
 }
