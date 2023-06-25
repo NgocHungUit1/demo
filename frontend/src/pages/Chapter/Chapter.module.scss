@@ -9,13 +9,6 @@
   /* Hiển thị thanh cuộn khi nội dung vượt quá chiều cao của div.wrapper */
 
   //...
-  img {
-    max-width: 200px;
-    max-height: 300px;
-  }
-
-
-
 }
 
 .title {
@@ -25,4 +18,15 @@
 .ant-table-wrapper {
   max-height: calc(100vh - 200px);
   /* Chiều cao tối đa của div.ant-table-wrapper */
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.container>img {
+  max-width: 100%;
+  height: auto;
 }

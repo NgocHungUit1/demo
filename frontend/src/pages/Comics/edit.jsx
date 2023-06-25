@@ -45,7 +45,9 @@ const EditComicForm = () => {
         des: values.des,
         author: values.author,
         tag: values.tag,
-        genres: values.genres
+        genres: values.genres,
+        complete: values.complete,
+        highlight: values.highlight
       });
       toast("Update Comics Succe!");
     } catch (error) {
@@ -77,6 +79,25 @@ const EditComicForm = () => {
       </Form.Item>
       <Form.Item label="Tag" name="tag">
         <Input />
+      </Form.Item>
+      <Form.Item
+        label="Complete"
+        name="complete"
+        valuePropName="checked"
+        rules={[{ required: true }]}
+      >
+        <Checkbox />
+      </Form.Item>
+      {/* Thêm trường Select cho giá trị Highlight */}
+      <Form.Item
+        label="Highlight"
+        name="highlight"
+        rules={[{ required: true }]}
+      >
+        <Select>
+          <Option value="new">New</Option>
+          <Option value="popular">Popular</Option>
+        </Select>
       </Form.Item>
 
       <Form.Item>

@@ -1,48 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import classNames from "classnames/bind";
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import Title from "@/components/Title";
 import styles from "./Chapter.module.scss";
-import TableComp from "../../components/TableComp";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const cx = classNames.bind(styles);
+
 function MangaPage() {
   const [mangaData, setMangaData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
-  const columns = [
-    {
-      id: 1,
-      title: "STT",
-      dataIndex: "order",
-      sorter: {
-        compare: (a, b) => a.chinese - b.chinese,
-        multiple: 3,
-      },
-    },
-    {
-      id: 2,
-      title: "Image",
-      dataIndex: "image_path",
-      render: (text) => <img src={text} alt="comic cover" />,
-    },
-  ];
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `http://localhost:8000/api/mangas/${id}/page`
+      );
+      setMangaData(response.data.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await axios.get(`http://localhost:8000/api/mangas/${id}/page`);
-      setMangaData(response.data.data);
-    }
     fetchData();
   }, []);
 
   return (
     <div className={cx("wrapper")}>
-      <Title title="Comics" />
-      <div className={cx("title")}>
-
+      <Title title="Chapter Image" />
+      <div className={cx("container")}>
+        {mangaData.map((item) => (
+          <div key={item.id} className={cx("column")}>
+            <img src={item.image_path} alt="comic cover" />
+          </div>
+        ))}
       </div>
-      <TableComp data={mangaData} columns={columns} />
+      <ToastContainer />
     </div>
   );
 }

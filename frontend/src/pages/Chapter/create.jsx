@@ -4,6 +4,7 @@ import { Upload, ButtonComics } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
+import Title from "@/components/Title";
 import axios from 'axios';
 
 
@@ -41,10 +42,9 @@ const AddComicForm = () => {
     setImageFiles([]);
   };
 
-
-
   return (
     <Form layout="vertical" form={form} onFinish={handleSubmit}>
+      <Title title="Add Chapter" />
       <Form.Item label="Chapter Name" name="name" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
@@ -64,8 +64,9 @@ const AddComicForm = () => {
         </Upload>
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Add Comic
+        <Button style={{ backgroundColor: '#6a0dad', color: '#fff' }}
+          type="primary" htmlType="submit">
+          Add Chapter
         </Button>
       </Form.Item>
       <ToastContainer />

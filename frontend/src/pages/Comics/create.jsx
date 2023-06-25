@@ -3,9 +3,12 @@ import { Form, Input, Button, Select, Checkbox } from "antd";
 import { Upload, ButtonComics } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { ToastContainer, toast } from 'react-toastify';
+import Title from "@/components/Title";
 import axios from 'axios';
+import styles from "./Comics.module.scss";
+import classNames from "classnames/bind";
 
-
+const cx = classNames.bind(styles);
 const { Option } = Select;
 
 const AddComicForm = () => {
@@ -57,15 +60,18 @@ const AddComicForm = () => {
       values.genres.forEach(genreId => {
         formData.append('genres[]', genreId);
       });
+      // Thêm field complete và highlight vào formData
+      formData.append('complete', values.complete ? '1' : '0');
+      formData.append('highlight', values.highlight);
 
       const response = await axios.post('http://localhost:8000/api/mangas', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-      toast("Add Comics Succe!");
+      toast.success("Add Comics Success!");
     } catch (error) {
-      console.error(error); // Xử lý lỗi nếu có
+      console.error(error);
     }
 
     form.resetFields();
@@ -77,46 +83,69 @@ const AddComicForm = () => {
   }
 
   return (
-    <Form layout="vertical" form={form} onFinish={handleSubmit}>
-      <Form.Item label="Comic Name" name="name" rules={[{ required: true }]}>
-        <Input />
-      </Form.Item>
-      <Form.Item label="Description" name="des">
-        <Input.TextArea />
-      </Form.Item>
-      <Form.Item label="Author" name="author" rules={[{ required: true }]}>
-        <Input />
-      </Form.Item>
-      <Form.Item label="Genres" name="genres" rules={[{ required: true }]}>
-        <Select mode="multiple">
-          {genres.map(genre => (
-            <Option key={genre.id} value={genre.id}>{genre.name}</Option>
-          ))}
-        </Select>
-      </Form.Item>
-      <Form.Item label="Tag" name="tag">
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="Image"
-        name="image"
-        valuePropName="fileList"
-        getValueFromEvent={(e) => [e.file]}
-      >
-        <Upload
-          beforeUpload={handleImageUpload}
-          fileList={imageFile ? [imageFile] : []}
+    <div className={cx("wrapper")}>
+      <Form layout="vertical" form={form} onFinish={handleSubmit}>
+        <Title title="Add Comic" />
+        <Form.Item label="Comic Name" name="name" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item label="Description" name="des">
+          <Input.TextArea />
+        </Form.Item>
+        <Form.Item label="Author" name="author" rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item label="Genres" name="genres" rules={[{ required: true }]}>
+          <Select mode="multiple">
+            {genres.map(genre => (
+              <Option key={genre.id} value={genre.id}>{genre.name}</Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item label="Tag" name="tag">
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Complete"
+          name="complete"
+          valuePropName="checked"
+          rules={[{ required: true }]}
         >
-          <Button icon={<UploadOutlined />}>Select File</Button>
-        </Upload>
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Add Comic
-        </Button>
-      </Form.Item>
-      <ToastContainer />
-    </Form>
+          <Checkbox />
+        </Form.Item>
+        {/* Thêm trường Select cho giá trị Highlight */}
+        <Form.Item
+          label="Highlight"
+          name="highlight"
+          rules={[{ required: true }]}
+        >
+          <Select>
+            <Option value="new">New</Option>
+            <Option value="popular">Popular</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item
+          label="Image"
+          name="image"
+          valuePropName="fileList"
+          getValueFromEvent={(e) => [e.file]}
+        >
+          <Upload
+            beforeUpload={handleImageUpload}
+            fileList={imageFile ? [imageFile] : []}
+          >
+            <Button icon={<UploadOutlined />}>Select File</Button>
+          </Upload>
+        </Form.Item>
+        <Form.Item>
+          <Button style={{ backgroundColor: '#6a0dad', color: '#fff' }}
+            type="primary" htmlType="submit">
+            Add Comic
+          </Button>
+        </Form.Item>
+        <ToastContainer />
+      </Form>
+    </div>
   );
 };
 

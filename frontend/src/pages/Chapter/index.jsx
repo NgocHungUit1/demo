@@ -31,7 +31,7 @@ function Chapter() {
           <Button
             icon={<PlusOutlined />}
             variant="contained"
-            style={{ backgroundColor: "#6F6AF8" }}
+            style={{ backgroundColor: '#6a0dad', color: '#fff' }}
           >
             Add New Chapter
           </Button>

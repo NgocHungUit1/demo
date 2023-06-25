@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react';
 import classNames from "classnames/bind";
 import styles from "./Comics.module.scss";
 import TableComp from "../../components/TableComp";
-import { Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Button, Input } from "antd";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import Title from "@/components/Title";
-import BootstrapButton from 'react-bootstrap/Button';
 import { Link } from "react-router-dom";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { ToastContainer, toast } from 'react-toastify';
+import DeleteModal from "@/components/DeleteModal";
+import GenreButton from "../../components/GenresButton";
+import SearchBar from "@/components/Search";
 
 const cx = classNames.bind(styles);
 
@@ -60,6 +62,7 @@ function Comics() {
                 </span>
             ),
         },
+
         {
             id: 5,
             title: "Image",
@@ -71,11 +74,9 @@ function Comics() {
             title: "Author",
             dataIndex: "author",
             sorter: {
-                compare: (a, b) => a.english - b.english,
-                multiple: 1,
+                compare: (a, b) => a.english
             },
         },
-
         {
             id: 7,
             title: "Genres",
@@ -85,18 +86,7 @@ function Comics() {
                 return (
                     <div>
                         {genreNames.map((genre, index) => (
-                            <BootstrapButton
-                                key={index}
-                                className={cx("genre")}
-                                variant="primary"
-                                style={{
-                                    marginRight: "5px", marginBottom: "5px",
-                                    backgroundColor: "#6F6AF8", borderRadius: "5px",
-                                    color: "white"
-                                }}
-                            >
-                                {genre}
-                            </BootstrapButton>
+                            <GenreButton key={index} genre={genre} />
                         ))}
                     </div>
                 );
@@ -113,6 +103,20 @@ function Comics() {
         },
         {
             id: 9,
+            title: "Highlight",
+            dataIndex: "highlight",
+            sorter: {
+                compare: (a, b) => a.english - b.english,
+                multiple: 1,
+            },
+            render: (text) => (
+                <span style={{ color: text ? "purple" : "blue" }}>
+                    {text ? "Popular" : "New"}
+                </span>
+            ),
+        },
+        {
+            id: 10,
             title: "Action",
             render: (text, record) => (
                 <div className={cx("action")}>
@@ -120,7 +124,7 @@ function Comics() {
                         <Button variant="success" icon={<EditOutlined />} />
                     </Link>
                     <Link to={`/chapter/${record.id}`}>
-                        <Button variant="success" icon={<EditOutlined />} />
+                        <Button variant="success" icon={<EyeOutlined />} />
                     </Link>
                     <Button
                         variant="outlined"
@@ -134,6 +138,10 @@ function Comics() {
         }
     ];
     const [mangas, setMangas] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [deleteMangaId, setDeleteMangaId] = useState(null);
+    const [searchText, setSearchText] = useState('');
+
 
     useEffect(() => {
         fetch('http://localhost:8000/api/mangas')
@@ -142,17 +150,32 @@ function Comics() {
     }, [])
 
     const handleDelete = (id) => {
-        fetch(`http://localhost:8000/api/mangas/${id}`, {
+        setDeleteMangaId(id);
+        setShowModal(true);
+    }
+    const handleSearch = (text) => {
+        const params = text ? { name: text } : {};
+        fetch(`http://localhost:8000/api/mangas?${new URLSearchParams(params).toString()}`)
+            .then(response => response.json())
+            .then(data => setMangas(data.data))
+    }
+
+    const handleConfirmDelete = () => {
+        fetch(`http://localhost:8000/api/mangas/${deleteMangaId}`, {
             method: 'DELETE',
         })
-
             .then(response => response.json())
             .then(() => {
-                const filteredMangas = mangas.filter(manga => manga.id !== id)
+                const filteredMangas = mangas.filter(manga => manga.id !== deleteMangaId)
                 setMangas(filteredMangas)
-                toast("Delete Comics Succe!");
-            })
+                toast.success("Delete Comics Succe!");
+            });
+        setShowModal(false);
+    }
 
+    const handleCancelDelete = () => {
+        setDeleteMangaId(null);
+        setShowModal(false);
     }
 
     return (
@@ -163,16 +186,26 @@ function Comics() {
                     <Button
                         icon={<PlusOutlined />}
                         variant="contained"
-                        style={{ backgroundColor: "#6F6AF8" }}
+                        style={{ backgroundColor: '#6a0dad', color: '#fff' }}
                     >
                         Add new comic
                     </Button>
                 </Link>
             </div>
+            <div className={cx("search-group")}>
+                <SearchBar onSearch={handleSearch} placeholder="Enter keyword" />
+            </div>
+
             <TableComp data={mangas} columns={columns} />
+            <DeleteModal
+                visible={showModal}
+                onOk
+                ={handleConfirmDelete}
+                onCancel={handleCancelDelete}
+            />
+            <ToastContainer />
         </div>
     );
 }
 
 export default Comics;
-
