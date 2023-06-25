@@ -50,6 +50,18 @@ function Login() {
             </ArrowButton>
         ),
     };
+    const [mangaPopular, setMangaPopular] = useState([]);
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch("http://localhost:8000/api/home");
+            const data = await response.json();
+            if (Array.isArray(data.data)) {
+                setMangaPopular(data.data);
+            }
+        }
+        fetchData();
+    }, []);
+
 
     return (
         <div className={cx("wrapper")}>
@@ -395,7 +407,7 @@ function Login() {
                     </Slider>
                 </Col>
 
-                <Col xl={6} sm={12} >
+                <Col xl={6} sm={12}>
                     <div className={cx("comic-outstanding")}>
                         <h2>Manga nổi bật nhất</h2>
                         <ul>
@@ -467,7 +479,7 @@ function Login() {
                         </ul>
                         <div className={cx("more")}>
                             <p>Xem thêm</p>
-                            <RightOutlined/>
+                            <RightOutlined />
                         </div>
                     </div>
                 </Col>
@@ -543,7 +555,7 @@ function Login() {
                         </ul>
                         <div className={cx("more")}>
                             <p>Xem thêm</p>
-                            <RightOutlined/>
+                            <RightOutlined />
                         </div>
                     </div>
                 </Col>
@@ -619,7 +631,7 @@ function Login() {
                         </ul>
                         <div className={cx("more")}>
                             <p>Xem thêm</p>
-                            <RightOutlined/>
+                            <RightOutlined />
                         </div>
                     </div>
                 </Col>
@@ -695,11 +707,11 @@ function Login() {
                         </ul>
                         <div className={cx("more")}>
                             <p>Xem thêm</p>
-                            <RightOutlined/>
+                            <RightOutlined />
                         </div>
                     </div>
                 </Col>
-                
+
                 <Col
                     span={24}
                     style={{
@@ -740,7 +752,6 @@ function Login() {
                         />
                     </Slider>
                 </Col>
-
             </Row>
         </div>
     );
