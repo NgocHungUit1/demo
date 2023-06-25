@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./Comics.module.scss";
-import TableComp from "../../components/TableComp";
+import TableComp from "../../../components/Admin/TableComp";
 import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import Title from "@/components/Title";
-import BootstrapButton from 'react-bootstrap/Button';
+import Title from "@/components/Admin/Title";
+import BootstrapButton from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
@@ -90,9 +90,11 @@ function Comics() {
                                 className={cx("genre")}
                                 variant="primary"
                                 style={{
-                                    marginRight: "5px", marginBottom: "5px",
-                                    backgroundColor: "#6F6AF8", borderRadius: "5px",
-                                    color: "white"
+                                    marginRight: "5px",
+                                    marginBottom: "5px",
+                                    backgroundColor: "#6F6AF8",
+                                    borderRadius: "5px",
+                                    color: "white",
                                 }}
                             >
                                 {genre}
@@ -116,10 +118,10 @@ function Comics() {
             title: "Action",
             render: (text, record) => (
                 <div className={cx("action")}>
-                    <Link to={`/edit-comic/${record.id}`}>
+                    <Link to={`/admin/edit-comic/${record.id}`}>
                         <Button variant="success" icon={<EditOutlined />} />
                     </Link>
-                    <Link to={`/chapter/${record.id}`}>
+                    <Link to={`/admin/chapter/${record.id}`}>
                         <Button variant="success" icon={<EditOutlined />} />
                     </Link>
                     <Button
@@ -130,36 +132,36 @@ function Comics() {
                     />
                     <ToastContainer />
                 </div>
-            )
-        }
+            ),
+        },
     ];
     const [mangas, setMangas] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/mangas')
-            .then(response => response.json())
-            .then(data => setMangas(data.data))
-    }, [])
+        fetch("http://localhost:8000/api/mangas")
+            .then((response) => response.json())
+            .then((data) => setMangas(data.data));
+    }, []);
 
     const handleDelete = (id) => {
         fetch(`http://localhost:8000/api/mangas/${id}`, {
-            method: 'DELETE',
+            method: "DELETE",
         })
-
-            .then(response => response.json())
+            .then((response) => response.json())
             .then(() => {
-                const filteredMangas = mangas.filter(manga => manga.id !== id)
-                setMangas(filteredMangas)
+                const filteredMangas = mangas.filter(
+                    (manga) => manga.id !== id
+                );
+                setMangas(filteredMangas);
                 toast("Delete Comics Succe!");
-            })
-
-    }
+            });
+    };
 
     return (
         <div className={cx("wrapper")}>
             <Title title="Comics" />
             <div className={cx("title")}>
-                <Link to="/insert-comic">
+                <Link to="/admin/insert-comic">
                     <Button
                         icon={<PlusOutlined />}
                         variant="contained"
@@ -175,4 +177,3 @@ function Comics() {
 }
 
 export default Comics;
-

@@ -1,9 +1,19 @@
 :root {
-    // --sidebar-color: #f2eae0;
-    --sidebar-color: #fff;
-    --header-width: 70px;
+    // --admin-sidebar-color: #f2eae0;
+    //admin
+    --admin-sidebar-color: #fff;
+    --admin-header-width: 70px;
     --text-secondary-color: #9e9ea7;
+
+    //client
     --layout-color: #e8a286;
+    --background: rgba(31, 31, 31, 1);
+    --background-second: rgba(47, 47, 47, 1);
+    --background-third: rgba(63, 63, 63, 1);
+    --background-fourth: rgba(26,26,26, 1);
+    --header-width: 100px;
+    --layout-width: 90%;
+    --btn-color: rgb(225 29 72);
 }
 
 * {
@@ -13,8 +23,58 @@
 
 body {
     font-family: "Candara" !important;
-    overflow: hidden;
+    overflow-x: hidden;
     width: 100vw;
     height: 100vh;
 }
 
+.ant-popover .ant-popover-inner,
+ant-popover-content {
+    background: var(--background-second) !important;
+    --antd-arrow-background-color: var(--background-second) !important;
+}
+
+:where(.css-dev-only-do-not-override-12jzuas).ant-modal .ant-modal-content {
+    background-color: var(--background) !important;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-modal .ant-modal-title {
+    margin: 0;
+    color: #fff;
+    font-weight: 600;
+    font-size: 2rem;
+    background: var(--background);
+}
+
+:where(.css-dev-only-do-not-override-12jzuas).ant-input-affix-wrapper {
+    border-width: 0 !important;
+    border-style: none !important; ;
+}
+
+:where(.css-dev-only-do-not-override-12jzuas).ant-input-affix-wrapper >input.ant-input {
+    background: var(--background-third);
+    padding: 10px 5px;
+    font-size: inherit;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    color: #fff;
+    font-size: 18px;
+}
+:where(.css-dev-only-do-not-override-12jzuas).ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+    
+    border-color: var(--background-third) !important;
+    border-inline-end-width: 1px;
+    z-index: 1;
+}
+.slick-initialized .slick-slide {
+    position: relative !important;
+}
+
+.slick-dots li button::before {
+    font-size: 9px !important;
+    color: var(--background-third )!important;
+}
+
+.slick-dots li.slick-active button:before {
+    color: var(--btn-color) !important;
+}

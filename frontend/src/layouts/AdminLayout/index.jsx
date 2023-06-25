@@ -1,27 +1,32 @@
 import classNames from "classnames/bind";
-import styles from "./DefaultLayout.module.scss";
+import styles from "./AdminLayout.module.scss";
 import { Outlet } from "react-router-dom";
-import Header from "@/components/Client/Header"
+import { Col, Row, Drawer } from "antd";
+import Sidebar from "@/components/Admin/Sidebar";
+
+import { useState } from "react";
+import Header from "@/components/Admin/Header";
+
 const cx = classNames.bind(styles);
 
-function DefaultLayout() {
-//     const [openSideBar, setOpenSideBar] = useState(false);
-//     const showSideBar = () => {
-//         setOpenSideBar(true);
-//     };
-//     const onCloseSideBar = () => {
-//         setOpenSideBar(false);
-//     };
+function AdminLayout() {
+    const [openSideBar, setOpenSideBar] = useState(false);
+    const showSideBar = () => {
+        setOpenSideBar(true);
+    };
+    const onCloseSideBar = () => {
+        setOpenSideBar(false);
+    };
 
     return (
         <div className={cx("wrapper")}>
-            {/* <Drawer bodyStyle={{padding: 0, overflow: "hidden"}} width="250px" headerStyle={{display: "none"}} placement="left" onClose={onCloseSideBar} open={openSideBar}>
+            <Drawer bodyStyle={{padding: 0, overflow: "hidden"}} width="250px" headerStyle={{display: "none"}} placement="left" onClose={onCloseSideBar} open={openSideBar}>
                 <Sidebar />
             </Drawer>
-            <Sidebar /> */}
+            <Sidebar />
 
             <div className={cx("inner-about")}>
-                <Header/>
+                <Header showSideBar={showSideBar} />
                 <div className={cx("container")}>
                     <Outlet />
                 </div>
@@ -47,4 +52,4 @@ function DefaultLayout() {
     );
 }
 
-export default DefaultLayout;
+export default AdminLayout;

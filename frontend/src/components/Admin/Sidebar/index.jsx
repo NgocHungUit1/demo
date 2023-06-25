@@ -30,7 +30,7 @@ function getItem(label, key, icon, children, type) {
 }
 const items = [
     getItem(
-        <Link to="/">
+        <Link to="">
             <p className={cx("tab-item")}>
                 <b>Dashboard</b>
             </p>
@@ -39,7 +39,7 @@ const items = [
         <DashboardIcon style={{ fontSize: "22px" }} />
     ),
     getItem(
-        <Link to="/all-categories">
+        <Link to="all-categories">
             <p className={cx("tab-item")}>
                 <b>Categories</b>
             </p>
@@ -48,7 +48,7 @@ const items = [
         <CategoryIcon style={{ fontSize: "22px" }} />
     ),
     getItem(
-        <Link to="/all-genres">
+        <Link to="all-genres">
             <p className={cx("tab-item")}>
                 <b>Genres</b>
             </p>
@@ -57,7 +57,7 @@ const items = [
         <GenresIcon style={{ fontSize: "22px" }} />
     ),
     getItem(
-        <Link to="/all-comics">
+        <Link to="all-comics">
             <p className={cx("tab-item")}>
                 <b>Comics</b>
             </p>
@@ -76,8 +76,9 @@ function Sidebar(props) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const handleLogout = () => {
-        navigate("/");
+        navigate("");
         dispatch(setUser(undefined));
+        localStorage.removeItem("user");
     };
     return (
         <div

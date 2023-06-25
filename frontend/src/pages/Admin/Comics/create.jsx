@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const { Option } = Select;
 
-const AddComicForm = () => {
+const InsertComic = () => {
   const [form] = Form.useForm();
   const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -120,4 +120,4 @@ const AddComicForm = () => {
   );
 };
 
-export default AddComicForm;
+export default InsertComic;
