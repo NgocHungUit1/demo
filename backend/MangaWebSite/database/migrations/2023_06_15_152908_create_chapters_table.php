@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('chapters', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->foreignId('manga_id')->constrained();
+            $table->foreignId('manga_id')->constrained()->onDelete('cascade');
             $table->integer('order')->unsigned();
             $table->string('slug_chapter')->nullable();
             $table->timestamps();

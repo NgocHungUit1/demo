@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\AppController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\GenreController;
@@ -42,8 +43,18 @@ Route::post('/mangas', [MangaController::class, 'store']);
 Route::put('/mangas/{id}', [MangaController::class, 'update']);
 Route::delete('/mangas/{id}', [MangaController::class, 'destroy']);
 Route::get('/mangas/search/{tag}', [MangaController::class, 'tag']);
+Route::get('/mangas/search', [MangaController::class, 'search']);
 
 Route::post('/mangas/{id}/chapter', [ChapterController::class, 'store']);
 Route::get('/mangas/{id}/chapter_index', [ChapterController::class, 'show']);
 Route::get('/mangas/{id}/page', [ChapterController::class, 'pageOfChapter']);
 Route::delete('/mangas/{chapter_id}/chapter_delete', [ChapterController::class, 'destroy']);
+Route::post('/mangas/{chapter_id}/images', [ChapterController::class, 'updateImages']);
+
+//Web chính
+Route::get('/home', [AppController::class, 'getMangaHome']);
+Route::get('/home/topviews', [AppController::class, 'getMangaViews']);
+Route::get('/mangas/{id}/page', [ChapterController::class, 'pageOfChapter']);
+Route::delete('/mangas/{chapter_id}/chapter_delete', [ChapterController::class, 'destroy']);
+Route::post('/mangas/{chapter_id}/images', [ChapterController::class, 'updateImages']);
+Route::post('/web/{manga}/views', [AppController::class, 'increaseView']);

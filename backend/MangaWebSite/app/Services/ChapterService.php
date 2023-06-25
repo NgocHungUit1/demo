@@ -8,11 +8,13 @@ use App\Models\Manga;
 use App\Models\Page;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 
 class ChapterService
 {
     public function storeChapter($id, $requestData)
     {
+
         $manga = Manga::findOrFail($id);
 
         $validatedData = Validator::make($requestData, [
@@ -30,26 +32,27 @@ class ChapterService
         ]);
 
         $chapter->save();
+        $manga->update(['last_chapter_uploaded_at' => now()]);
 
         // Save images to Google Drive
         $imageUrls = $this->saveChapterImages($validatedData['image_path'], $manga->slug, $slug);
 
         // Thêm các ảnh vào bảng trung gian Pages
+        $pages = [];
         foreach ($imageUrls as $index => $imageUrl) {
-            $page = new Page([
+            $pages[] = [
                 'chapter_id' => $chapter->id,
                 'image_path' => $imageUrl,
                 'order' => $index + 1 // Tăng thứ tự của ảnh lên 1 để tính order cho ảnh mới
-            ]);
-            $page->save();
+            ];
         }
+        Page::insert($pages);
 
         return $chapter;
     }
-
-
     private function saveChapterImages($images, $mangaSlug, $slugChapter)
     {
+        set_time_limit(300);
         $imageUrls = [];
         $order = 1;
 
@@ -62,7 +65,14 @@ class ChapterService
                     Storage::disk('google')->makeDirectory($folderPath);
                 }
 
-                Storage::disk('google')->put("{$folderPath}/{$fileName}", file_get_contents($image));
+                // sử dụng thư viện Intervention Image để resize và tải lên ảnh
+                $img = Image::make($image);
+                $img->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $img->stream();
+
+                Storage::disk('google')->put("{$folderPath}/{$fileName}", $img->__toString());
 
                 $imageUrls[] = Storage::disk('google')->url("{$folderPath}/{$fileName}");
                 $order++;
@@ -70,5 +80,31 @@ class ChapterService
         }
 
         return $imageUrls;
+    }
+
+    public function updateChapterImages($chapterId, $requestData)
+    {
+        $chapter = Chapter::findOrFail($chapterId);
+        $manga = $chapter->manga;
+
+        $validatedData = Validator::make($requestData, [
+            'image_path.*' => 'sometimes|nullable|image|max:2048',
+        ])->validate();
+
+        Storage::disk('google')->deleteDirectory("Manga/{$manga->slug}/{$chapter->slug_chapter}");
+        $chapter->pages()->delete();
+        $imageUrls = $this->saveChapterImages($validatedData['image_path'], $manga->slug, $chapter->slug_chapter);
+
+        $pages = [];
+        foreach ($imageUrls as $index => $imageUrl) {
+            $pages[] = [
+                'chapter_id' => $chapter->id,
+                'order' => $index + 1,
+                'image_path' => $imageUrl,
+            ];
+        }
+        Page::insert($pages);
+
+        return $chapter;
     }
 }

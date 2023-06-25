@@ -44,7 +44,8 @@ class ChapterController extends Controller
 
         return response()->json([
             'message' => 'Chapter created successfully',
-            'data' => $chapter
+            'data' => $chapter,
+            'previous_url' => url()->previous()
         ]);
     }
 
@@ -88,9 +89,10 @@ class ChapterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateImages(Request $request, $chapterId)
     {
-        //
+        $chapter = $this->chapterService->updateChapterImages($chapterId, $request->all());
+        return response()->json(['chapter' => $chapter]);
     }
 
     /**
