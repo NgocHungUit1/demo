@@ -9,12 +9,13 @@ import {
     BellOutlined,
     MenuFoldOutlined,
     NotificationOutlined,
+    RightOutlined,
     SearchOutlined,
     UpOutlined,
     UserOutlined,
 } from "@ant-design/icons";
 import { ReactComponent as SliderIcon } from "@/assets/images/Home/slider-vertical-svgrepo-com.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "../Sidebar";
 
 const cx = classNames.bind(styles);
@@ -30,12 +31,24 @@ function Header() {
     setOpenSidebar(false);
   };
     const [openSearch, setOpenSearch] = useState(false);
-    const genresData = [
+    const categoriesData = [
         { id: 1, name: "Action" },
         { id: 2, name: "Adventure" },
         { id: 3, name: "Comedy" },
         { id: 4, name: "Horror" },
     ];
+    const [genres, setGenres] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch("http://localhost:8000/api/genres");
+            const data = await response.json();
+            if (Array.isArray(data.data)) {
+                setGenres(data.data);
+            }
+        }
+        fetchData();
+    }, []);
     return (
         <div className={cx("wrapper")}>
             <div className={cx("inner")}>
@@ -55,9 +68,10 @@ function Header() {
                         <UpOutlined style={{ fontSize: "15px" }} />
                         <div className={cx("menu")}>
                             <ul>
-                                {genresData.map((item) => (
+                                {genres.slice(1,8).map((item) => (
                                     <li key={item.id}>{item.name}</li>
                                 ))}
+                                <li>Xem them <RightOutlined/></li>
                             </ul>
                         </div>
                     </div>
@@ -68,7 +82,7 @@ function Header() {
                         <UpOutlined style={{ fontSize: "15px" }} />
                         <div className={cx("menu")}>
                             <ul>
-                                {genresData.map((item) => (
+                                {categoriesData.map((item) => (
                                     <li key={item.id}>{item.name}</li>
                                 ))}
                             </ul>
