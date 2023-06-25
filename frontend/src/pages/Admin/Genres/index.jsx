@@ -1,10 +1,10 @@
 import classNames from "classnames/bind";
 import styles from "./Genres.module.scss";
-import TableComp from "../../components/TableComp";
+import TableComp from "../../../components/Admin/TableComp";
 import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import Title from "@/components/Title";
-import React, { useState, useEffect } from 'react';
+import Title from "@/components/Admin/Title";
+import React, { useState, useEffect } from "react";
 
 const cx = classNames.bind(styles);
 
@@ -13,7 +13,7 @@ function Genres() {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch('http://localhost:8000/api/genres');
+            const response = await fetch("http://localhost:8000/api/genres");
             const data = await response.json();
             if (Array.isArray(data.data)) {
                 setGenres(data.data);

@@ -2,15 +2,15 @@ import classNames from "classnames/bind";
 import styles from "./Dashboards.module.scss";
 import { Avatar, Badge, Col, Row, Select } from "antd";
 import { RightOutlined, SettingOutlined } from "@ant-design/icons";
-import LineChart from "@/components/LineChart";
-import ChannelCard from "@/components/ChannelCard";
+import LineChart from "@/components/Admin/LineChart";
+import ChannelCard from "@/components/Admin/ChannelCard";
 import { ReactComponent as Benhancelogo } from "@/assets/images/Dashboards/behance-svgrepo-com.svg";
 import { ReactComponent as DribbleLogo } from "@/assets/images/Dashboards/dribble-svgrepo-com.svg";
 import { ReactComponent as InstagramLogo } from "@/assets/images/Dashboards/instagram-svgrepo-com.svg";
 import { ReactComponent as PinterestLogo } from "@/assets/images/Dashboards/pinterest-svgrepo-com.svg";
 import { ReactComponent as NowIc } from "@/assets/images/Dashboards/c.svg";
 import imagesDashboard from "@/assets/images/Dashboards";
-import Title from "@/components/Title";
+import Title from "@/components/Admin/Title";
 
 const cx = classNames.bind(styles);
 
@@ -142,7 +142,7 @@ function Dashboards() {
                         <LineChart />
                     </div>
                 </Col>
-                <Col  xl={11} lg={12} md={13} sm={24}>
+                <Col xl={11} lg={12} md={13} sm={24}>
                     <div
                         style={{
                             background: "#fff",

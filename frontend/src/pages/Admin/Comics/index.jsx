@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./Comics.module.scss";
+<<<<<<< HEAD:frontend/src/pages/Comics/index.jsx
 import TableComp from "../../components/TableComp";
 import { Button, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
@@ -11,6 +12,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import DeleteModal from "@/components/DeleteModal";
 import GenreButton from "../../components/GenresButton";
 import SearchBar from "@/components/Search";
+=======
+import TableComp from "../../../components/Admin/TableComp";
+import { Button } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import Title from "@/components/Admin/Title";
+import BootstrapButton from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { ToastContainer, toast } from "react-toastify";
+>>>>>>> 3e48efd84f68234f0c40bb29eb91c788be2967a2:frontend/src/pages/Admin/Comics/index.jsx
 
 const cx = classNames.bind(styles);
 
@@ -86,7 +97,24 @@ function Comics() {
                 return (
                     <div>
                         {genreNames.map((genre, index) => (
+<<<<<<< HEAD:frontend/src/pages/Comics/index.jsx
                             <GenreButton key={index} genre={genre} />
+=======
+                            <BootstrapButton
+                                key={index}
+                                className={cx("genre")}
+                                variant="primary"
+                                style={{
+                                    marginRight: "5px",
+                                    marginBottom: "5px",
+                                    backgroundColor: "#6F6AF8",
+                                    borderRadius: "5px",
+                                    color: "white",
+                                }}
+                            >
+                                {genre}
+                            </BootstrapButton>
+>>>>>>> 3e48efd84f68234f0c40bb29eb91c788be2967a2:frontend/src/pages/Admin/Comics/index.jsx
                         ))}
                     </div>
                 );
@@ -120,11 +148,16 @@ function Comics() {
             title: "Action",
             render: (text, record) => (
                 <div className={cx("action")}>
-                    <Link to={`/edit-comic/${record.id}`}>
+                    <Link to={`/admin/edit-comic/${record.id}`}>
                         <Button variant="success" icon={<EditOutlined />} />
                     </Link>
+<<<<<<< HEAD:frontend/src/pages/Comics/index.jsx
                     <Link to={`/chapter/${record.id}`}>
                         <Button variant="success" icon={<EyeOutlined />} />
+=======
+                    <Link to={`/admin/chapter/${record.id}`}>
+                        <Button variant="success" icon={<EditOutlined />} />
+>>>>>>> 3e48efd84f68234f0c40bb29eb91c788be2967a2:frontend/src/pages/Admin/Comics/index.jsx
                     </Link>
                     <Button
                         variant="outlined"
@@ -134,8 +167,8 @@ function Comics() {
                     />
                     <ToastContainer />
                 </div>
-            )
-        }
+            ),
+        },
     ];
     const [mangas, setMangas] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -144,12 +177,13 @@ function Comics() {
 
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/mangas')
-            .then(response => response.json())
-            .then(data => setMangas(data.data))
-    }, [])
+        fetch("http://localhost:8000/api/mangas")
+            .then((response) => response.json())
+            .then((data) => setMangas(data.data));
+    }, []);
 
     const handleDelete = (id) => {
+<<<<<<< HEAD:frontend/src/pages/Comics/index.jsx
         setDeleteMangaId(id);
         setShowModal(true);
     }
@@ -177,12 +211,26 @@ function Comics() {
         setDeleteMangaId(null);
         setShowModal(false);
     }
+=======
+        fetch(`http://localhost:8000/api/mangas/${id}`, {
+            method: "DELETE",
+        })
+            .then((response) => response.json())
+            .then(() => {
+                const filteredMangas = mangas.filter(
+                    (manga) => manga.id !== id
+                );
+                setMangas(filteredMangas);
+                toast("Delete Comics Succe!");
+            });
+    };
+>>>>>>> 3e48efd84f68234f0c40bb29eb91c788be2967a2:frontend/src/pages/Admin/Comics/index.jsx
 
     return (
         <div className={cx("wrapper")}>
             <Title title="Comics" />
             <div className={cx("title")}>
-                <Link to="/insert-comic">
+                <Link to="/admin/insert-comic">
                     <Button
                         icon={<PlusOutlined />}
                         variant="contained"
@@ -208,4 +256,8 @@ function Comics() {
     );
 }
 
+<<<<<<< HEAD:frontend/src/pages/Comics/index.jsx
 export default Comics;
+=======
+export default Comics;
+>>>>>>> 3e48efd84f68234f0c40bb29eb91c788be2967a2:frontend/src/pages/Admin/Comics/index.jsx

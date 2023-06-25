@@ -1,9 +1,9 @@
 import classNames from "classnames/bind";
 import styles from "./Categories.module.scss";
-import TableComp from "../../components/TableComp";
+import TableComp from "../../../components/Admin/TableComp";
 import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import Title from "@/components/Title";
+import Title from "@/components/Admin/Title";
 
 const cx = classNames.bind(styles);
 
@@ -12,7 +12,6 @@ function Categories() {
         <div className={cx("wrapper")}>
             <Title title="Categories" />
             <div className={cx("title")}>
-                
                 <Button startIcon={<PlusOutlined />} variant="contained">
                     Thêm danh mục mới
                 </Button>
