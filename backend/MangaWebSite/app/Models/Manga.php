@@ -131,11 +131,40 @@ class Manga extends Model implements Viewable
         return $query->get();
     }
 
+    public static function getMangaNewest()
+    {
+        return self::orderBy('created_at', 'desc')
+            ->with(['genres', 'chapters' => function ($query) {
+                $query->orderBy('order', 'asc');
+            }])
+            ->get()
+            ->map(function ($manga) {
+                $chapter = $manga->chapters->last();
+                $chapterData = $chapter ? collect([$chapter])->map(function ($chapter) {
+                    $chapter->uploaded_at = $chapter->created_at->diffForHumans();
+                    return $chapter;
+                }) : collect([]);
+                $manga->setRelation('chapters', $chapterData);
+                return $manga;
+            });
+    }
+
     public static function getMangaPopular()
     {
         return self::where('highlight', 'popular')
-            ->take(10)
-            ->get();
+            ->with(['genres', 'chapters' => function ($query) {
+                $query->orderBy('order', 'asc');
+            }])
+            ->get()
+            ->map(function ($manga) {
+                $chapter = $manga->chapters->last();
+                $chapterData = $chapter ? collect([$chapter])->map(function ($chapter) {
+                    $chapter->uploaded_at = $chapter->created_at->diffForHumans();
+                    return $chapter;
+                }) : collect([]);
+                $manga->setRelation('chapters', $chapterData);
+                return $manga;
+            });
     }
 
     public static function getMostViewedMangas()

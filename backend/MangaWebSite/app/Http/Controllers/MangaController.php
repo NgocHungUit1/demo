@@ -46,9 +46,6 @@ class MangaController extends Controller
         return response()->json(['data' => $mangas]);
     }
 
-
-
-
     /**
      * Store a newly created resource in storage.
      *

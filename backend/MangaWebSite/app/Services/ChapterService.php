@@ -64,16 +64,7 @@ class ChapterService
                 if (!Storage::disk('google')->exists($folderPath)) {
                     Storage::disk('google')->makeDirectory($folderPath);
                 }
-
-                // sử dụng thư viện Intervention Image để resize và tải lên ảnh
-                $img = Image::make($image);
-                $img->resize(800, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-                $img->stream();
-
-                Storage::disk('google')->put("{$folderPath}/{$fileName}", $img->__toString());
-
+                Storage::disk('google')->put("{$folderPath}/{$fileName}", file_get_contents($image));
                 $imageUrls[] = Storage::disk('google')->url("{$folderPath}/{$fileName}");
                 $order++;
             }

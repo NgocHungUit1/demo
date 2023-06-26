@@ -6,8 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\MangaController;
-use App\Models\Genre;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Client\DetailsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,7 +53,6 @@ Route::post('/mangas/{chapter_id}/images', [ChapterController::class, 'updateIma
 //Web chính
 Route::get('/home', [AppController::class, 'getMangaHome']);
 Route::get('/home/topviews', [AppController::class, 'getMangaViews']);
-Route::get('/mangas/{id}/page', [ChapterController::class, 'pageOfChapter']);
-Route::delete('/mangas/{chapter_id}/chapter_delete', [ChapterController::class, 'destroy']);
-Route::post('/mangas/{chapter_id}/images', [ChapterController::class, 'updateImages']);
-Route::post('/web/{manga}/views', [AppController::class, 'increaseView']);
+
+//Details
+Route::get('/manga/details/{slug}', [DetailsController::class, 'mangaDetails']);

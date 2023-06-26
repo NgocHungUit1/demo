@@ -3,17 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Manga;
+use Illuminate\Http\Request;
 
 //
 class AppController extends Controller
 {
     // lấy manga nổi bật ,manga mới upload chapter mới nhất
-    public function getMangaHome()
+    public function getMangaHome(Request $request)
     {
         $getMangaPopular = Manga::getMangaPopular();
         $getMangaLastUpdate = Manga::latestUpdatedPaginate();
+
+
+
         return response()->json([
             'success' => true,
+            'getMangaNew' => Manga::getMangaNewest(),
             'getMangaPopular' => $getMangaPopular,
             'getMangaLastUpdate' => $getMangaLastUpdate,
         ]);
