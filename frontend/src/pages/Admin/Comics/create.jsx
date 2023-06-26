@@ -3,7 +3,7 @@ import { Form, Input, Button, Select, Checkbox } from "antd";
 import { Upload, ButtonComics } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { ToastContainer, toast } from 'react-toastify';
-import Title from "@/components/Title";
+import Title from "@/components/Admin/Title";
 import axios from 'axios';
 import styles from "./Comics.module.scss";
 import classNames from "classnames/bind";
@@ -111,7 +111,6 @@ const InsertComic = () => {
         </Form.Item>
         <Form.Item label="Highlight" name="highlight" rules={[{ required: true }]}>
           <Select >
-
             <Option value="popular">Popular</Option>
             <Option value="new">New</Option>
 
@@ -123,7 +122,6 @@ const InsertComic = () => {
         <Form.Item label="Complete" name="complete">
           <Checkbox />
         </Form.Item>
-        <Checkbox />
         {/* Thêm trường Select cho giá trị Highlight */}
         <Form.Item
           label="Image"

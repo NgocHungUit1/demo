@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import ArrowButton from "@/components/Client/ArrowButton";
 import imagesHome from "@/assets/images/Home";
 import MangaCard from "@/components/Client/MangaCard";
+import { Statistic } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
 import {
     newUpdateSettings,
     comicsSeasonSettings,
@@ -38,6 +40,9 @@ function Login() {
         ),
     };
     const [mangaLastUpdate, setMangaLastUpdate] = useState([]);
+    const [mangaPopularS, setMangaPopularS] = useState([]);
+    // truyện mới
+    const [mangaNew, setMangaNew] = useState([]);
     const [mangaPopular, setMangaPopular] = useState({
         popular: [],
         popularDay: [],
@@ -49,11 +54,14 @@ function Login() {
             const response = await fetch("http://localhost:8000/api/home");
             const data = await response.json();
             if (data) {
+                setMangaPopularS(data.getMangaPopular);
                 setMangaLastUpdate(data.getMangaLastUpdate);
+                setMangaNew(data.getMangaNew);
             }
         }
         fetchData();
     }, []);
+
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
@@ -81,36 +89,41 @@ function Login() {
                     {...settings}
                     style={{ position: "unset", width: "100%" }}
                 >
-                    {mangaLastUpdate.map((item) => (
-                        <div>
-                            <div
-                                className={cx("chapter-newest-bg")}
-                                style={{
-                                    backgroundImage: `url(${item.image})`,
-                                }}
-                            ></div>
-                            <div className={cx("chapter-newest")}>
-                                <div className={cx("content")} key={item.id}>
-                                    <h3>Chapter 83.5</h3>
-                                    <h1>{item.name}</h1>
-                                    <h5>{item.des}</h5>
-                                    <ul>
-                                        <li>Comedy</li>
-                                        <li>Comedy</li>
-                                        <li>Comedy</li>
-                                        <li>Comedy</li>
-                                    </ul>
-                                    <div>
-                                        <button>Đọc ngay</button>
-                                        <button>Chi tiết</button>
+                    {mangaPopularS && mangaPopularS.length ? (
+                        mangaPopularS.map((item) => (
+                            <div key={item.id}>
+                                <div
+                                    className={cx("chapter-newest-bg")}
+                                    style={{
+                                        backgroundImage: `url(${item.image})`,
+                                    }}
+                                ></div>
+                                <div className={cx("chapter-newest")}>
+                                    <div className={cx("content")}>
+
+                                        <h3>{item.chapters[0].name}</h3>
+                                        <h1>{item.name}</h1>
+                                        <h5>{item.des}</h5>
+                                        <ul>
+                                            {item.genres.map((genre) => (
+                                                <li key={genre.id}>{genre.name}</li>
+                                            ))}
+                                        </ul>
+                                        <div>
+                                            <button>Đọc ngay</button>
+                                            <button>Chi tiết</button>
+                                        </div>
+                                    </div>
+                                    <div className={cx("img")}>
+                                        <img src={item.image} alt="" />
                                     </div>
                                 </div>
-                                <div className={cx("img")}>
-                                    <img src={item.image} alt="" />
-                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))
+                    ) : (
+                        <p>Không có kết quả.</p>
+                    )}
+
                 </Slider>
             </Row>
             <Row style={{ margin: "20px 100px" }}>
@@ -151,22 +164,22 @@ function Login() {
                 </Col>
                 <Col span={24} style={{ marginBottom: 40 }}>
                     <Slider {...comicsSeasonSettings}>
-                    {mangaLastUpdate.map((item) => (
-                        <div>
-                            <div className={cx("comic-by-season")}>
-                                <div className={cx("img")}>
-                                    <img src={item.image} alt="" />
-                                </div>
-                                <div className={cx("content")}>
-                                    <h2>{item.name}</h2>
-                                    <p>
-                                        {item.des}
-                                    </p>
+                        {mangaLastUpdate.map((item) => (
+                            <div>
+                                <div className={cx("comic-by-season")}>
+                                    <div className={cx("img")}>
+                                        <img src={item.image} alt="" />
+                                    </div>
+                                    <div className={cx("content")}>
+                                        <h2>{item.name}</h2>
+                                        <p>
+                                            {item.des}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                        
+                        ))}
+
                         <div>
                             <div className={cx("comic-by-season")}>
                                 <div className={cx("img")}>
@@ -293,12 +306,11 @@ function Login() {
                                     <img src={item.image} alt="" />
                                     <div>
                                         <h3>{item.name}</h3>
-                                        <h4>Chappter 205</h4>
+                                        <h4>{item.views_count}</h4>
                                         <ul>
-                                            <li>Fantasy</li>
-                                            <li>Comedy</li>
-                                            <li>Fantasy</li>
-                                            <li>Fantasy</li>
+                                            {item.genres.map((genre) => (
+                                                <li key={genre.id}>{genre.name}</li>
+                                            ))}
                                         </ul>
                                     </div>
                                 </li>
@@ -319,12 +331,11 @@ function Login() {
                                     <img src={item.image} alt="" />
                                     <div>
                                         <h3>{item.name}</h3>
-                                        <h4>Chappter 205</h4>
+                                        <h4>{item.views_count}</h4>
                                         <ul>
-                                            <li>Fantasy</li>
-                                            <li>Comedy</li>
-                                            <li>Fantasy</li>
-                                            <li>Fantasy</li>
+                                            {item.genres.map((genre) => (
+                                                <li key={genre.id}>{genre.name}</li>
+                                            ))}
                                         </ul>
                                     </div>
                                 </li>
@@ -345,12 +356,11 @@ function Login() {
                                     <img src={item.image} alt="" />
                                     <div>
                                         <h3>{item.name}</h3>
-                                        <h4>Chappter 205</h4>
+                                        <h4>{item.views_count}</h4>
                                         <ul>
-                                            <li>Fantasy</li>
-                                            <li>Comedy</li>
-                                            <li>Fantasy</li>
-                                            <li>Fantasy</li>
+                                            {item.genres.map((genre) => (
+                                                <li key={genre.id}>{genre.name}</li>
+                                            ))}
                                         </ul>
                                     </div>
                                 </li>
@@ -371,12 +381,11 @@ function Login() {
                                     <img src={item.image} alt="" />
                                     <div>
                                         <h3>{item.name}</h3>
-                                        <h4>Chappter 205</h4>
+                                        <h4>{item.views_count}</h4>
                                         <ul>
-                                            <li>Fantasy</li>
-                                            <li>Comedy</li>
-                                            <li>Fantasy</li>
-                                            <li>Fantasy</li>
+                                            {item.genres.map((genre) => (
+                                                <li key={genre.id}>{genre.name}</li>
+                                            ))}
                                         </ul>
                                     </div>
                                 </li>
@@ -403,7 +412,7 @@ function Login() {
                 </Col>
                 <Col span={24} style={{ marginBottom: 40 }}>
                     <Slider {...newUpdateSettings}>
-                        {mangaLastUpdate.map((item) => (
+                        {mangaNew.map((item) => (
                             <MangaCard
                                 key={item.id}
                                 image={item.image}

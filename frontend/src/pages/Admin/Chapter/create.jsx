@@ -4,7 +4,7 @@ import { Upload, ButtonComics } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
-import Title from "@/components/Title";
+import Title from "@/components/Admin/Title";
 import axios from 'axios';
 
 
