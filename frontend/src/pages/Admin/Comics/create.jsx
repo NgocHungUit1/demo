@@ -52,8 +52,14 @@ const InsertComic = () => {
       const formData = new FormData();
       formData.append('name', values.name);
       formData.append('des', values.des);
+      if (values.complete) {
+        formData.append('complete', 1);
+      } else {
+        formData.append('complete', 0);
+      }
       formData.append('author', values.author);
       formData.append('tag', values.tag);
+      formData.append('highlight', values.highlight);
       if (imageFile) {
         formData.append('image', imageFile);
       }
@@ -69,6 +75,7 @@ const InsertComic = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
+
       toast.success("Add Comics Success!");
     } catch (error) {
       console.error(error);
@@ -102,28 +109,22 @@ const InsertComic = () => {
             ))}
           </Select>
         </Form.Item>
+        <Form.Item label="Highlight" name="highlight" rules={[{ required: true }]}>
+          <Select >
+
+            <Option value="popular">Popular</Option>
+            <Option value="new">New</Option>
+
+          </Select>
+        </Form.Item>
         <Form.Item label="Tag" name="tag">
           <Input />
         </Form.Item>
-        <Form.Item
-          label="Complete"
-          name="complete"
-          valuePropName="checked"
-          rules={[{ required: true }]}
-        >
+        <Form.Item label="Complete" name="complete">
           <Checkbox />
         </Form.Item>
+        <Checkbox />
         {/* Thêm trường Select cho giá trị Highlight */}
-        <Form.Item
-          label="Highlight"
-          name="highlight"
-          rules={[{ required: true }]}
-        >
-          <Select>
-            <Option value="new">New</Option>
-            <Option value="popular">Popular</Option>
-          </Select>
-        </Form.Item>
         <Form.Item
           label="Image"
           name="image"

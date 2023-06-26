@@ -7,18 +7,9 @@ const cx = classNames.bind(styles);
 function MangaCard(props) {
     return (
         <div className={cx("wrapper")}>
-            <Card
-                hoverable
-                style={{ borderRadius: 12 }}
-                cover={
-                    <img
-                        alt=""
-                        src={props.image}
-                        style={{ borderRadius: 12 }}
-                    />
-                }
-                bodyStyle={{ display: "none" }}
-            ></Card>
+            <div className={cx("img")}>
+                <img src={props.image} alt="" />
+            </div>
             <h2>{props.name}</h2>
         </div>
     );
