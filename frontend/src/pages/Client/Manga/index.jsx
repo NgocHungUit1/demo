@@ -29,12 +29,11 @@ function Manga() {
             );
             const data = await response.json();
             if (data) {
-                setMangaData(data.data[0]);
+                setMangaData(data.manga);
             }
         }
         fetchData();
     }, [props.slug]);
-    console.log(mangaData);
     return (
         <div className={cx("wrapper")}>
             <Row style={{ position: "relative", height: "450px" }}>
@@ -110,7 +109,7 @@ function Manga() {
                                         background: "rgb(95, 95, 95)",
                                         color: "#fff",
                                         width: "40%",
-                                        height: 40
+                                        height: 40,
                                     }}
                                     size="small"
                                     placeholder="Đi đến chương..."
@@ -146,7 +145,9 @@ function Manga() {
                     </Col>
                     <Col span={22}>
                         <h2 className={cx("title")}>Bình luận</h2>
-                        <div className={cx("login-require")}><Link to="/">Đăng nhập</Link> để bình luận bạn nhé</div>
+                        <div className={cx("login-require")}>
+                            <Link to="/">Đăng nhập</Link> để bình luận bạn nhé
+                        </div>
                     </Col>
                 </Row>
             ) : (
