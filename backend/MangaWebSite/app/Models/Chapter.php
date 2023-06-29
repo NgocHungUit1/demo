@@ -20,4 +20,11 @@ class Chapter extends Model
     {
         return $this->belongsTo(Manga::class);
     }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')
+            ->latest()
+            ->whereNull('parent_id');
+    }
 }

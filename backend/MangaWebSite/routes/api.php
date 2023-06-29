@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\SocialController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChapterController;
+use App\Http\Controllers\Client\CommentController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\MangaController;
 use App\Http\Controllers\Client\DetailsController;
@@ -51,8 +53,19 @@ Route::delete('/mangas/{chapter_id}/chapter_delete', [ChapterController::class, 
 Route::post('/mangas/{chapter_id}/images', [ChapterController::class, 'updateImages']);
 
 //Web chính
-Route::get('/home', [AppController::class, 'getMangaHome']);
-Route::get('/home/topviews', [AppController::class, 'getMangaViews']);
+
 
 //Details
 Route::get('/manga/details/{slug}', [DetailsController::class, 'mangaDetails']);
+Route::get('/google', [SocialController::class, 'loginGoogleUrl']);
+Route::get('/auth/callback', [SocialController::class, 'loginGoogleCallback']);
+Route::get('/home', [AppController::class, 'getMangaHome']);
+Route::get('/home/topviews', [AppController::class, 'getMangaViews']);
+
+Route::middleware(['auth:api'])->group(function () {
+    Route::post('/manga/{manga}/comments', [CommentController::class, 'createMangaComment']);
+    Route::post('/chapter/{chapter}/comments', [CommentController::class, 'createChapterComment']);
+    Route::get('/manga/{manga}/comments', [CommentController::class, 'showMangaComments']);
+    Route::get('/chapter/{chapter}/comments', [CommentController::class, 'showChapterComments']);
+    Route::get('/user', [SocialController::class, 'user']);
+});

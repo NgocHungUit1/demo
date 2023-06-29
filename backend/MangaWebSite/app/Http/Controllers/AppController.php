@@ -11,11 +11,20 @@ class AppController extends Controller
     // lấy manga nổi bật ,manga mới upload chapter mới nhất
     public function getMangaHome(Request $request)
     {
+        // Nếu có từ khóa được nhập vào trong thanh tìm kiếm
+        if ($request->has('keyword')) {
+            $keyword = $request->input('keyword');
+            $results = Manga::searchMangaKeyword($keyword);
+
+            return response()->json([
+                'success' => true,
+                'results' => $results,
+            ]);
+        }
+
+        // Nếu không có từ khóa được nhập vào
         $getMangaPopular = Manga::getMangaPopular();
         $getMangaLastUpdate = Manga::latestUpdatedPaginate();
-
-
-
         return response()->json([
             'success' => true,
             'getMangaNew' => Manga::getMangaNewest(),
@@ -23,6 +32,7 @@ class AppController extends Controller
             'getMangaLastUpdate' => $getMangaLastUpdate,
         ]);
     }
+
 
     // lấy manga theo lượt views,tổng,ngày,tháng
     public function getMangaViews()

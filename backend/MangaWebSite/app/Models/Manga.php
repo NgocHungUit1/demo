@@ -29,6 +29,13 @@ class Manga extends Model implements Viewable
         return $this->hasMany(Chapter::class, 'manga_id')->orderBy('order', 'asc');
     }
 
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')
+            ->latest()
+            ->whereNull('parent_id');
+    }
+
     public function getViews()
     {
         $this->_views = new stdClass;
@@ -53,6 +60,24 @@ class Manga extends Model implements Viewable
             ->count();
 
         return $this->_views;
+    }
+
+    public function getFirstAndLastChapter()
+    {
+        $firstChapter = Chapter::orderBy('id', 'ASC')->where('manga_id', $this->id)->first();
+        $lastChapter = Chapter::orderBy('id', 'DESC')->where('manga_id', $this->id)->first();
+
+        return [
+            'firstChapter' => $firstChapter,
+            'lastChapter' => $lastChapter,
+        ];
+    }
+
+    public static function getMangaDetails($slug)
+    {
+        return self::with('genres', 'chapters', 'comments.replies')
+            ->where('slug', $slug)
+            ->firstOrFail();
     }
 
     public static function latestUpdatedPaginate()
@@ -129,6 +154,11 @@ class Manga extends Model implements Viewable
         $query->orderBy('id', 'desc');
 
         return $query->get();
+    }
+
+    public static function searchMangaKeyword(string $keyword)
+    {
+        return self::where('name', 'LIKE', '%' . $keyword . '%')->get();
     }
 
     public static function getMangaNewest()
@@ -235,13 +265,5 @@ class Manga extends Model implements Viewable
             ->orderBy('views_count', 'desc')
             ->take(5)
             ->get();
-    }
-
-
-    public function registerView($period = null)
-    {
-        $this->views()->create([
-            'viewed_at' => Carbon::now(),
-        ]);
     }
 }

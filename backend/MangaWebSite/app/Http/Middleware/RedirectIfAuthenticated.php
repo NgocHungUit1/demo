@@ -17,18 +17,16 @@ class RedirectIfAuthenticated
      * @param  string|null  ...$guards
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle($request, Closure $next, ...$roles)
+    public function handle(Request $request, Closure $next, ...$guards)
     {
-        if (!Auth::guard('api')->check()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
+        $guards = empty($guards) ? [null] : $guards;
+
+        foreach ($guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                return redirect(RouteServiceProvider::HOME);
+            }
         }
 
-        $user = Auth::guard('api')->user();
-
-        if (in_array($user->role, $roles)) {
-            return $next($request);
-        }
-
-        return response()->json(['error' => 'Forbidden.'], 403);
+        return $next($request);
     }
 }

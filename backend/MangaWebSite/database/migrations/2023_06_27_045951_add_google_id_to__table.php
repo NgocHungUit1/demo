@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('mangas', function (Blueprint $table) {
-            $table->enum('highlight', ['new', 'popular'])->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('google_id')->nullable();
+            $table->string('image')->nullable();
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('mangas', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }
