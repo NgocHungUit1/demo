@@ -10,7 +10,7 @@
     --background: rgba(31, 31, 31, 1);
     --background-second: rgba(47, 47, 47, 1);
     --background-third: rgba(63, 63, 63, 1);
-    --background-fourth: rgba(26,26,26, 1);
+    --background-fourth: rgba(26, 26, 26, 1);
     --header-width: 100px;
     --layout-width: 90%;
     --btn-color: rgb(225 29 72);
@@ -26,6 +26,20 @@ body {
     overflow-x: hidden;
     width: 100vw;
     height: 100vh;
+}
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+/* Track */
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(229, 231, 235);
+    border-radius: 5px;
 }
 
 .ant-popover .ant-popover-inner,
@@ -47,10 +61,11 @@ ant-popover-content {
 
 :where(.css-dev-only-do-not-override-12jzuas).ant-input-affix-wrapper {
     border-width: 0 !important;
-    border-style: none !important; ;
+    border-style: none !important;
 }
 
-:where(.css-dev-only-do-not-override-12jzuas).ant-input-affix-wrapper >input.ant-input {
+:where(.css-dev-only-do-not-override-12jzuas).ant-input-affix-wrapper
+    > input.ant-input {
     background: var(--background-third);
     padding: 10px 5px;
     font-size: inherit;
@@ -60,8 +75,9 @@ ant-popover-content {
     color: #fff;
     font-size: 18px;
 }
-:where(.css-dev-only-do-not-override-12jzuas).ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
-    
+:where(.css-dev-only-do-not-override-12jzuas).ant-input-affix-wrapper:not(
+        .ant-input-affix-wrapper-disabled
+    ):hover {
     border-color: var(--background-third) !important;
     border-inline-end-width: 1px;
     z-index: 1;
@@ -72,10 +88,9 @@ ant-popover-content {
 
 .slick-dots li button::before {
     font-size: 9px !important;
-    color: var(--background-third )!important;
+    color: var(--background-third) !important;
 }
 
 .slick-dots li.slick-active button:before {
     color: var(--btn-color) !important;
 }
-

@@ -24,8 +24,7 @@ function MangaCard(props) {
                 setChapterNewest(props.chapters[i].name);
             }
         }
-    }, []);
-    console.log(props.chapters);
+    }, [props.chapters]);
     useEffect(() => {
         var today = new Date();
         var updateDate = {};
@@ -78,7 +77,7 @@ function MangaCard(props) {
                 }
             }
         }
-    }, []);
+    }, [props.last_chapter_uploaded_at, props.updated_at]);
     return (
         <div className={cx("wrapper")}>
             <div className={cx("img")}>
@@ -99,12 +98,7 @@ function MangaCard(props) {
                         Đang tiến hành
                     </div>
                     <div>
-                        <Link
-                            to={{
-                                pathname: `/manga-details/${props.slug}`,
-                                state: { slug: props.slug },
-                            }}
-                        >
+                        <Link to={`/manga-details/${props.slug}`} state={props}>
                             <button>
                                 <ReadIcon /> Đọc ngay
                             </button>

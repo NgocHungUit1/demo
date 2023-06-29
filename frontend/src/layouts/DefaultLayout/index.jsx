@@ -2,6 +2,7 @@ import classNames from "classnames/bind";
 import styles from "./DefaultLayout.module.scss";
 import { Outlet } from "react-router-dom";
 import Header from "@/components/Client/Header"
+import Footer from "@/components/Client/Footer";
 const cx = classNames.bind(styles);
 
 function DefaultLayout() {
@@ -25,6 +26,7 @@ function DefaultLayout() {
                 <div className={cx("container")}>
                     <Outlet />
                 </div>
+                <Footer/>
             </div>
         </div>
         // <Row>
