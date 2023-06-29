@@ -3,15 +3,10 @@ import styles from "./Home.module.scss";
 import { Col, Row } from "antd";
 import { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import Slider from "react-slick";
-import imagesLogin from "@/assets/images/Login";
-import { setUser } from "@/store/Slice/user.slice";
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import ArrowButton from "@/components/Client/ArrowButton";
-import imagesHome from "@/assets/images/Home";
+
 import MangaCard from "@/components/Client/MangaCard";
-import { Statistic } from 'antd';
-import { EyeOutlined } from '@ant-design/icons';
 import {
     newUpdateSettings,
     comicsSeasonSettings,
@@ -19,7 +14,7 @@ import {
 
 const cx = classNames.bind(styles);
 
-function Login() {
+function Home() {
     const settings = {
         dots: false,
         infinite: true,
@@ -82,6 +77,7 @@ function Login() {
         }
         fetchData();
     }, []);
+    
     return (
         <div className={cx("wrapper")}>
             <Row style={{ position: "relative", height: "450px" }}>
@@ -144,8 +140,13 @@ function Login() {
                         {mangaLastUpdate.map((item) => (
                             <MangaCard
                                 key={item.id}
+                                id={item.id}
+                                slug={item.slug}
                                 image={item.image}
                                 name={item.name}
+                                updated_at = {item.updated_at}
+                                chapters = {item.chapters}
+                                last_chapter_uploaded_at={item.last_chapter_uploaded_at}
                             />
                         ))}
                     </Slider>
@@ -180,120 +181,7 @@ function Login() {
                             </div>
                         ))}
 
-                        <div>
-                            <div className={cx("comic-by-season")}>
-                                <div className={cx("img")}>
-                                    <img src={imagesHome.slide_1} />
-                                </div>
-                                <div className={cx("content")}>
-                                    <h2>Uzaki-chan muốn đi chơi</h2>
-                                    <p>
-                                        Tên khác: Uzaki-chan Wants to Hang Out!,
-                                        Uzaki-chan Wants to Play!Phiền phức!
-                                        Đáng yêu! Nhưng mà phiền phức!Câu truyện
-                                        thường ngày của một sinh viên trầm lặng
-                                        chỉ muốn được ở một mình, nhưng lại bị
-                                        trêu chọc bởi nhỏ Kouhai đáng yêu, ngực
-                                        bự
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={cx("comic-by-season")}>
-                                <div className={cx("img")}>
-                                    <img src={imagesHome.slide_1} />
-                                </div>
-                                <div className={cx("content")}>
-                                    <h2>Uzaki-chan muốn đi chơi</h2>
-                                    <p>
-                                        Tên khác: Uzaki-chan Wants to Hang Out!,
-                                        Uzaki-chan Wants to Play!Phiền phức!
-                                        Đáng yêu! Nhưng mà phiền phức!Câu truyện
-                                        thường ngày của một sinh viên trầm lặng
-                                        chỉ muốn được ở một mình, nhưng lại bị
-                                        trêu chọc bởi nhỏ Kouhai đáng yêu, ngực
-                                        bự
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={cx("comic-by-season")}>
-                                <div className={cx("img")}>
-                                    <img src={imagesHome.slide_1} />
-                                </div>
-                                <div className={cx("content")}>
-                                    <h2>Uzaki-chan muốn đi chơi</h2>
-                                    <p>
-                                        Tên khác: Uzaki-chan Wants to Hang Out!,
-                                        Uzaki-chan Wants to Play!Phiền phức!
-                                        Đáng yêu! Nhưng mà phiền phức!Câu truyện
-                                        thường ngày của một sinh viên trầm lặng
-                                        chỉ muốn được ở một mình, nhưng lại bị
-                                        trêu chọc bởi nhỏ Kouhai đáng yêu, ngực
-                                        bự
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={cx("comic-by-season")}>
-                                <div className={cx("img")}>
-                                    <img src={imagesHome.slide_1} />
-                                </div>
-                                <div className={cx("content")}>
-                                    <h2>Uzaki-chan muốn đi chơi</h2>
-                                    <p>
-                                        Tên khác: Uzaki-chan Wants to Hang Out!,
-                                        Uzaki-chan Wants to Play!Phiền phức!
-                                        Đáng yêu! Nhưng mà phiền phức!Câu truyện
-                                        thường ngày của một sinh viên trầm lặng
-                                        chỉ muốn được ở một mình, nhưng lại bị
-                                        trêu chọc bởi nhỏ Kouhai đáng yêu, ngực
-                                        bự
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={cx("comic-by-season")}>
-                                <div className={cx("img")}>
-                                    <img src={imagesHome.slide_1} />
-                                </div>
-                                <div className={cx("content")}>
-                                    <h2>Uzaki-chan muốn đi chơi</h2>
-                                    <p>
-                                        Tên khác: Uzaki-chan Wants to Hang Out!,
-                                        Uzaki-chan Wants to Play!Phiền phức!
-                                        Đáng yêu! Nhưng mà phiền phức!Câu truyện
-                                        thường ngày của một sinh viên trầm lặng
-                                        chỉ muốn được ở một mình, nhưng lại bị
-                                        trêu chọc bởi nhỏ Kouhai đáng yêu, ngực
-                                        bự
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={cx("comic-by-season")}>
-                                <div className={cx("img")}>
-                                    <img src={imagesHome.slide_1} />
-                                </div>
-                                <div className={cx("content")}>
-                                    <h2>Uzaki-chan muốn đi chơi</h2>
-                                    <p>
-                                        Tên khác: Uzaki-chan Wants to Hang Out!,
-                                        Uzaki-chan Wants to Play!Phiền phức!
-                                        Đáng yêu! Nhưng mà phiền phức!Câu truyện
-                                        thường ngày của một sinh viên trầm lặng
-                                        chỉ muốn được ở một mình, nhưng lại bị
-                                        trêu chọc bởi nhỏ Kouhai đáng yêu, ngực
-                                        bự
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </Slider>
                 </Col>
 
@@ -415,8 +303,13 @@ function Login() {
                         {mangaNew.map((item) => (
                             <MangaCard
                                 key={item.id}
+                                id={item.id}
+                                slug={item.slug}
                                 image={item.image}
                                 name={item.name}
+                                updated_at = {item.updated_at}
+                                chapters = {item.chapters}
+                                last_chapter_uploaded_at={item.last_chapter_uploaded_at}
                             />
                         ))}
                     </Slider>
@@ -426,4 +319,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Home;
