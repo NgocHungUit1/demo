@@ -1,0 +1,24 @@
+.wrapper {
+    margin-top: 50px;
+    padding-bottom: 20px;
+    width: 100%;
+    .inner {
+        width: 60%;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        ul {
+          padding: 0;
+          display: flex;
+          gap: 15px;
+          li {
+                    list-style: none;
+          }
+        }
+        h4 {
+          text-align: center;
+          color: var(--background-third);
+        }
+    }
+}

@@ -13,8 +13,8 @@ import EditComic from "@/pages/Admin/Comics/edit";
 import Login from "@/pages/Admin/Login";
 import AdminLayout from "@/layouts/AdminLayout";
 import Home from "@/pages/Client/Home"
-import { useDispatch, useSelector } from "react-redux";
 import Auth from "./Auth";
+import Manga from "@/pages/Client/Manga";
 
 export const RoutesConfig = () => {
     return (
@@ -44,6 +44,7 @@ export const RoutesConfig = () => {
             </Route>
             <Route path="/" element={<DefaultLayout />}>
                 <Route path="/" index element={<Home />}></Route>
+                <Route path="manga-details/:slug" element={<Manga />}></Route>
             </Route>
         </Routes>
     );

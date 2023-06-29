@@ -49,7 +49,7 @@ const EditComicForm = () => {
         complete: values.complete,
         highlight: values.highlight
       });
-      toast("Update Comics Succe!");
+      toast("Update Comics Success!");
     } catch (error) {
       console.error(error); // Xử lý lỗi nếu có
     }

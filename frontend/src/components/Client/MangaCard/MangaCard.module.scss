@@ -1,21 +1,106 @@
+@mixin display-flex($gap: 10px, $flex-direction: column) {
+    display: flex;
+    flex-direction: $flex-direction;
+    gap: $gap;
+}
+
+@mixin text-theme {
+    text-transform: capitalize;
+    white-space: nowrap;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .wrapper {
-          display: flex;
-          flex-direction: column;
-          margin: 0 10px;
-          .img {
-                    flex: 1;
-                    img {
-                              object-fit: cover;
-                              width: 100%;
-                              border-radius: 15px;
-                              aspect-ratio: 3/4;
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px;
+    gap: 10px;
+    .img {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+        img {
+            object-fit: cover;
+            width: 100%;
+            border-radius: 15px;
+            aspect-ratio: 3/4;
+        }
+        .chapter {
+            position: absolute;
+            top: 7px;
+            font-size: 1rem;
+            color: #000;
+            left: 7px;
+            padding: 5px;
+            border-radius: 7px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+        }
+        .hover {
+            box-sizing: border-box;
+            height: 0px;
+            width: 100%;
+            display: none;
+            background: var(--background-third);
+            position: absolute;
+            top: 0;
+            border-radius: 15px;
+            padding: 10px;
+            h2 {
+                font-size: 1rem;
+                @include text-theme;
+            }
+            & div {
+                @include display-flex($flex-direction: row);
+                
+                align-items: center;
+                svg {
+                    height: 13px;
+                    width: 12px;
+                }
+            }
+
+            & div:nth-child(5) {
+                @include display-flex;
+                align-items: center;
+                button {
+                    width: fit-content;
+                    padding: 8px 15px;
+                    border-radius: 10px;
+                    border: none;
+                    cursor: pointer;
+                    &:nth-child(1) {
+                        background: var(--btn-color);
+                        color: #fff;
                     }
-          }
-          h2 {
-                    font-size: 1.1rem;
-                    white-space: nowrap; 
-                     
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-          }
+                    &:nth-child(2) {
+                        background: #fff;
+                    }
+                    svg {
+                        padding-right: 5px;
+                    }
+                }
+            }
+        }
+        &:hover {
+            img {
+                visibility: hidden;
+                
+            }
+            .hover {
+                @include display-flex;
+                height: 100%;
+                transition: height 2s;
+            }
+        }
+    }
+    h2 {
+        font-size: 1.1rem;
+        @include text-theme;
+        color: #fff;
+        &:hover {
+            color: var(--btn-color);
+        }
+    }
 }
