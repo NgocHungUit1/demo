@@ -9,6 +9,7 @@ use App\Http\Controllers\Client\CommentController;
 use App\Http\Controllers\GenreController;
 use App\Http\Controllers\MangaController;
 use App\Http\Controllers\Client\DetailsController;
+use App\Http\Controllers\Client\ViewChapterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,6 +54,9 @@ Route::delete('/mangas/{chapter_id}/chapter_delete', [ChapterController::class, 
 Route::post('/mangas/{chapter_id}/images', [ChapterController::class, 'updateImages']);
 
 //Web chính
+
+//Chapter
+Route::get('/mangas/chapter/{id_chapter}', [ViewChapterController::class, 'pageOfChapter']);
 
 
 //Details
