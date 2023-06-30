@@ -123,21 +123,26 @@ function Manga() {
                             <div className={cx("items")}>
                                 {mangaData.chapters.map((item) => (
                                     <div key={item.id} className={cx("item")}>
-                                        <div className={cx("inner")}>
-                                            <p className={cx("name")}>
-                                                <b>{item.name}</b>
-                                            </p>
-                                            <div className={cx("date")}>
-                                                <p>
-                                                    {
-                                                        item.created_at.split(
-                                                            "T"
-                                                        )[0]
-                                                    }
+                                        <Link
+                                            to={`/manga-details/${mangaData.slug}/${item.slug_chapter}`}
+                                            state={[mangaData, item.name, item.slug_chapter]}
+                                        >
+                                            <div className={cx("inner")}>
+                                                <p className={cx("name")}>
+                                                    <b>{item.name}</b>
                                                 </p>
-                                                <BookIcon />
+                                                <div className={cx("date")}>
+                                                    <p>
+                                                        {
+                                                            item.created_at.split(
+                                                                "T"
+                                                            )[0]
+                                                        }
+                                                    </p>
+                                                    <BookIcon />
+                                                </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                     </div>
                                 ))}
                             </div>

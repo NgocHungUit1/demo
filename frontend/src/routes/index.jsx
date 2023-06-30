@@ -12,10 +12,10 @@ import ViewChapter from "@/pages/Admin/Chapter/view";
 import EditComic from "@/pages/Admin/Comics/edit";
 import Login from "@/pages/Admin/Login";
 import AdminLayout from "@/layouts/AdminLayout";
-import Home from "@/pages/Client/Home"
+import Home from "@/pages/Client/Home";
 import Auth from "./Auth";
 import Manga from "@/pages/Client/Manga";
-
+import ChapterView from "@/pages/Client/ChapterView";
 export const RoutesConfig = () => {
     return (
         <Routes>
@@ -46,6 +46,10 @@ export const RoutesConfig = () => {
                 <Route path="/" index element={<Home />}></Route>
                 <Route path="manga-details/:slug" element={<Manga />}></Route>
             </Route>
+            <Route
+                path="/manga-details/:slug/:slug_chapter"
+                element={<ChapterView />}
+            ></Route>
         </Routes>
     );
 };

@@ -77,7 +77,7 @@ function Home() {
         }
         fetchData();
     }, []);
-    
+
     return (
         <div className={cx("wrapper")}>
             <Row style={{ position: "relative", height: "450px" }}>
@@ -96,13 +96,14 @@ function Home() {
                                 ></div>
                                 <div className={cx("chapter-newest")}>
                                     <div className={cx("content")}>
-
                                         <h3>{item.chapters[0].name}</h3>
                                         <h1>{item.name}</h1>
                                         <h5>{item.des}</h5>
                                         <ul>
                                             {item.genres.map((genre) => (
-                                                <li key={genre.id}>{genre.name}</li>
+                                                <li key={genre.id}>
+                                                    {genre.name}
+                                                </li>
                                             ))}
                                         </ul>
                                         <div>
@@ -119,7 +120,6 @@ function Home() {
                     ) : (
                         <p>Không có kết quả.</p>
                     )}
-
                 </Slider>
             </Row>
             <Row style={{ margin: "20px 100px" }}>
@@ -144,9 +144,11 @@ function Home() {
                                 slug={item.slug}
                                 image={item.image}
                                 name={item.name}
-                                updated_at = {item.updated_at}
-                                chapters = {item.chapters}
-                                last_chapter_uploaded_at={item.last_chapter_uploaded_at}
+                                updated_at={item.updated_at}
+                                chapters={item.chapters}
+                                last_chapter_uploaded_at={
+                                    item.last_chapter_uploaded_at
+                                }
                             />
                         ))}
                     </Slider>
@@ -166,22 +168,18 @@ function Home() {
                 <Col span={24} style={{ marginBottom: 40 }}>
                     <Slider {...comicsSeasonSettings}>
                         {mangaLastUpdate.map((item) => (
-                            <div>
+                            <div key={item.id}>
                                 <div className={cx("comic-by-season")}>
                                     <div className={cx("img")}>
                                         <img src={item.image} alt="" />
                                     </div>
                                     <div className={cx("content")}>
                                         <h2>{item.name}</h2>
-                                        <p>
-                                            {item.des}
-                                        </p>
+                                        <p>{item.des}</p>
                                     </div>
                                 </div>
                             </div>
                         ))}
-
-                        
                     </Slider>
                 </Col>
 
@@ -190,14 +188,16 @@ function Home() {
                         <h2>Manga nổi bật nhất</h2>
                         <ul>
                             {mangaPopular.popular.slice(0, 5).map((item) => (
-                                <li className={cx("item")}>
+                                <li className={cx("item")} key={item.id}>
                                     <img src={item.image} alt="" />
                                     <div>
                                         <h3>{item.name}</h3>
                                         <h4>{item.views_count}</h4>
                                         <ul>
                                             {item.genres.map((genre) => (
-                                                <li key={genre.id}>{genre.name}</li>
+                                                <li key={genre.id}>
+                                                    {genre.name}
+                                                </li>
                                             ))}
                                         </ul>
                                     </div>
@@ -214,20 +214,24 @@ function Home() {
                     <div className={cx("comic-outstanding")}>
                         <h2>Manga nổi bật tháng</h2>
                         <ul>
-                            {mangaPopular.popularMonth.slice(0, 5).map((item) => (
-                                <li className={cx("item")}>
-                                    <img src={item.image} alt="" />
-                                    <div>
-                                        <h3>{item.name}</h3>
-                                        <h4>{item.views_count}</h4>
-                                        <ul>
-                                            {item.genres.map((genre) => (
-                                                <li key={genre.id}>{genre.name}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </li>
-                            ))}
+                            {mangaPopular.popularMonth
+                                .slice(0, 5)
+                                .map((item) => (
+                                    <li className={cx("item")} key={item.id}>
+                                        <img src={item.image} alt="" />
+                                        <div>
+                                            <h3>{item.name}</h3>
+                                            <h4>{item.views_count}</h4>
+                                            <ul>
+                                                {item.genres.map((genre) => (
+                                                    <li key={genre.id}>
+                                                        {genre.name}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </li>
+                                ))}
                         </ul>
                         <div className={cx("more")}>
                             <p>Xem thêm</p>
@@ -239,20 +243,24 @@ function Home() {
                     <div className={cx("comic-outstanding")}>
                         <h2>Manga nổi bật tuần</h2>
                         <ul>
-                            {mangaPopular.popularWeek.slice(0, 5).map((item) => (
-                                <li className={cx("item")}>
-                                    <img src={item.image} alt="" />
-                                    <div>
-                                        <h3>{item.name}</h3>
-                                        <h4>{item.views_count}</h4>
-                                        <ul>
-                                            {item.genres.map((genre) => (
-                                                <li key={genre.id}>{genre.name}</li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                </li>
-                            ))}
+                            {mangaPopular.popularWeek
+                                .slice(0, 5)
+                                .map((item) => (
+                                    <li className={cx("item")} key={item.id}>
+                                        <img src={item.image} alt="" />
+                                        <div>
+                                            <h3>{item.name}</h3>
+                                            <h4>{item.views_count}</h4>
+                                            <ul>
+                                                {item.genres.map((genre) => (
+                                                    <li key={genre.id}>
+                                                        {genre.name}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </li>
+                                ))}
                         </ul>
                         <div className={cx("more")}>
                             <p>Xem thêm</p>
@@ -265,14 +273,16 @@ function Home() {
                         <h2>Manga nổi bật ngày</h2>
                         <ul>
                             {mangaPopular.popularDay.slice(0, 5).map((item) => (
-                                <li className={cx("item")}>
+                                <li className={cx("item")} key={item.id}>
                                     <img src={item.image} alt="" />
                                     <div>
                                         <h3>{item.name}</h3>
                                         <h4>{item.views_count}</h4>
                                         <ul>
                                             {item.genres.map((genre) => (
-                                                <li key={genre.id}>{genre.name}</li>
+                                                <li key={genre.id}>
+                                                    {genre.name}
+                                                </li>
                                             ))}
                                         </ul>
                                     </div>
@@ -307,9 +317,11 @@ function Home() {
                                 slug={item.slug}
                                 image={item.image}
                                 name={item.name}
-                                updated_at = {item.updated_at}
-                                chapters = {item.chapters}
-                                last_chapter_uploaded_at={item.last_chapter_uploaded_at}
+                                updated_at={item.updated_at}
+                                chapters={item.chapters}
+                                last_chapter_uploaded_at={
+                                    item.last_chapter_uploaded_at
+                                }
                             />
                         ))}
                     </Slider>
