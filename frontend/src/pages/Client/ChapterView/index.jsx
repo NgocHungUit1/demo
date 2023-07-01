@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons";
 import { ReactComponent as BookIcon } from "@/assets/images/Manga/book-icon.svg";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
@@ -21,15 +21,21 @@ function ChapterView() {
     const location = useLocation();
     const props = location.state;
     const [chapterData, setChapterData] = useState();
-    function handleOpenSidebar() {
-        const sidebar = document.querySelector(".ChapterView_sidebar__4YGUY");
-        sidebar.classList.add("ChapterView_open__LiMCZ");
-    }
-    const [isChapter, setIsChapter] = useState();
-    function handleCloseSidebar() {
-        const sidebar = document.querySelector(".ChapterView_sidebar__4YGUY");
-        sidebar.classList.remove("ChapterView_open__LiMCZ");
-    }
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleOpenSidebar = () => {
+        setIsOpen(true);
+    };
+
+    const handleCloseSidebar = () => {
+        setIsOpen(false);
+    };
+
+    const sidebarClassName = cx("sidebar", {
+        open: isOpen,
+    });
+
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
@@ -58,7 +64,7 @@ function ChapterView() {
                 <RightOutlined />
             </div>
 
-            <div className={cx("sidebar")}>
+            <div className={sidebarClassName}>
                 <div className={cx("head")}>
                     <Link
                         to={`/manga-details/${props[0].slug}`}
