@@ -34,6 +34,7 @@ class MangaController extends Controller
             $mangas = Manga::searchManga($params);
         } else {
             $mangas = Manga::all();
+            $mangas=Manga::with('chapters')->get();
         }
 
         foreach ($mangas as $manga) {

@@ -28,7 +28,7 @@ function Header() {
     const onCloseSidebar = () => {
         setOpenSidebar(false);
     };
-    const [openSearch, setOpenSearch] = useState(true);
+    const [openSearch, setOpenSearch] = useState(false);
     const categoriesData = [
         { id: 1, name: "Manga" },
         { id: 2, name: "Manhua" },
@@ -37,7 +37,6 @@ function Header() {
     ];
     const [genres, setGenres] = useState([]);
     const [mangas, setMangas] = useState([]);
-    const [chapterNewest, setChapterNewest] = useState();
 
     useEffect(() => {
         async function fetchData() {
@@ -70,6 +69,7 @@ function Header() {
             item.name.includes(filterValue)
         );
     }
+    console.log(mangas)
     const colors = [
         "yellow-1",
         "green-1",
@@ -191,11 +191,11 @@ function Header() {
                                     <div className={cx("content")}>
                                         <h2>{item.name}</h2>
                                         <h3>
-                                            {/* { 
+                                            { 
                                                 item.chapters[
                                                     item.chapters.length - 1
                                                 ].name
-                                            } */}
+                                            }
                                         </h3>
                                         <ul>
                                             {item.genres.map(
