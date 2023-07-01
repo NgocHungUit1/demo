@@ -21,7 +21,8 @@ function Manga() {
     const location = useLocation();
     const props = location.state;
     const [mangaData, setMangaData] = useState();
-
+    const [lastChapter, setLastChapter] = useState();
+    const [firstChapter, setFirstChapter] = useState();
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
@@ -30,10 +31,14 @@ function Manga() {
             const data = await response.json();
             if (data) {
                 setMangaData(data.manga);
+
+                setLastChapter(data.last_chapter);
+                setFirstChapter(data.first_chapter);
             }
         }
         fetchData();
     }, [props.slug]);
+
     return (
         <div className={cx("wrapper")}>
             <Row style={{ position: "relative", height: "450px" }}>
@@ -67,13 +72,29 @@ function Manga() {
                                         ))}
                                     </ul>
                                     <div className={cx("action")}>
-                                        <div>
+                                        <Link
+                                            to={`/manga-details/${mangaData.slug}/${lastChapter.slug_chapter}/${lastChapter.id}`}
+                                            state={[
+                                                mangaData,
+                                                lastChapter.name,
+                                                lastChapter.slug_chapter,
+                                                lastChapter.id,
+                                            ]}
+                                        >
                                             <BookOutlineIcon /> Đọc ngay
-                                        </div>
-                                        <div>
+                                        </Link>
+                                        <Link
+                                            to={`/manga-details/${mangaData.slug}/${firstChapter.slug_chapter}/${firstChapter.id}`}
+                                            state={[
+                                                mangaData,
+                                                firstChapter.name,
+                                                firstChapter.slug_chapter,
+                                                firstChapter.id,
+                                            ]}
+                                        >
                                             <NewestIcon />
                                             Chap mới nhất
-                                        </div>
+                                        </Link>
                                         <div>
                                             <SaveIcon />
                                         </div>
@@ -122,28 +143,33 @@ function Manga() {
                             </div>
                             <div className={cx("items")}>
                                 {mangaData.chapters.map((item) => (
-                                    
-                                        <Link key={item.id} className={cx("item")}
-                                            to={`/manga-details/${mangaData.slug}/${item.slug_chapter}/${item.id}`}
-                                            state={[mangaData, item.name, item.slug_chapter, item.id]}
-                                        >
-                                            <div className={cx("inner")}>
-                                                <p className={cx("name")}>
-                                                    <b>{item.name}</b>
+                                    <Link
+                                        key={item.id}
+                                        className={cx("item")}
+                                        to={`/manga-details/${mangaData.slug}/${item.slug_chapter}/${item.id}`}
+                                        state={[
+                                            mangaData,
+                                            item.name,
+                                            item.slug_chapter,
+                                            item.id,
+                                        ]}
+                                    >
+                                        <div className={cx("inner")}>
+                                            <p className={cx("name")}>
+                                                <b>{item.name}</b>
+                                            </p>
+                                            <div className={cx("date")}>
+                                                <p>
+                                                    {
+                                                        item.created_at.split(
+                                                            "T"
+                                                        )[0]
+                                                    }
                                                 </p>
-                                                <div className={cx("date")}>
-                                                    <p>
-                                                        {
-                                                            item.created_at.split(
-                                                                "T"
-                                                            )[0]
-                                                        }
-                                                    </p>
-                                                    <BookIcon />
-                                                </div>
+                                                <BookIcon />
                                             </div>
-                                        </Link>
-                                    
+                                        </div>
+                                    </Link>
                                 ))}
                             </div>
                         </div>

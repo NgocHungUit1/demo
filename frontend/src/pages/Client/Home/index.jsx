@@ -113,7 +113,7 @@ function Home() {
                                                     to={`/manga-details/${item.slug}/${item.chapters[0].slug_chapter}/${item.chapters[0].id}`}
                                                     state={[
                                                         item,
-                                                        item.name,
+                                                        item.chapters[0].name,
                                                         item.chapters[0].slug_chapter,
                                                         item.chapters[0].id,
                                                     ]}
