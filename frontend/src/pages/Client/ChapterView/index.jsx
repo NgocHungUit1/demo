@@ -51,7 +51,7 @@ function ChapterView() {
     const filteredChapters = props[0].chapters.filter((item) =>
         item.name.includes(filterValue)
     );
-    
+
     return (
         <Row className={cx("wrapper")}>
             <div className={cx("open-btn")} onClick={handleOpenSidebar}>
@@ -60,7 +60,10 @@ function ChapterView() {
 
             <div className={cx("sidebar")}>
                 <div className={cx("head")}>
-                    <Link to={`/manga-details/${props[0].slug}`} state={props[0]}>
+                    <Link
+                        to={`/manga-details/${props[0].slug}`}
+                        state={props[0]}
+                    >
                         <ArrowLeftOutlined />
                     </Link>
                     <LogoIcon />
