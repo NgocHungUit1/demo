@@ -122,10 +122,10 @@ function Manga() {
                             </div>
                             <div className={cx("items")}>
                                 {mangaData.chapters.map((item) => (
-                                    <div key={item.id} className={cx("item")}>
-                                        <Link
-                                            to={`/manga-details/${mangaData.slug}/${item.slug_chapter}`}
-                                            state={[mangaData, item.name, item.slug_chapter]}
+                                    
+                                        <Link key={item.id} className={cx("item")}
+                                            to={`/manga-details/${mangaData.slug}/${item.slug_chapter}/${item.id}`}
+                                            state={[mangaData, item.name, item.slug_chapter, item.id]}
                                         >
                                             <div className={cx("inner")}>
                                                 <p className={cx("name")}>
@@ -143,7 +143,7 @@ function Manga() {
                                                 </div>
                                             </div>
                                         </Link>
-                                    </div>
+                                    
                                 ))}
                             </div>
                         </div>

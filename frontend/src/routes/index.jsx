@@ -47,7 +47,7 @@ export const RoutesConfig = () => {
                 <Route path="manga-details/:slug" element={<Manga />}></Route>
             </Route>
             <Route
-                path="/manga-details/:slug/:slug_chapter"
+                path="/manga-details/:slug/:slug_chapter/:id"
                 element={<ChapterView />}
             ></Route>
         </Routes>
