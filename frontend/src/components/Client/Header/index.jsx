@@ -1,15 +1,11 @@
 import classNames from "classnames/bind";
 import styles from "./Header.module.scss";
-import { Avatar, Badge, Button, Input, Modal, Popover } from "antd";
-import images from "@/assets/images";
+import { Avatar, Input, Modal } from "antd";
 import { ReactComponent as LogoIcon } from "@/assets/images/logo.svg";
 import { ReactComponent as SidebarIcon } from "@/assets/images/bar-2-svgrepo-com.svg";
 import {
     BellFilled,
-    BellOutlined,
     CloseOutlined,
-    MenuFoldOutlined,
-    NotificationOutlined,
     RightOutlined,
     SearchOutlined,
     UpOutlined,
@@ -32,7 +28,7 @@ function Header() {
     const onCloseSidebar = () => {
         setOpenSidebar(false);
     };
-    const [openSearch, setOpenSearch] = useState(false);
+    const [openSearch, setOpenSearch] = useState(true);
     const categoriesData = [
         { id: 1, name: "Manga" },
         { id: 2, name: "Manhua" },
@@ -41,6 +37,7 @@ function Header() {
     ];
     const [genres, setGenres] = useState([]);
     const [mangas, setMangas] = useState([]);
+    const [chapterNewest, setChapterNewest] = useState();
 
     useEffect(() => {
         async function fetchData() {
@@ -67,10 +64,22 @@ function Header() {
     const handleInputChange = (e) => {
         setFilterValue(e.target.value);
     };
-
-    const filteredMangas = mangas.filter((item) =>
-        item.name.includes(filterValue)
-    );
+    var filteredMangas = [];
+    if (filterValue !== "") {
+        filteredMangas = mangas.filter((item) =>
+            item.name.includes(filterValue)
+        );
+    }
+    const colors = [
+        "yellow-1",
+        "green-1",
+        "yellow-2",
+        "green-2",
+        "orange-1",
+        "blue-1",
+        "red-1",
+        "pink-1",
+    ];
     return (
         <div className={cx("wrapper")}>
             <div className={cx("inner")}>
@@ -168,7 +177,7 @@ function Header() {
                             size="large"
                             prefix={<SearchOutlined style={{ fontSize: 20 }} />}
                         />
-                        {filteredMangas ? (
+                        {filteredMangas.length > 0 ? (
                             filteredMangas.map((item) => (
                                 <Link
                                     key={item.id}
@@ -181,12 +190,29 @@ function Header() {
                                     </div>
                                     <div className={cx("content")}>
                                         <h2>{item.name}</h2>
+                                        <h3>
+                                            {/* { 
+                                                item.chapters[
+                                                    item.chapters.length - 1
+                                                ].name
+                                            } */}
+                                        </h3>
                                         <ul>
-                                            {item.genres.map((genres) => (
-                                                <li key={genres.id}>
-                                                    {genres.name}
-                                                </li>
-                                            ))}
+                                            {item.genres.map(
+                                                (genres, index) => (
+                                                    <li
+                                                        key={genres.id}
+                                                        className={cx(
+                                                            colors[
+                                                                index %
+                                                                    colors.length
+                                                            ]
+                                                        )}
+                                                    >
+                                                        {genres.name}
+                                                    </li>
+                                                )
+                                            )}
                                         </ul>
                                     </div>
                                 </Link>
