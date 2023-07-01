@@ -1,4 +1,4 @@
-@mixin text-theme ($line-clamp: 2) {
+@mixin text-theme($line-clamp: 2) {
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: $line-clamp;
@@ -65,12 +65,21 @@
                 font-size: 1rem;
                 padding: 7px 12px;
                 transition: all 0.2s ease-in-out;
+
                 &:hover {
                     transform: scale(1.1);
                 }
                 &:nth-child(1) {
-                    color: #fff;
+                    a {
+                        color: #fff;
+                    }
                     background: var(--btn-color);
+                }
+                &:nth-child(2) {
+                    a {
+                        color: #000;
+                    }
+                    background: #fff;
                 }
             }
         }
@@ -108,8 +117,7 @@
             padding: 0 10px;
             h2 {
                 font-size: 1.5rem;
-                @include text-theme($line-clamp: 2);
-
+                @include text-theme($line-clamp: 1);
             }
             p {
                 font-size: 1rem;

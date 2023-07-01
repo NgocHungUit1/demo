@@ -98,15 +98,21 @@ function MangaCard(props) {
                         Đang tiến hành
                     </div>
                     <div>
-                        <Link to={`/manga-details/${props.slug}`} state={props}>
-                            <button>
-                                <ReadIcon /> Đọc ngay
-                            </button>
+                        <Link
+                            to={`/manga-details/${props.slug}/${props.chapters[0].slug_chapter}/${props.chapters[0].id}`}
+                            state={[
+                                props,
+                                props.name,
+                                props.chapters[0].slug_chapter,
+                                props.chapters[0].id,
+                            ]}
+                        >
+                            <ReadIcon /> Đọc ngay
                         </Link>
-                        <button>
+                        <Link to={`/manga-details/${props.slug}`} state={props}>
                             <InfoCircleOutlined />
                             Thông tin
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>

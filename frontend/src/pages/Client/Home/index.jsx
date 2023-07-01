@@ -11,6 +11,7 @@ import {
     newUpdateSettings,
     comicsSeasonSettings,
 } from "@/services/HomeService";
+import { Link } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -107,8 +108,27 @@ function Home() {
                                             ))}
                                         </ul>
                                         <div>
-                                            <button>Đọc ngay</button>
-                                            <button>Chi tiết</button>
+                                            <button>
+                                                <Link
+                                                    to={`/manga-details/${item.slug}/${item.chapters[0].slug_chapter}/${item.chapters[0].id}`}
+                                                    state={[
+                                                        item,
+                                                        item.name,
+                                                        item.chapters[0].slug_chapter,
+                                                        item.chapters[0].id,
+                                                    ]}
+                                                >
+                                                    Đọc ngay
+                                                </Link>
+                                            </button>
+                                            <button>
+                                                <Link
+                                                    to={`/manga-details/${item.slug}`}
+                                                    state={item}
+                                                >
+                                                    Chi tiết
+                                                </Link>
+                                            </button>
                                         </div>
                                     </div>
                                     <div className={cx("img")}>
