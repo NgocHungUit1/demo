@@ -41,6 +41,11 @@ class Manga extends Model implements Viewable
         return $this->belongsToMany(User::class, 'favorite_mangas');
     }
 
+    public function followStatus()
+    {
+        return $this->hasMany(Follow_Status::class, 'manga_id');
+    }
+
 
     public function getViews()
     {

@@ -10,6 +10,7 @@ use App\Http\Controllers\GenreController;
 use App\Http\Controllers\MangaController;
 use App\Http\Controllers\Client\DetailsController;
 use App\Http\Controllers\Client\ViewChapterController;
+use App\Http\Controllers\FollowController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -75,4 +76,8 @@ Route::middleware(['auth:api'])->group(function () {
     //Favourite Mangas
     Route::post('favourite-manga/{id}', [DetailsController::class, 'favouriteMangas']);
     Route::get('/user', [SocialController::class, 'user']);
+
+    //Follow status
+    Route::post('follows-status/{manga_id}', [FollowController::class, 'follow']);
+    Route::get('follows', [FollowController::class, 'getByStatus']);
 });
