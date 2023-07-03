@@ -36,6 +36,12 @@ class Manga extends Model implements Viewable
             ->whereNull('parent_id');
     }
 
+    public function favouriteUsers()
+    {
+        return $this->belongsToMany(User::class, 'favorite_mangas');
+    }
+
+
     public function getViews()
     {
         $this->_views = new stdClass;

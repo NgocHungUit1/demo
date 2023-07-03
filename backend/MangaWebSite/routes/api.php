@@ -71,5 +71,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/chapter/{chapter}/comments', [CommentController::class, 'createChapterComment']);
     Route::get('/manga/{manga}/comments', [CommentController::class, 'showMangaComments']);
     Route::get('/chapter/{chapter}/comments', [CommentController::class, 'showChapterComments']);
+
+    //Favourite Mangas
+    Route::post('favourite-manga/{id}', [DetailsController::class, 'favouriteMangas']);
     Route::get('/user', [SocialController::class, 'user']);
 });
