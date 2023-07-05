@@ -86,7 +86,7 @@ class Manga extends Model implements Viewable
 
     public static function getMangaDetails($slug)
     {
-        return self::with('genres', 'chapters', 'comments.replies')
+        return self::with('genres', 'chapters', 'comments.replies', 'favouriteUsers', 'followStatus')
             ->where('slug', $slug)
             ->firstOrFail();
     }
