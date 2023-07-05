@@ -1,8 +1,10 @@
 import classNames from "classnames/bind";
 import styles from "./Header.module.scss";
-import { Avatar, Input, Modal } from "antd";
+import { Avatar, Dropdown, Input, Modal } from "antd";
 import { ReactComponent as LogoIcon } from "@/assets/images/logo.svg";
 import { ReactComponent as SidebarIcon } from "@/assets/images/bar-2-svgrepo-com.svg";
+import { ReactComponent as FollowsIcon } from "@/assets/images/follows.svg";
+import { ReactComponent as SignoutIcon } from "@/assets/images/signout.svg";
 import {
     BellFilled,
     CloseOutlined,
@@ -15,11 +17,14 @@ import { ReactComponent as SliderIcon } from "@/assets/images/Home/slider-vertic
 import { useState, useEffect } from "react";
 import Sidebar from "../Sidebar";
 import { Link } from "react-router-dom";
-
+import { setClient } from "@/store/Slice/client.slice";
+import { useDispatch, useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 
 function Header() {
+    const { client } = useSelector((st) => st.client);
     const [openSidebar, setOpenSidebar] = useState(false);
+    const dispatch = useDispatch();
 
     const showSidebar = () => {
         setOpenSidebar(true);
@@ -69,7 +74,7 @@ function Header() {
             item.name.includes(filterValue)
         );
     }
-    console.log(mangas)
+
     const colors = [
         "yellow-1",
         "green-1",
@@ -80,6 +85,22 @@ function Header() {
         "red-1",
         "pink-1",
     ];
+
+    const [userInfo, setUserInfo] = useState(false);
+
+    const handleOpenUserInfo = () => {
+        setUserInfo((open) => !open);
+    };
+
+    const userClassName = cx("inner", {
+        open: userInfo,
+    });
+
+    const handleSignOut = () => {
+        dispatch(setClient(undefined));
+        localStorage.removeItem("clientData");
+    };
+
     return (
         <div className={cx("wrapper")}>
             <div className={cx("inner")}>
@@ -191,7 +212,7 @@ function Header() {
                                     <div className={cx("content")}>
                                         <h2>{item.name}</h2>
                                         <h3>
-                                            { 
+                                            {
                                                 item.chapters[
                                                     item.chapters.length - 1
                                                 ].name
@@ -226,11 +247,44 @@ function Header() {
                     <div className={cx("button")}>
                         <BellFilled />
                     </div>
-                    <Avatar
-                        size={55}
-                        icon={<UserOutlined />}
-                        style={{ background: "rgba(47,47,47, 1)" }}
-                    />
+                    {typeof client !== "undefined" ? (
+                        <div
+                            className={cx("user")}
+                            onClick={handleOpenUserInfo}
+                        >
+                            <Avatar
+                                size={55}
+                                src={<img src={client.image} alt="avatar" />}
+                                style={{ background: "rgba(47,47,47, 1)" }}
+                            />
+                            <div className={userClassName}>
+                                <Avatar
+                                    size={55}
+                                    src={
+                                        <img src={client.image} alt="avatar" />
+                                    }
+                                    style={{ background: "rgba(47,47,47, 1)" }}
+                                />
+                                <p>{client.name}</p>
+                                <div>
+                                    <FollowsIcon />
+                                    <p>Theo dõi</p>
+                                </div>
+                                <div onClick={handleSignOut}>
+                                    <SignoutIcon />
+                                    <p>Đăng xuất</p>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <Link to="/login">
+                            <Avatar
+                                size={55}
+                                icon={<UserOutlined />}
+                                style={{ background: "rgba(47,47,47, 1)" }}
+                            />
+                        </Link>
+                    )}
                 </div>
             </div>
         </div>

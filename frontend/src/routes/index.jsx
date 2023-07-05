@@ -16,7 +16,10 @@ import Home from "@/pages/Client/Home";
 import Auth from "./Auth";
 import Manga from "@/pages/Client/Manga";
 import ChapterView from "@/pages/Client/ChapterView";
+import LoginClient from "@/pages/Client/Login";
+import GoogleCallback from "@/pages/Client/Login/GoogleCallback";
 export const RoutesConfig = () => {
+    
     return (
         <Routes>
             <Route path="/admin" element={<Auth />}>
@@ -49,6 +52,12 @@ export const RoutesConfig = () => {
             <Route
                 path="/manga-details/:slug/:slug_chapter/:id"
                 element={<ChapterView />}
+            ></Route>
+            <Route path="/login" exact element={<LoginClient />}></Route>
+            <Route
+                path="/auth/google"
+                exact
+                element={<GoogleCallback />}
             ></Route>
         </Routes>
     );

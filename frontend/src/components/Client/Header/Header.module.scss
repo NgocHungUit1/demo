@@ -117,6 +117,43 @@
                 @include button-theme;
                 @include display-flex-row;
             }
+            .user {
+                position: relative;
+                cursor: pointer;
+                .inner {
+                    position: absolute;
+                    right: 0;
+                    width: 200px;
+                    height: 250px;
+                    display: none;
+                    flex-direction: column;
+                    justify-content: center;
+                    background-color: #000;
+                    border-radius: 10px;
+                    align-items: center;
+                    p {
+                        font-size: 17px;
+                    }
+                    div {
+                        @include display-flex-row;
+                        padding: 10px;
+                        border-radius: 7.5px;
+                        p {
+                            font-size: 17px;
+                        }
+                        svg {
+                            height: 20px;
+                            width: 20px;
+                        }
+                        &:hover {
+                            background: var(--background-third);
+                        }
+                    }
+                }
+                .open {
+                    display: flex;
+                }
+            }
         }
     }
 }
@@ -160,38 +197,30 @@
                 list-style: none;
                 border-radius: 5px;
                 text-transform: capitalize;
-                
             }
             .yellow-1 {
                 color: rgb(233, 200, 14);
-            } 
-            .green-1{
+            }
+            .green-1 {
                 color: rgb(68, 214, 78);
-
-            } 
-            .yellow-2{
+            }
+            .yellow-2 {
                 color: rgb(222, 214, 97);
-
             }
-            .green-2{
+            .green-2 {
                 color: rgb(86, 212, 109);
-                
             }
-            .orange-1{
+            .orange-1 {
                 color: rgb(235, 163, 8);
-                
             }
-            .blue-1{
+            .blue-1 {
                 color: rgb(106, 111, 244);
-                
             }
-            .red-1{
+            .red-1 {
                 color: rgb(214, 65, 65);
-                
             }
             .pink-1 {
                 color: rgb(226, 112, 194);
-
             }
         }
     }
