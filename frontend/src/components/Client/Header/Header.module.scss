@@ -112,6 +112,7 @@
                     }
                 }
             }
+
             .button {
                 width: 40px;
                 @include button-theme;
@@ -258,4 +259,8 @@
             }
         }
     }
+}
+input {
+    background: var(--background-third) !important;
+    color: #fff !important;
 }
