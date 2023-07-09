@@ -95,6 +95,7 @@ function ChapterView() {
                             height: 32,
                             borderRadius: 8,
                         }}
+                        onFocus={['false']}
                         size="small"
                         placeholder="Đi đến chương..."
                         value={filterValue}

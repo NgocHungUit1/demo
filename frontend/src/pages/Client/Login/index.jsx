@@ -7,8 +7,6 @@ import { ReactComponent as LogoIcon } from "@/assets/images/logo.svg";
 import { ReactComponent as GoogleIcon } from "@/assets/images/google.svg";
 import { ReactComponent as FacebookIcon } from "@/assets/images/facebook-176-svgrepo-com (1).svg";
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { useQuery } from "react-query";
 const cx = classNames.bind(styles);
 
 function LoginClient() {

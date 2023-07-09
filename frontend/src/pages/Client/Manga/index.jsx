@@ -1,10 +1,11 @@
 import classNames from "classnames/bind";
 import styles from "./Manga.module.scss";
-import { Col, Input, Row } from "antd";
+import { Col, Input, Modal, Row } from "antd";
 import {
     UserOutlined,
     ArrowUpOutlined,
     FilterOutlined,
+    CloseOutlined,
 } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { ReactComponent as BookOutlineIcon } from "@/assets/images/Manga/book-ouline.svg";
@@ -14,6 +15,7 @@ import { ReactComponent as SaveIcon } from "@/assets/images/Manga/save-icon.svg"
 import { ReactComponent as BellOutlineIcon } from "@/assets/images/Manga/bell-outline.svg";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Follow from "./Follow";
 
 const cx = classNames.bind(styles);
 
@@ -38,6 +40,8 @@ function Manga() {
         }
         fetchData();
     }, [props.slug]);
+
+    const [isFollowOpen, setIsFollowOpen] = useState(false);
 
     return (
         <div className={cx("wrapper")}>
@@ -95,7 +99,11 @@ function Manga() {
                                             <NewestIcon />
                                             Chap mới nhất
                                         </Link>
-                                        <div>
+                                        <div
+                                            onClick={() =>
+                                                setIsFollowOpen(true)
+                                            }
+                                        >
                                             <SaveIcon />
                                         </div>
                                         <div>
@@ -105,11 +113,18 @@ function Manga() {
                                 </div>
                             </div>
                         </div>
+                        <Follow
+                            image={mangaData.image}
+                            name={mangaData.name}
+                            open={isFollowOpen}
+                            onCancel={() => setIsFollowOpen(false)}
+                        />
                     </div>
                 ) : (
                     <p>null</p>
                 )}
             </Row>
+
             {mangaData ? (
                 <Row justify="center" style={{ marginTop: "70px" }}>
                     <Col span={22}>

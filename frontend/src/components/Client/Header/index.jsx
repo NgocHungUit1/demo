@@ -175,6 +175,8 @@ function Header() {
                         maskStyle={{ backdropFilter: "blur(8px)" }}
                         style={{
                             top: 40,
+                        }}
+                        bodyStyle={{
                             overflowX: "hidden",
                             overflowY: "scroll",
                             maxHeight: "80vh",
@@ -247,7 +249,7 @@ function Header() {
                     <div className={cx("button")}>
                         <BellFilled />
                     </div>
-                    {typeof client !== "undefined" ? (
+                    {client ? (
                         <div
                             className={cx("user")}
                             onClick={handleOpenUserInfo}
