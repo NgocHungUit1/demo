@@ -86,7 +86,7 @@ class Manga extends Model implements Viewable
 
     public static function getMangaDetails($slug)
     {
-        return self::with('genres', 'chapters', 'comments.replies', 'favouriteUsers', 'followStatus')
+        return self::with('genres', 'chapters', 'comments.replies', 'comments.user', 'favouriteUsers', 'followStatus')
             ->where('slug', $slug)
             ->firstOrFail();
     }
@@ -167,10 +167,6 @@ class Manga extends Model implements Viewable
         return $query->get();
     }
 
-    public static function searchMangaKeyword(string $keyword)
-    {
-        return self::where('name', 'LIKE', '%' . $keyword . '%')->get();
-    }
 
     public static function getMangaNewest()
     {
