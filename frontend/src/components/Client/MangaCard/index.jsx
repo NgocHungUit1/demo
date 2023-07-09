@@ -1,6 +1,5 @@
 import classNames from "classnames/bind";
 import styles from "./MangaCard.module.scss";
-import { Button } from "antd";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -52,15 +51,15 @@ function MangaCard(props) {
                     if (today.getHours() !== updateDate.getHours()) {
                         setUpdateTime(
                             today.getHours() -
-                                updateDate.getHours() +
-                                " giờ trước"
+                            updateDate.getHours() +
+                            " giờ trước"
                         );
                     } else {
                         if (today.getMinutes() !== updateDate.getMinutes()) {
                             setUpdateTime(
                                 today.getMinutes() -
-                                    updateDate.getMinutes +
-                                    " phút trước"
+                                updateDate.getMinutes +
+                                " phút trước"
                             );
                         } else {
                             if (
@@ -68,8 +67,8 @@ function MangaCard(props) {
                             ) {
                                 setUpdateTime(
                                     today.getSeconds() -
-                                        updateDate.getSeconds +
-                                        " giây trước"
+                                    updateDate.getSeconds +
+                                    " giây trước"
                                 );
                             }
                         }
@@ -116,7 +115,7 @@ function MangaCard(props) {
                     </div>
                 </div>
             </div>
-            <Link to={`/manga-details/${props.slug}`}>
+            <Link to={`/manga-details/${props.slug}`} state={props}>
                 <h2>{props.name}</h2>
             </Link>
         </div>

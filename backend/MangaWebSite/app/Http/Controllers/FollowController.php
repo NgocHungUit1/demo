@@ -28,13 +28,16 @@ class FollowController extends Controller
         return response()->json(['message' => 'Trạng thái đã được lưu.'], 200);
     }
 
-    public function getByStatus(Request $request)
+    public function getByStatus()
     {
-        $status = $request->input('status');
+        $status = request()->input('status');
+        $user_id = Auth::id();
 
-        $mangas = Manga::whereHas('followStatus', function ($query) use ($status) {
-            $query->where('status', $status);
+        $mangas = Manga::whereHas('followStatus', function ($query) use ($status, $user_id) {
+            $query->where('status', $status)
+                ->where('user_id', $user_id);
         })->get();
+
         return response()->json(['mangas' => $mangas], 200);
     }
 }

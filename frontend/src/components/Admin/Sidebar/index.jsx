@@ -39,9 +39,9 @@ const items = [
         <DashboardIcon style={{ fontSize: "22px" }} />
     ),
     getItem(
-        <Link to="all-categories">
+        <Link to="users">
             <p className={cx("tab-item")}>
-                <b>Categories</b>
+                <b>Users</b>
             </p>
         </Link>,
         "categories",

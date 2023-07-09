@@ -20,5 +20,12 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        $this->call([
+            MangaSeeder::class,
+            // GenreSeeder::class,
+            // Manga_GenresSeeder::class,
+            // ChapterSeeder::class
+        ]);
     }
 }

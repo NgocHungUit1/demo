@@ -4,6 +4,7 @@ import { Avatar, Badge, Col, Row, Select } from "antd";
 import { RightOutlined, SettingOutlined } from "@ant-design/icons";
 import LineChart from "@/components/Admin/LineChart";
 import ChannelCard from "@/components/Admin/ChannelCard";
+import { Link } from "react-router-dom";
 import { ReactComponent as Benhancelogo } from "@/assets/images/Dashboards/behance-svgrepo-com.svg";
 import { ReactComponent as DribbleLogo } from "@/assets/images/Dashboards/dribble-svgrepo-com.svg";
 import { ReactComponent as InstagramLogo } from "@/assets/images/Dashboards/instagram-svgrepo-com.svg";
@@ -11,12 +12,41 @@ import { ReactComponent as PinterestLogo } from "@/assets/images/Dashboards/pint
 import { ReactComponent as NowIc } from "@/assets/images/Dashboards/c.svg";
 import imagesDashboard from "@/assets/images/Dashboards";
 import Title from "@/components/Admin/Title";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const cx = classNames.bind(styles);
 
 function Dashboards() {
+    const [totalMangas, setTotalMangas] = useState(0);
+    const [totalGenres, setTotalGenres] = useState(0);
+    const [totalUsers, setTotalUsers] = useState(0);
+    const [popularAllTime, setPopularAllTime] = useState(0);
+    const [popularToday, setPopularToday] = useState(0);
+    const [popularThisMonth, setPopularThisMonth] = useState(0);
+    const [popularThisYear, setPopularThisYear] = useState(0);
+
     const handleChange = (value) => {
         console.log(`selected ${value}`);
+    };
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get("http://localhost:8000/api/dashboard");
+            const data = response.data;
+            setPopularAllTime(data.popularAllTime);
+            setPopularToday(data.popularToday);
+            setPopularThisMonth(data.popularThisMonth);
+            setPopularThisYear(data.popularThisYear);
+            setTotalMangas(data.totalMangas);
+            setTotalGenres(data.totalGenres);
+            setTotalUsers(data.totalUsers);
+        } catch (error) {
+            console.error("Error:", error);
+        }
     };
 
     const channelList = [
@@ -69,34 +99,34 @@ function Dashboards() {
                         <div className={cx("general")}>
                             <div className={cx("item")}>
                                 <div className={cx("title")}>
-                                    <p>Views</p>
+                                    <p>Total Mangas</p>
                                     <SettingOutlined />
                                 </div>
                                 <div className={cx("total")}>
                                     <p>
-                                        <b>27.6m</b>{" "}
+                                        <b>{totalMangas}</b>{" "}
                                     </p>
                                 </div>
                             </div>
                             <div className={cx("item")}>
                                 <div className={cx("title")}>
-                                    <p>Followers</p>
+                                    <p>Total Genres</p>
                                     <SettingOutlined />
                                 </div>
                                 <div className={cx("total")}>
                                     <p>
-                                        <b>219,3k</b>
+                                        <b>{totalGenres}</b>{" "}
                                     </p>
                                 </div>
                             </div>
                             <div className={cx("item")}>
                                 <div className={cx("title")}>
-                                    <p>Reposts</p>
+                                    <p>Total Users</p>
                                     <SettingOutlined />
                                 </div>
                                 <div className={cx("total")}>
                                     <p>
-                                        <b>1,5k</b>
+                                        <b>{totalUsers}</b>{" "}
                                     </p>
                                 </div>
                             </div>
@@ -151,48 +181,31 @@ function Dashboards() {
                             boxShadow: "5px 5px 5px #ccc",
                         }}
                     >
-                        <h2>Top performers</h2>
+                        <h2>Access statistics</h2>
                         <table className={cx("performer")}>
+                            <thead>
+                                <tr>
+                                    <th>All Time</th>
+                                    <th>Today</th>
+                                    <th>This Month</th>
+                                    <th>This Year</th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 <tr>
-                                    <td>
-                                        <Avatar
-                                            src={imagesDashboard.avt_1}
-                                            style={{ marginRight: "10px" }}
-                                        />
-                                        Valy Antonova
-                                    </td>
-                                    <td>@valyantonova</td>
-                                    <td>19%</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <Avatar
-                                            src={imagesDashboard.avt_2}
-                                            style={{ marginRight: "10px" }}
-                                        />
-                                        Valy Antonova
-                                    </td>
-                                    <td>@valyantonova</td>
-                                    <td>19%</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <Avatar
-                                            src={imagesDashboard.avt_3}
-                                            style={{ marginRight: "10px" }}
-                                        />
-                                        Valy Antonova
-                                    </td>
-                                    <td>@valyantonova</td>
-                                    <td>19%</td>
+                                    <td>{popularAllTime}</td>
+                                    <td>{popularToday}</td>
+                                    <td>{popularThisMonth}</td>
+                                    <td>{popularThisYear}</td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div className={cx("view-more")}>
-                            <p>View more</p>
 
-                            <RightOutlined style={{ fontSize: "12px" }} />
+                        <div className={cx("view-more")}>
+                            <Link to="users">
+                                <p>View more</p>
+                                <RightOutlined style={{ fontSize: "12px" }} />
+                            </Link>
                         </div>
                     </div>
                 </Col>

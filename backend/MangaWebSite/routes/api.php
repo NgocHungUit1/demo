@@ -27,7 +27,11 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('logout');
 
-Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+//Admin
+
+Route::get('/dashboard', [AuthController::class, 'dashboard']);
+
+Route::get('/user', [SocialController::class, 'user']);
 Route::get('categories', [CategoryController::class, 'index']);
 Route::post('categories', [CategoryController::class, 'store']);
 Route::get('categories/{id}', [CategoryController::class, 'show']);
@@ -45,8 +49,6 @@ Route::get('/mangas/{id}', [MangaController::class, 'show']);
 Route::post('/mangas', [MangaController::class, 'store']);
 Route::put('/mangas/{id}', [MangaController::class, 'update']);
 Route::delete('/mangas/{id}', [MangaController::class, 'destroy']);
-Route::get('/mangas/search/{tag}', [MangaController::class, 'tag']);
-Route::get('/mangas/search', [MangaController::class, 'search']);
 
 Route::post('/mangas/{id}/chapter', [ChapterController::class, 'store']);
 Route::get('/mangas/{id}/chapter_index', [ChapterController::class, 'show']);
@@ -59,23 +61,25 @@ Route::post('/mangas/{chapter_id}/images', [ChapterController::class, 'updateIma
 //Chapter
 Route::get('/mangas/chapter/{id_chapter}', [ViewChapterController::class, 'pageOfChapter']);
 
-
 //Details
 Route::get('/manga/details/{slug}', [DetailsController::class, 'mangaDetails']);
-Route::get('/google', [SocialController::class, 'loginGoogleUrl']);
-Route::get('/auth/callback', [SocialController::class, 'loginGoogleCallback']);
+//Home
 Route::get('/home', [AppController::class, 'getMangaHome']);
 Route::get('/home/topviews', [AppController::class, 'getMangaViews']);
+//Social login
+Route::get('/google', [SocialController::class, 'loginGoogleUrl']);
+Route::get('/auth/callback', [SocialController::class, 'loginGoogleCallback']);
+
 
 Route::middleware(['auth:api'])->group(function () {
-    Route::post('/manga/{manga}/comments', [CommentController::class, 'createMangaComment']);
+    //Comment
     Route::post('/chapter/{chapter}/comments', [CommentController::class, 'createChapterComment']);
+    Route::post('/manga/{manga}/comments', [CommentController::class, 'createMangaComment']);
     Route::get('/manga/{manga}/comments', [CommentController::class, 'showMangaComments']);
     Route::get('/chapter/{chapter}/comments', [CommentController::class, 'showChapterComments']);
 
     //Favourite Mangas
     Route::post('favourite-manga/{id}', [DetailsController::class, 'favouriteMangas']);
-    Route::get('/user', [SocialController::class, 'user']);
 
     //Follow status
     Route::post('follows-status/{manga_id}', [FollowController::class, 'follow']);

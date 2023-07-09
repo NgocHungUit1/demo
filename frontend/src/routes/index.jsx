@@ -19,16 +19,20 @@ import ChapterView from "@/pages/Client/ChapterView";
 import LoginClient from "@/pages/Client/Login";
 import GoogleCallback from "@/pages/Client/Login/GoogleCallback";
 export const RoutesConfig = () => {
-    
+
     return (
         <Routes>
             <Route path="/admin" element={<Auth />}>
                 <Route element={<AdminLayout />}>
                     <Route index element={<Dashboards />}></Route>
                     <Route
-                        path="all-categories"
+                        path="users"
                         element={<Categories />}
                     ></Route>
+                    {/* <Route
+                        path="all-categories"
+                        element={<Categories />}
+                    ></Route> */}
 
                     <Route path="all-genres" element={<Genres />}></Route>
                     <Route path="all-comics" element={<Comics />}>

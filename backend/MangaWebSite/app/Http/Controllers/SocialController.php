@@ -33,6 +33,7 @@ class SocialController extends Controller
             ]);
             Auth::login($user);
         }
+        $user->visit()->hourlyIntervals()->withIp();
         return response()->json([
             'status' => true,
             'access_token' => $user->createToken('google-token')->plainTextToken,
@@ -43,11 +44,9 @@ class SocialController extends Controller
 
     public function user()
     {
-        $user = Auth::user();
-
         return response()->json([
             'status' => true,
-            'user' => $user,
+            'users' => User::popularAllTime()->get(),
         ]);
     }
 }
