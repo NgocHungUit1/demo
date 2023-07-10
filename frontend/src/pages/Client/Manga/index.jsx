@@ -217,52 +217,129 @@ function Manga() {
                         <div className={cx("comment-wrapper")}>
                             {mangaData.comments.map((comment) => (
                                 <div className={cx("comment")} key={comment.id}>
-                                    <div className={cx("user-action")}>
-                                        <div className={cx("user")}>
-                                            {comment.user.image ? (
-                                                <Avatar
-                                                    size={50}
-                                                    src={comment.user.image}
-                                                />
-                                            ) : (
-                                                <Avatar
-                                                    size={50}
-                                                    icon={<UserOutlined />}
-                                                    style={{
-                                                        backgroundColor:
-                                                            "rgb(63,63,63)",
-                                                    }}
-                                                />
-                                            )}
-                                            <p>{comment.user.name}</p>
+                                    <div className={cx("parent")}>
+                                        <div className={cx("user-action")}>
+                                            <div className={cx("user")}>
+                                                {comment.user.image ? (
+                                                    <Avatar
+                                                        size={50}
+                                                        src={comment.user.image}
+                                                    />
+                                                ) : (
+                                                    <Avatar
+                                                        size={50}
+                                                        icon={<UserOutlined />}
+                                                        style={{
+                                                            backgroundColor:
+                                                                "rgb(63,63,63)",
+                                                        }}
+                                                    />
+                                                )}
+                                                <p>{comment.user.name}</p>
+                                            </div>
+                                            <div className={cx("action")}>
+                                                <button>
+                                                    <ActionIcon />
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div className={cx("action")}>
-                                            <button><ActionIcon/></button>
+                                        <p className={cx("des")}>
+                                            {comment.comment}
+                                        </p>
+                                        <div className={cx("reply")}>
+                                            <div className={cx("emoji")}>
+                                                <button>
+                                                    <ReplyIcon />
+                                                </button>
+                                            </div>
+                                            <div className={cx("emoji")}>
+                                                <button>👍</button>
+                                                <p>0</p>
+                                            </div>
+                                            <div className={cx("emoji")}>
+                                                <button>❤</button>
+                                                <p>0</p>
+                                            </div>
+                                            <div className={cx("emoji")}>
+                                                <button>🤡</button>
+                                                <p>0</p>
+                                            </div>
+                                            <div className={cx("emoji")}>
+                                                <button>😡</button>
+                                                <p>0</p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <p className={cx("des")}>{comment.comment}</p>
-                                    <div className={cx("reply")}>
-                                        <div className={cx("emoji")}>
-                                            <button>
-                                                <ReplyIcon />
-                                            </button>
-                                        </div>
-                                        <div className={cx("emoji")}>
-                                            <button>👍</button>
-                                            <p>0</p>
-                                        </div>
-                                        <div className={cx("emoji")}>
-                                            <button>❤</button>
-                                            <p>0</p>
-                                        </div>
-                                        <div className={cx("emoji")}>
-                                            <button>🤡</button>
-                                            <p>0</p>
-                                        </div>
-                                        <div className={cx("emoji")}>
-                                            <button>😡</button>
-                                            <p>0</p>
-                                        </div>
+                                    <div className={cx("child")}>
+                                        {comment.replies.map((reply) => (
+                                            <div className={cx(
+                                                "item"
+                                            )} >
+                                                <div
+                                                    className={cx(
+                                                        "user-action"
+                                                    )}
+                                                >
+                                                    <div className={cx("user")}>
+                                                        <Avatar
+                                                            size={50}
+                                                            icon={
+                                                                <UserOutlined />
+                                                            }
+                                                            style={{
+                                                                backgroundColor:
+                                                                    "rgb(63,63,63)",
+                                                            }}
+                                                        />
+
+                                                        <p>{reply.user_id }</p>
+                                                    </div>
+                                                    <div
+                                                        className={cx("action")}
+                                                    >
+                                                        <button>
+                                                            <ActionIcon />
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <p className={cx("des")}>
+                                                    {reply.comment}
+                                                </p>
+                                                <div className={cx("reply")}>
+                                                    <div
+                                                        className={cx("emoji")}
+                                                    >
+                                                        <button>
+                                                            <ReplyIcon />
+                                                        </button>
+                                                    </div>
+                                                    <div
+                                                        className={cx("emoji")}
+                                                    >
+                                                        <button>👍</button>
+                                                        <p>0</p>
+                                                    </div>
+                                                    <div
+                                                        className={cx("emoji")}
+                                                    >
+                                                        <button>❤</button>
+                                                        <p>0</p>
+                                                    </div>
+                                                    <div
+                                                        className={cx("emoji")}
+                                                    >
+                                                        <button>🤡</button>
+                                                        <p>0</p>
+                                                    </div>
+                                                    <div
+                                                        className={cx("emoji")}
+                                                    >
+                                                        <button>😡</button>
+                                                        <p>0</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             ))}

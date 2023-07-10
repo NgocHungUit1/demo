@@ -402,6 +402,15 @@
             background: var(--background-fourth);
             padding: 20px 15px;
             border-radius: 8px;
+            .parent {
+                margin-bottom: 10px;
+            }
+            .child {
+                .item {
+                    padding-left: 30px;
+                    margin-bottom: 10px;
+                }
+            }
             .user-action {
                 display: flex;
                 justify-content: space-between;
