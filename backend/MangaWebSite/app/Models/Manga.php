@@ -73,6 +73,7 @@ class Manga extends Model implements Viewable
         return $this->_views;
     }
 
+
     public function getFirstAndLastChapter()
     {
         $firstChapter = Chapter::orderBy('id', 'ASC')->where('manga_id', $this->id)->first();
@@ -86,7 +87,7 @@ class Manga extends Model implements Viewable
 
     public static function getMangaDetails($slug)
     {
-        return self::with('genres', 'chapters', 'comments.replies', 'comments.user', 'favouriteUsers', 'followStatus')
+        return self::with('genres', 'chapters', 'comments.replies.user', 'comments.user', 'favouriteUsers', 'followStatus')
             ->where('slug', $slug)
             ->firstOrFail();
     }
