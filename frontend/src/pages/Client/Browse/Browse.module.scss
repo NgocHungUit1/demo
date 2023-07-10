@@ -6,6 +6,7 @@
         width: 90%;
         display: flex;
         flex-direction: column;
+        gap: 20px;
         .filter {
             display: flex;
             justify-content: space-between;
@@ -36,6 +37,40 @@
                         color: #fff;
                         z-index: 1;
                     }
+                }
+            }
+        }
+        .grid {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 4px;
+            button {
+                background: transparent;
+                border: none;
+            }
+        }
+        .result {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            .manga {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                width: 100%;
+                img {
+                    width: 100%;
+                    height: 92%;
+                    border-radius: 10px;
+                }
+                p {
+                    text-transform: capitalize;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    -webkit-line-clamp: 1;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
                 }
             }
         }
