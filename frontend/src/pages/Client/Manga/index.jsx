@@ -1,19 +1,16 @@
 import classNames from "classnames/bind";
 import styles from "./Manga.module.scss";
-import { Avatar, Col, Input, Modal, Row } from "antd";
+import { Col, Input, Row } from "antd";
 import {
     UserOutlined,
     ArrowUpOutlined,
     FilterOutlined,
-    CloseOutlined,
     SettingOutlined,
 } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { ReactComponent as BookOutlineIcon } from "@/assets/images/Manga/book-ouline.svg";
 import { ReactComponent as NewestIcon } from "@/assets/images/Manga/newst-icon.svg";
 import { ReactComponent as BookIcon } from "@/assets/images/Manga/book-icon.svg";
-import { ReactComponent as ReplyIcon } from "@/assets/images/Manga/reply.svg";
-import { ReactComponent as ActionIcon } from "@/assets/images/Manga/more-horizontal-svgrepo-com.svg";
 import { ReactComponent as SaveIcon } from "@/assets/images/Manga/save-icon.svg";
 import { ReactComponent as BellOutlineIcon } from "@/assets/images/Manga/bell-outline.svg";
 import { ReactComponent as SendIcon } from "@/assets/images/Manga/send-2-svgrepo-com.svg";
@@ -23,6 +20,7 @@ import { Link } from "react-router-dom";
 import Follow from "./Follow";
 import { useSelector } from "react-redux";
 import Comment from "@/components/Comment";
+import axios from "axios";
 
 const cx = classNames.bind(styles);
 
@@ -50,7 +48,27 @@ function Manga() {
 
     const [isFollowOpen, setIsFollowOpen] = useState(false);
     const { client } = useSelector((st) => st.client);
-    console.log(mangaData);
+    const [comment, setComment] = useState("");
+    const createMangaComment = async (comment, commentId, userId) => {
+        try {
+            const response = await axios.post(
+                `http://localhost:8000/api/manga/${mangaData.id}/comments`,
+                {
+                    comment: comment,
+                    id: userId,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${client.access_token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            setComment("");
+        } catch (error) {
+            console.error(error);
+        }
+    };
     return (
         <div className={cx("wrapper")}>
             <Row style={{ position: "relative", height: "450px" }}>
@@ -210,6 +228,8 @@ function Manga() {
                                 <Input.TextArea
                                     rows={6}
                                     placeholder="Để lại bình luận..."
+                                    onChange={(e) => setComment(e.target.value)}
+                                    value={comment}
                                 />
                                 <div className={cx("send")}>
                                     <button>
@@ -218,7 +238,14 @@ function Manga() {
                                     <button>
                                         <EmojiIcon />
                                     </button>
-                                    <button>
+                                    <button
+                                        onClick={() =>
+                                            createMangaComment(
+                                                comment,
+                                                client.user.id
+                                            )
+                                        }
+                                    >
                                         <SendIcon />
                                     </button>
                                 </div>
@@ -233,7 +260,11 @@ function Manga() {
                             {mangaData.comments.map((comment) => (
                                 <div className={cx("comment")} key={comment.id}>
                                     <div className={cx("parent")}>
-                                        <Comment comment={comment} />
+                                        <Comment
+                                            comment={comment}
+                                            mangaId={mangaData.id}
+                                            commentId={comment.id}
+                                        />
                                     </div>
                                     <div className={cx("child")}>
                                         {comment.replies.map((reply) => (
@@ -241,7 +272,11 @@ function Manga() {
                                                 className={cx("item")}
                                                 key={reply.id}
                                             >
-                                                <Comment comment={reply} />
+                                                <Comment
+                                                    comment={reply}
+                                                    mangaId={mangaData.id}
+                                                    commentId={comment.id}
+                                                />
                                             </div>
                                         ))}
                                     </div>

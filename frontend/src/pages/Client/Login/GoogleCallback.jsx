@@ -23,8 +23,7 @@ function GoogleCallback() {
                 })
                 .then((data) => {
                     setData(data);
-                    localStorage.setItem("clientData", JSON.stringify(data.user));
-                    dispatch(setClient(data.user));
+                    localStorage.setItem("clientData", JSON.stringify(data));
                 });
 
             const timeout = setTimeout(() => {
@@ -36,7 +35,6 @@ function GoogleCallback() {
         }
         fetchData();
     }, []);
-
 
     return (
         <div>{isVisible ? data ? <p>redirect....</p> : <p>error</p> : ""}</div>

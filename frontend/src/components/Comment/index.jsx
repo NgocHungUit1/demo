@@ -1,11 +1,12 @@
 import classNames from "classnames/bind";
 import styles from "./Comment.module.scss";
-import { Avatar } from "antd";
+import { Avatar, notification } from "antd";
 import { ReactComponent as ReplyIcon } from "@/assets/images/Manga/reply.svg";
 import { ReactComponent as ActionIcon } from "@/assets/images/Manga/more-horizontal-svgrepo-com.svg";
 import { UserOutlined } from "@ant-design/icons";
 import CommentInput from "../Client/CommentInput";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 
 function Comment(props) {
@@ -15,7 +16,15 @@ function Comment(props) {
         setIsComment((open) => !open);
     };
 
-    
+    const { client } = useSelector((st) => st.client);
+
+    const [api, contextHolder] = notification.useNotification();
+    const openNotificationWithIcon = (type) => {
+        api[type]({
+            message: "Đăng nhập để bình luận bạn nhé",
+        });
+    };
+
     return (
         <div className={cx("wrapper")}>
             <div className={cx("user-action")}>
@@ -42,9 +51,18 @@ function Comment(props) {
             <p className={cx("des")}>{props.comment.comment}</p>
             <div className={cx("reply")}>
                 <div className={cx("emoji")}>
-                    <button onClick={handleOpenComment}>
-                        <ReplyIcon />
-                    </button>
+                    {contextHolder}
+                    {client ? (
+                        <button onClick={handleOpenComment}>
+                            <ReplyIcon />
+                        </button>
+                    ) : (
+                        <button
+                            onClick={() => openNotificationWithIcon("error")}
+                        >
+                            <ReplyIcon />
+                        </button>
+                    )}
                 </div>
                 <div className={cx("emoji")}>
                     <button>👍</button>
@@ -63,7 +81,12 @@ function Comment(props) {
                     <p>0</p>
                 </div>
             </div>
-            <CommentInput isComment={isComment} name={props.comment.user.name} />
+            <CommentInput
+                isComment={isComment}
+                name={props.comment.user.name}
+                mangaId={props.mangaId}
+                commentId={props.commentId}
+            />
         </div>
     );
 }

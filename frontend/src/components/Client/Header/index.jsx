@@ -255,18 +255,18 @@ function Header() {
                         >
                             <Avatar
                                 size={55}
-                                src={<img src={client.image} alt="avatar" />}
+                                src={<img src={client.user.image} alt="avatar" />}
                                 style={{ background: "rgba(47,47,47, 1)" }}
                             />
                             <div className={userClassName}>
                                 <Avatar
                                     size={55}
                                     src={
-                                        <img src={client.image} alt="avatar" />
+                                        <img src={client.user.image} alt="avatar" />
                                     }
                                     style={{ background: "rgba(47,47,47, 1)" }}
                                 />
-                                <p>{client.name}</p>
+                                <p>{client.user.name}</p>
                                 <div>
                                     <FollowsIcon />
                                     <p>Theo dõi</p>
