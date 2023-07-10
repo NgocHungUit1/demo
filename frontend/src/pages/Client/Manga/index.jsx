@@ -6,6 +6,7 @@ import {
     ArrowUpOutlined,
     FilterOutlined,
     CloseOutlined,
+    SettingOutlined,
 } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { ReactComponent as BookOutlineIcon } from "@/assets/images/Manga/book-ouline.svg";
@@ -15,10 +16,13 @@ import { ReactComponent as ReplyIcon } from "@/assets/images/Manga/reply.svg";
 import { ReactComponent as ActionIcon } from "@/assets/images/Manga/more-horizontal-svgrepo-com.svg";
 import { ReactComponent as SaveIcon } from "@/assets/images/Manga/save-icon.svg";
 import { ReactComponent as BellOutlineIcon } from "@/assets/images/Manga/bell-outline.svg";
+import { ReactComponent as SendIcon } from "@/assets/images/Manga/send-2-svgrepo-com.svg";
+import { ReactComponent as EmojiIcon } from "@/assets/images/Manga/smile-circle-svgrepo-com.svg";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Follow from "./Follow";
 import { useSelector } from "react-redux";
+import Comment from "@/components/Comment";
 
 const cx = classNames.bind(styles);
 
@@ -207,6 +211,17 @@ function Manga() {
                                     rows={6}
                                     placeholder="Để lại bình luận..."
                                 />
+                                <div className={cx("send")}>
+                                    <button>
+                                        <SettingOutlined />
+                                    </button>
+                                    <button>
+                                        <EmojiIcon />
+                                    </button>
+                                    <button>
+                                        <SendIcon />
+                                    </button>
+                                </div>
                             </div>
                         ) : (
                             <div className={cx("login-require")}>
@@ -218,126 +233,15 @@ function Manga() {
                             {mangaData.comments.map((comment) => (
                                 <div className={cx("comment")} key={comment.id}>
                                     <div className={cx("parent")}>
-                                        <div className={cx("user-action")}>
-                                            <div className={cx("user")}>
-                                                {comment.user.image ? (
-                                                    <Avatar
-                                                        size={50}
-                                                        src={comment.user.image}
-                                                    />
-                                                ) : (
-                                                    <Avatar
-                                                        size={50}
-                                                        icon={<UserOutlined />}
-                                                        style={{
-                                                            backgroundColor:
-                                                                "rgb(63,63,63)",
-                                                        }}
-                                                    />
-                                                )}
-                                                <p>{comment.user.name}</p>
-                                            </div>
-                                            <div className={cx("action")}>
-                                                <button>
-                                                    <ActionIcon />
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <p className={cx("des")}>
-                                            {comment.comment}
-                                        </p>
-                                        <div className={cx("reply")}>
-                                            <div className={cx("emoji")}>
-                                                <button>
-                                                    <ReplyIcon />
-                                                </button>
-                                            </div>
-                                            <div className={cx("emoji")}>
-                                                <button>👍</button>
-                                                <p>0</p>
-                                            </div>
-                                            <div className={cx("emoji")}>
-                                                <button>❤</button>
-                                                <p>0</p>
-                                            </div>
-                                            <div className={cx("emoji")}>
-                                                <button>🤡</button>
-                                                <p>0</p>
-                                            </div>
-                                            <div className={cx("emoji")}>
-                                                <button>😡</button>
-                                                <p>0</p>
-                                            </div>
-                                        </div>
+                                        <Comment comment={comment} />
                                     </div>
                                     <div className={cx("child")}>
                                         {comment.replies.map((reply) => (
-                                            <div className={cx(
-                                                "item"
-                                            )} >
-                                                <div
-                                                    className={cx(
-                                                        "user-action"
-                                                    )}
-                                                >
-                                                    <div className={cx("user")}>
-                                                        <Avatar
-                                                            size={50}
-                                                            icon={
-                                                                <UserOutlined />
-                                                            }
-                                                            style={{
-                                                                backgroundColor:
-                                                                    "rgb(63,63,63)",
-                                                            }}
-                                                        />
-
-                                                        <p>{reply.user_id }</p>
-                                                    </div>
-                                                    <div
-                                                        className={cx("action")}
-                                                    >
-                                                        <button>
-                                                            <ActionIcon />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <p className={cx("des")}>
-                                                    {reply.comment}
-                                                </p>
-                                                <div className={cx("reply")}>
-                                                    <div
-                                                        className={cx("emoji")}
-                                                    >
-                                                        <button>
-                                                            <ReplyIcon />
-                                                        </button>
-                                                    </div>
-                                                    <div
-                                                        className={cx("emoji")}
-                                                    >
-                                                        <button>👍</button>
-                                                        <p>0</p>
-                                                    </div>
-                                                    <div
-                                                        className={cx("emoji")}
-                                                    >
-                                                        <button>❤</button>
-                                                        <p>0</p>
-                                                    </div>
-                                                    <div
-                                                        className={cx("emoji")}
-                                                    >
-                                                        <button>🤡</button>
-                                                        <p>0</p>
-                                                    </div>
-                                                    <div
-                                                        className={cx("emoji")}
-                                                    >
-                                                        <button>😡</button>
-                                                        <p>0</p>
-                                                    </div>
-                                                </div>
+                                            <div
+                                                className={cx("item")}
+                                                key={reply.id}
+                                            >
+                                                <Comment comment={reply} />
                                             </div>
                                         ))}
                                     </div>

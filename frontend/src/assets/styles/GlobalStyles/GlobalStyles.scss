@@ -90,3 +90,7 @@ body {
 .ant-select-focused .ant-select-selector {
     border-color: var(--btn-color) !important;
 }
+
+.ant-input:hover {
+    border-color: transparent;
+}

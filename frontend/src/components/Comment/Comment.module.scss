@@ -1,0 +1,56 @@
+.user-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    .user {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .action {
+        button {
+            background: #000;
+            border: none;
+            border-radius: 7px;
+            svg {
+                height: 20px;
+                width: 20px;
+                fill: #fff;
+            }
+        }
+    }
+}
+.des {
+    margin-bottom: 15px;
+}
+.reply {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    & div:first-child {
+        button {
+            background: #000;
+            svg {
+                height: 20px;
+                width: 20px;
+                fill: #fff;
+            }
+        }
+    }
+    .emoji {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        button {
+            cursor: pointer;
+            background: transparent;
+            border-radius: 7px;
+            border: none;
+            padding: 5px 10px;
+            &:hover {
+                background: var(--background-third);
+            }
+        }
+    }
+}

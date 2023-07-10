@@ -381,16 +381,45 @@
             color: var(--btn-color);
         }
     }
+    .send {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 15px;
+        gap: 2px;
+        button {
+            background: #000;
+            border: none;
+            padding: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            svg {
+                height: 20px;
+                width: 20px;
+                color: #fff;
+            }
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+        & button:nth-child(2) {
+            background: transparent;
+        }
+    }
     .comment-input {
         width: 80%;
         margin: auto;
         p {
             text-align: center;
             margin-bottom: 15px;
-            color: var(--background-third);
+            color: rgb(229, 231, 235);
         }
         textarea {
             background: var(--background-third);
+            color: rgb(229, 231, 235);
+            border-width: 0 !important;
+            border-style: none !important ;
+            border-color: none !important;
         }
     }
     .comment-wrapper {
@@ -402,6 +431,14 @@
             background: var(--background-fourth);
             padding: 20px 15px;
             border-radius: 8px;
+            textarea {
+                margin-top: 15px;
+                background: var(--background-third);
+                color: rgb(229, 231, 235);
+                border-width: 0 !important;
+                border-style: none !important ;
+                border-color: none !important;
+            }
             .parent {
                 margin-bottom: 10px;
             }
@@ -409,62 +446,6 @@
                 .item {
                     padding-left: 30px;
                     margin-bottom: 10px;
-                }
-            }
-            .user-action {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 10px;
-                .user {
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                }
-                .action {
-                    button {
-                        background: #000;
-                        border: none;
-                        border-radius: 7px;
-                        svg {
-                            height: 20px;
-                            width: 20px;
-                            fill: #fff;
-                        }
-                    }
-                }
-            }
-            .des {
-                margin-bottom: 15px;
-            }
-            .reply {
-                display: flex;
-                align-items: center;
-                gap: 5px;
-                & div:first-child {
-                    button {
-                        background: #000;
-                        svg {
-                            height: 20px;
-                            width: 20px;
-                            fill: #fff;
-                        }
-                    }
-                }
-                .emoji {
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                    button {
-                        cursor: pointer;
-                        background: transparent;
-                        border-radius: 7px;
-                        border: none;
-                        padding: 5px 10px;
-                        &:hover {
-                            background: var(--background-third);
-                        }
-                    }
                 }
             }
         }
