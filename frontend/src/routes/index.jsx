@@ -18,8 +18,20 @@ import Manga from "@/pages/Client/Manga";
 import ChapterView from "@/pages/Client/ChapterView";
 import LoginClient from "@/pages/Client/Login";
 import GoogleCallback from "@/pages/Client/Login/GoogleCallback";
-export const RoutesConfig = () => {
+import { useDispatch } from "react-redux";
+import { setClient } from "@/store/Slice/client.slice";
+import { useEffect } from "react";
+import Browse from "@/pages/Client/Browse";
 
+export const RoutesConfig = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        var user = localStorage.getItem("clientData");
+        if (user) {
+            dispatch(setClient(JSON.parse(user)));
+        }
+    }, []);
     return (
         <Routes>
             <Route path="/admin" element={<Auth />}>
@@ -52,11 +64,13 @@ export const RoutesConfig = () => {
             <Route path="/" element={<DefaultLayout />}>
                 <Route path="/" index element={<Home />}></Route>
                 <Route path="manga-details/:slug" element={<Manga />}></Route>
+                <Route path="/browse" element={<Browse />}></Route>
             </Route>
             <Route
                 path="/manga-details/:slug/:slug_chapter/:id"
                 element={<ChapterView />}
             ></Route>
+
             <Route path="/login" exact element={<LoginClient />}></Route>
             <Route
                 path="/auth/google"

@@ -1,0 +1,78 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--header-width);
+    .inner {
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        .filter {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            .item {
+                flex: 16.5%;
+                p {
+                    text-align: center;
+                    font-size: 18px;
+                    margin-bottom: 5px;
+                }
+                div {
+                    width: 100%;
+                    color: #fff;
+                    div {
+                        background-color: var(--background-fourth);
+                        span {
+                            color: #fff;
+                            z-index: 1;
+                            input {
+                                background-color: var(
+                                    --background-fourth
+                                ) !important;
+                            }
+                        }
+                    }
+                    span {
+                        color: #fff;
+                        z-index: 1;
+                    }
+                }
+            }
+        }
+        .grid {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 4px;
+            button {
+                background: transparent;
+                border: none;
+            }
+        }
+        .result {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            .manga {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                width: 100%;
+                img {
+                    width: 100%;
+                    height: 92%;
+                    border-radius: 10px;
+                }
+                p {
+                    text-transform: capitalize;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    -webkit-line-clamp: 1;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                }
+            }
+        }
+    }
+}

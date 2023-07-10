@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./Manga.module.scss";
-import { Col, Input, Modal, Row } from "antd";
+import { Avatar, Col, Input, Modal, Row } from "antd";
 import {
     UserOutlined,
     ArrowUpOutlined,
@@ -11,11 +11,14 @@ import { useState, useEffect } from "react";
 import { ReactComponent as BookOutlineIcon } from "@/assets/images/Manga/book-ouline.svg";
 import { ReactComponent as NewestIcon } from "@/assets/images/Manga/newst-icon.svg";
 import { ReactComponent as BookIcon } from "@/assets/images/Manga/book-icon.svg";
+import { ReactComponent as ReplyIcon } from "@/assets/images/Manga/reply.svg";
+import { ReactComponent as ActionIcon } from "@/assets/images/Manga/more-horizontal-svgrepo-com.svg";
 import { ReactComponent as SaveIcon } from "@/assets/images/Manga/save-icon.svg";
 import { ReactComponent as BellOutlineIcon } from "@/assets/images/Manga/bell-outline.svg";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Follow from "./Follow";
+import { useSelector } from "react-redux";
 
 const cx = classNames.bind(styles);
 
@@ -42,7 +45,8 @@ function Manga() {
     }, [props.slug]);
 
     const [isFollowOpen, setIsFollowOpen] = useState(false);
-
+    const { client } = useSelector((st) => st.client);
+    console.log(mangaData);
     return (
         <div className={cx("wrapper")}>
             <Row style={{ position: "relative", height: "450px" }}>
@@ -191,8 +195,77 @@ function Manga() {
                     </Col>
                     <Col span={22}>
                         <h2 className={cx("title")}>Bình luận</h2>
-                        <div className={cx("login-require")}>
-                            <Link to="/">Đăng nhập</Link> để bình luận bạn nhé
+                        {client ? (
+                            <div className={cx("comment-input")}>
+                                <p>
+                                    <i>
+                                        Hãy bình luận văn minh, lịch sự và mang
+                                        tính xây dựng
+                                    </i>
+                                </p>
+                                <Input.TextArea
+                                    rows={6}
+                                    placeholder="Để lại bình luận..."
+                                />
+                            </div>
+                        ) : (
+                            <div className={cx("login-require")}>
+                                <Link to="/login">Đăng nhập</Link> để bình luận
+                                bạn nhé
+                            </div>
+                        )}
+                        <div className={cx("comment-wrapper")}>
+                            {mangaData.comments.map((comment) => (
+                                <div className={cx("comment")} key={comment.id}>
+                                    <div className={cx("user-action")}>
+                                        <div className={cx("user")}>
+                                            {comment.user.image ? (
+                                                <Avatar
+                                                    size={50}
+                                                    src={comment.user.image}
+                                                />
+                                            ) : (
+                                                <Avatar
+                                                    size={50}
+                                                    icon={<UserOutlined />}
+                                                    style={{
+                                                        backgroundColor:
+                                                            "rgb(63,63,63)",
+                                                    }}
+                                                />
+                                            )}
+                                            <p>{comment.user.name}</p>
+                                        </div>
+                                        <div className={cx("action")}>
+                                            <button><ActionIcon/></button>
+                                        </div>
+                                    </div>
+                                    <p className={cx("des")}>{comment.comment}</p>
+                                    <div className={cx("reply")}>
+                                        <div className={cx("emoji")}>
+                                            <button>
+                                                <ReplyIcon />
+                                            </button>
+                                        </div>
+                                        <div className={cx("emoji")}>
+                                            <button>👍</button>
+                                            <p>0</p>
+                                        </div>
+                                        <div className={cx("emoji")}>
+                                            <button>❤</button>
+                                            <p>0</p>
+                                        </div>
+                                        <div className={cx("emoji")}>
+                                            <button>🤡</button>
+                                            <p>0</p>
+                                        </div>
+                                        <div className={cx("emoji")}>
+                                            <button>😡</button>
+                                            <p>0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </Col>
                 </Row>
