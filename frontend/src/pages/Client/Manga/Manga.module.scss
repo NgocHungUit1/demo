@@ -381,6 +381,29 @@
             color: var(--btn-color);
         }
     }
+    .comment-input {
+        width: 80%;
+        margin: auto;
+        p {
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--background-third);
+        }
+        textarea {
+            background: var(--background-third);
+        }
+    }
+    .comment-wrapper {
+        width: 80%;
+        margin: auto;
+
+        .comment {
+            margin: 10px 0;
+            background: var(--background-fourth);
+            padding: 20px 15px;
+            border-radius: 8px;
+        }
+    }
 }
 
 @media screen and (max-width: 1200px) {

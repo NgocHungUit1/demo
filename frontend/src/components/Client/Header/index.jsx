@@ -75,6 +75,8 @@ function Header() {
         );
     }
 
+    
+
     const colors = [
         "yellow-1",
         "green-1",
@@ -160,14 +162,11 @@ function Header() {
                     </div>
                 </div>
                 <div className={cx("search-info")}>
-                    <div
-                        className={cx("search")}
-                        onClick={() => setOpenSearch(true)}
-                    >
-                        <div>
+                    <div className={cx("search")}>
+                        <Link to="/browse" >
                             <SliderIcon />
-                        </div>
-                        <p>Tìm truyện...</p>
+                        </Link>
+                        <p onClick={() => setOpenSearch(true)}>Tìm truyện...</p>
                         <SearchOutlined />
                     </div>
                     <Modal

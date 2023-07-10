@@ -72,3 +72,21 @@ body {
 .slick-dots li.slick-active button:before {
     color: var(--btn-color) !important;
 }
+
+.ant-select-item {
+    background-color: var(--background-fourth) !important;
+    color: #fff !important;
+}
+.ant-select-dropdown {
+    background-color: var(--background-fourth) !important;
+}
+
+.ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(
+        .ant-pagination-size-changer
+    ):hover
+    .ant-select-selector {
+    border-color: var(--btn-color) !important;
+}
+.ant-select-focused .ant-select-selector {
+    border-color: var(--btn-color) !important;
+}

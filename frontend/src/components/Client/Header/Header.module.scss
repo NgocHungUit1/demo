@@ -89,7 +89,7 @@
 
                     overflow: hidden;
                 }
-                & div:first-child {
+                a {
                     @include display-flex-row;
                     @include button-theme(
                         $background: rgb(253, 164, 175),

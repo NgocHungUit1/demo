@@ -16,6 +16,7 @@ import { ReactComponent as BellOutlineIcon } from "@/assets/images/Manga/bell-ou
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Follow from "./Follow";
+import { useSelector } from "react-redux";
 
 const cx = classNames.bind(styles);
 
@@ -42,7 +43,8 @@ function Manga() {
     }, [props.slug]);
 
     const [isFollowOpen, setIsFollowOpen] = useState(false);
-
+    const { client } = useSelector((st) => st.client);
+    console.log(mangaData)
     return (
         <div className={cx("wrapper")}>
             <Row style={{ position: "relative", height: "450px" }}>
@@ -191,9 +193,30 @@ function Manga() {
                     </Col>
                     <Col span={22}>
                         <h2 className={cx("title")}>Bình luận</h2>
-                        <div className={cx("login-require")}>
-                            <Link to="/">Đăng nhập</Link> để bình luận bạn nhé
-                        </div>
+                        {client ? (
+                            <div className={cx("comment-input")}>
+                                <p>
+                                    <i>
+                                        Hãy bình luận văn minh, lịch sự và mang
+                                        tính xây dựng
+                                    </i>
+                                </p>
+                                <Input.TextArea
+                                    rows={6}
+                                    placeholder="Để lại bình luận..."
+                                />
+                            </div>
+                        ) : (
+                            <div className={cx("login-require")}>
+                                <Link to="/login">Đăng nhập</Link> để bình luận
+                                bạn nhé
+                            </div>
+                        )}
+<div className={cx("comment-wrapper")}>
+    {mangaData.comments.map(comment => (
+        <div className={cx("comment")} key={comment.id}>{comment.id}</div>
+    ) )}
+</div>
                     </Col>
                 </Row>
             ) : (

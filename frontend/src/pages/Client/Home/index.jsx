@@ -12,8 +12,7 @@ import {
     comicsSeasonSettings,
 } from "@/services/HomeService";
 import { Link, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setClient } from "@/store/Slice/client.slice";
+
 const cx = classNames.bind(styles);
 
 function Home() {
@@ -36,7 +35,6 @@ function Home() {
             </ArrowButton>
         ),
     };
-    const dispatch = useDispatch();
 
     const [mangaLastUpdate, setMangaLastUpdate] = useState([]);
     const [mangaPopularS, setMangaPopularS] = useState([]);
@@ -82,12 +80,7 @@ function Home() {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        var user = localStorage.getItem("clientData");
-        if (user) {
-            dispatch(setClient(JSON.parse(user)));
-        }
-    }, []);
+    
 
     return (
         <div className={cx("wrapper")}>
