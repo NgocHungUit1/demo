@@ -1,16 +1,23 @@
 import classNames from "classnames/bind";
 import styles from "./Browse.module.scss";
-import { Select } from "antd";
+import { Input, Select } from "antd";
 import { useEffect, useState } from "react";
 import { ReactComponent as Gird1Icon } from "@/assets/images/Browse/grid-1.svg";
 import { ReactComponent as Grid2Icon } from "@/assets/images/Browse/grid-2.svg";
 import { ReactComponent as ListIcon } from "@/assets/images/Browse/list.svg";
+import axios from "axios";
 
 const cx = classNames.bind(styles);
 
 function Browse() {
+    const { Option } = Select;
+
     const [mangas, setMangas] = useState([]);
     const [genres, setGenres] = useState([]);
+    const [genre, setGenre] = useState("");
+    const [views, setViews] = useState("");
+    const [author, setAuthor] = useState("");
+    const [complete, setComplete] = useState("");
 
     useEffect(() => {
         async function fetchData() {
@@ -24,14 +31,30 @@ function Browse() {
     }, []);
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("http://localhost:8000/api/mangas");
-            const data = await response.json();
-            if (Array.isArray(data.data)) {
-                setMangas(data.data);
+            try {
+                const response = await axios.get(
+                    "http://localhost:8000/api/mangas",
+                    {
+                        params: {
+                            genre: genre,
+                            views: views,
+                            complete: complete,
+                            author: author,
+                        },
+                    }
+                );
+                setMangas(response.data.data);
+            } catch (error) {
+                console.log(error);
             }
         }
         fetchData();
-    }, []);
+    }, [genre, views, complete, author]);
+
+    const genresOptions = genres?.map((genre) => ({
+        value: genre.id,
+        label: genre.name,
+    }));
 
     return (
         <div className={cx("wrapper")}>
@@ -54,45 +77,34 @@ function Browse() {
                                         (optionB?.label ?? "").toLowerCase()
                                     )
                             }
-                            options={
-                                genres.map((genre) => ({
-                                    value: genre.id,
-                                    label: genre.name,
-                                }))
-                            }
-                        />
+                            options={genresOptions}
+                            onChange={(value) => setGenre(value)}
+                        ></Select>
                     </div>
                     <div className={cx("item")}>
                         <p>Sắp xếp</p>
                         <Select
-                            defaultValue="1"
+                            defaultValue="all"
                             size="large"
                             options={[
                                 {
-                                    value: "1",
+                                    value: "all",
                                     label: "Tất cả",
                                 },
                                 {
-                                    value: "2",
+                                    value: "month",
                                     label: "View tháng",
                                 },
                                 {
-                                    value: "3",
+                                    value: "week",
                                     label: "View tuần",
                                 },
                                 {
-                                    value: "4",
+                                    value: "today",
                                     label: "View ngày",
                                 },
-                                {
-                                    value: "3",
-                                    label: "Mới ra",
-                                },
-                                {
-                                    value: "4",
-                                    label: "Chapter mới",
-                                },
                             ]}
+                            onChange={(value) => setViews(value)}
                         />
                     </div>
                     <div className={cx("item")}>
@@ -106,14 +118,15 @@ function Browse() {
                                     label: "Tất cả",
                                 },
                                 {
-                                    value: "2",
+                                    value: "in-process",
                                     label: "Đang tiến hành",
                                 },
                                 {
-                                    value: "3",
+                                    value: "complete",
                                     label: "Hoàn thành",
                                 },
                             ]}
+                            onChange={(value) => setComplete(value)}
                         />
                     </div>
                     <div className={cx("item")}>
@@ -154,36 +167,13 @@ function Browse() {
                         />
                     </div>
                     <div className={cx("item")}>
-                        <p>Số chương</p>
-                        <Select
-                            defaultValue="1"
+                        <p>Tác giả</p>
+
+                        <Input
+                            placeholder="Tác giả"
                             size="large"
-                            options={[
-                                {
-                                    value: "1",
-                                    label: ">0",
-                                },
-                                {
-                                    value: "2",
-                                    label: ">=100",
-                                },
-                                {
-                                    value: "3",
-                                    label: ">=200",
-                                },
-                                {
-                                    value: "4",
-                                    label: ">=300",
-                                },
-                                {
-                                    value: "5",
-                                    label: ">=400",
-                                },
-                                {
-                                    value: "6",
-                                    label: ">=500",
-                                },
-                            ]}
+                            style={{ border: "1px solid #fff" }}
+                            onChange={(e) => setAuthor(e.target.value)}
                         />
                     </div>
                     <div className={cx("item")}>
