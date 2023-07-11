@@ -24,6 +24,15 @@ class DetailsController extends Controller
         ]);
     }
 
+    public function commentDetails($slug)
+    {
+        $manga = Manga::getMangaDetails($slug);
+        $comments = $manga->comments()->with(['user', 'replies.user'])->orderBy('created_at', 'desc')->get();
+        return response()->json([
+            'comments' => $comments,
+        ]);
+    }
+
     public function favouriteMangas(Request $request, $id)
     {
         $type = $request->type;
