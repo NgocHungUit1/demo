@@ -38,7 +38,7 @@ function Manga() {
             const data = await response.json();
             if (data) {
                 setMangaData(data.manga);
-
+                
                 setLastChapter(data.last_chapter);
                 setFirstChapter(data.first_chapter);
             }
