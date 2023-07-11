@@ -63,7 +63,7 @@ Route::get('/mangas/chapter/{id_chapter}', [ViewChapterController::class, 'pageO
 
 //Details
 Route::get('/manga/details/{slug}', [DetailsController::class, 'mangaDetails']);
-Route::get('/comment/details/{slug}', [DetailsController::class, 'commentDetails']);
+Route::get('/comment/details/{id_manga}', [DetailsController::class, 'commentDetails']);
 //Home
 Route::get('/home', [AppController::class, 'getMangaHome']);
 Route::get('/home/topviews', [AppController::class, 'getMangaViews']);

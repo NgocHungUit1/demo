@@ -24,9 +24,9 @@ class DetailsController extends Controller
         ]);
     }
 
-    public function commentDetails($slug)
+    public function commentDetails($idManga)
     {
-        $manga = Manga::getMangaDetails($slug);
+        $manga = Manga::findOrFail($idManga);
         $comments = $manga->comments()->with(['user', 'replies.user'])->orderBy('created_at', 'desc')->get();
         return response()->json([
             'comments' => $comments,
