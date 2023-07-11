@@ -29,6 +29,7 @@ function Browse() {
         }
         fetchData();
     }, []);
+    
     useEffect(() => {
         async function fetchData() {
             try {

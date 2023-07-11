@@ -30,6 +30,7 @@ function Manga() {
     const [mangaData, setMangaData] = useState();
     const [lastChapter, setLastChapter] = useState();
     const [firstChapter, setFirstChapter] = useState();
+    const [comments, setComments] = useState([]);
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
@@ -38,13 +39,25 @@ function Manga() {
             const data = await response.json();
             if (data) {
                 setMangaData(data.manga);
-                
+
                 setLastChapter(data.last_chapter);
                 setFirstChapter(data.first_chapter);
             }
         }
         fetchData();
     }, [props.slug]);
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch(
+                `http://localhost:8000/api/comment/details/${props.id}`
+            );
+            const data = await response.json();
+            if (data) {
+                setComments(data.comments);
+            }
+        }
+        fetchData();
+    }, [props.id]);
 
     const [isFollowOpen, setIsFollowOpen] = useState(false);
     const { client } = useSelector((st) => st.client);
@@ -257,7 +270,7 @@ function Manga() {
                             </div>
                         )}
                         <div className={cx("comment-wrapper")}>
-                            {mangaData.comments.map((comment) => (
+                            {comments.map((comment) => (
                                 <div className={cx("comment")} key={comment.id}>
                                     <div className={cx("parent")}>
                                         <Comment
