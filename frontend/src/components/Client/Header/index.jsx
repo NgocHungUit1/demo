@@ -75,8 +75,6 @@ function Header() {
         );
     }
 
-    
-
     const colors = [
         "yellow-1",
         "green-1",
@@ -129,7 +127,14 @@ function Header() {
                         <div className={cx("menu")}>
                             <ul>
                                 {genres.slice(1, 8).map((item) => (
-                                    <li key={item.id}>{item.name}</li>
+                                    <li key={item.id}>
+                                        <Link
+                                            to="/browse"
+                                            state={{ genreId: item.id }}
+                                        >
+                                            {item.name}
+                                        </Link>
+                                    </li>
                                 ))}
                                 <li>
                                     Xem them <RightOutlined />
@@ -163,7 +168,7 @@ function Header() {
                 </div>
                 <div className={cx("search-info")}>
                     <div className={cx("search")}>
-                        <Link to="/browse" >
+                        <Link to="/browse">
                             <SliderIcon />
                         </Link>
                         <p onClick={() => setOpenSearch(true)}>Tìm truyện...</p>
@@ -255,14 +260,19 @@ function Header() {
                         >
                             <Avatar
                                 size={55}
-                                src={<img src={client.user.image} alt="avatar" />}
+                                src={
+                                    <img src={client.user.image} alt="avatar" />
+                                }
                                 style={{ background: "rgba(47,47,47, 1)" }}
                             />
                             <div className={userClassName}>
                                 <Avatar
                                     size={55}
                                     src={
-                                        <img src={client.user.image} alt="avatar" />
+                                        <img
+                                            src={client.user.image}
+                                            alt="avatar"
+                                        />
                                     }
                                     style={{ background: "rgba(47,47,47, 1)" }}
                                 />

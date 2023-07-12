@@ -6,12 +6,11 @@ import { ReactComponent as Gird1Icon } from "@/assets/images/Browse/grid-1.svg";
 import { ReactComponent as Grid2Icon } from "@/assets/images/Browse/grid-2.svg";
 import { ReactComponent as ListIcon } from "@/assets/images/Browse/list.svg";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
 function Browse() {
-    const { Option } = Select;
-
     const [mangas, setMangas] = useState([]);
     const [genres, setGenres] = useState([]);
     const [genre, setGenre] = useState("");
@@ -19,7 +18,8 @@ function Browse() {
     const [author, setAuthor] = useState("");
     const [complete, setComplete] = useState("all-comp");
     const [popular, setPopular] = useState("");
-
+    const location = useLocation();
+    const props = location.state;
     useEffect(() => {
         async function fetchData() {
             const response = await fetch("http://localhost:8000/api/genres");
@@ -34,6 +34,9 @@ function Browse() {
     useEffect(() => {
         async function fetchData() {
             try {
+                if (props) {
+                    setGenre(props.genreId);
+                }
                 const response = await axios.get(
                     "http://localhost:8000/api/mangas",
                     {
@@ -57,6 +60,7 @@ function Browse() {
     const genresOptions = genres?.map((genre) => ({
         value: genre.id,
         label: genre.name,
+        key: genre.id,
     }));
 
     return (
@@ -67,6 +71,7 @@ function Browse() {
                         <p>Thể loại</p>
                         <Select
                             showSearch
+                            value={genre}
                             size="large"
                             placeholder="Thể loại..."
                             optionFilterProp="children"
@@ -133,7 +138,7 @@ function Browse() {
                         />
                     </div>
                     <div className={cx("item")}>
-                        <p>Danh mục<col /></p>
+                        <p>Danh mục</p>
                         <Select
                             showSearch
                             size="large"
@@ -151,19 +156,19 @@ function Browse() {
                             }
                             options={[
                                 {
-                                    value: "1",
+                                    value: "manga",
                                     label: "Manga",
                                 },
                                 {
-                                    value: "2",
+                                    value: "manhua",
                                     label: "Manhua",
                                 },
                                 {
-                                    value: "3",
+                                    value: "manhwa",
                                     label: "Manhwa",
                                 },
                                 {
-                                    value: "3",
+                                    value: "doujinshi",
                                     label: "Doujinshi",
                                 },
                             ]}
