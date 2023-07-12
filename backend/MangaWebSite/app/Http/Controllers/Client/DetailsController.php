@@ -42,7 +42,7 @@ class DetailsController extends Controller
             $manga->like += 1;
             $manga->save();
         } else {
-            Auth::user()->favouriteMangas()->attach([$id]);
+            Auth::user()->favouriteMangas()->detach([$id]);
             $manga = Manga::find($id);
             $manga->like -= 1;
             $manga->save();
