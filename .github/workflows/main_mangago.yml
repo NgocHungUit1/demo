@@ -56,5 +56,5 @@ jobs:
         with:
           app-name: 'mangago'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1521E464F5B643D89965C6476AC8C2B6 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_51D2DBA464AF47E796718A56092BC9F9 }}
           package: .
