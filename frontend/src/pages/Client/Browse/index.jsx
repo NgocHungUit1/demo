@@ -17,7 +17,8 @@ function Browse() {
     const [genre, setGenre] = useState("");
     const [views, setViews] = useState("");
     const [author, setAuthor] = useState("");
-    const [complete, setComplete] = useState("");
+    const [complete, setComplete] = useState("all-comp");
+    const [popular, setPopular] = useState("");
 
     useEffect(() => {
         async function fetchData() {
@@ -29,7 +30,7 @@ function Browse() {
         }
         fetchData();
     }, []);
-    
+
     useEffect(() => {
         async function fetchData() {
             try {
@@ -41,6 +42,7 @@ function Browse() {
                             views: views,
                             complete: complete,
                             author: author,
+                            popular: popular,
                         },
                     }
                 );
@@ -50,7 +52,7 @@ function Browse() {
             }
         }
         fetchData();
-    }, [genre, views, complete, author]);
+    }, [genre, views, complete, author, popular]);
 
     const genresOptions = genres?.map((genre) => ({
         value: genre.id,
@@ -111,19 +113,19 @@ function Browse() {
                     <div className={cx("item")}>
                         <p>Trạng thái</p>
                         <Select
-                            defaultValue="1"
+                            defaultValue="all-comp"
                             size="large"
                             options={[
                                 {
-                                    value: "1",
+                                    value: "all-comp",
                                     label: "Tất cả",
                                 },
                                 {
-                                    value: "in-process",
+                                    value: "1",
                                     label: "Đang tiến hành",
                                 },
                                 {
-                                    value: "complete",
+                                    value: "0",
                                     label: "Hoàn thành",
                                 },
                             ]}
@@ -131,7 +133,7 @@ function Browse() {
                         />
                     </div>
                     <div className={cx("item")}>
-                        <p>Loại truyện</p>
+                        <p>Danh mục<col /></p>
                         <Select
                             showSearch
                             size="large"
@@ -158,17 +160,17 @@ function Browse() {
                                 },
                                 {
                                     value: "3",
-                                    label: "manhwa",
+                                    label: "Manhwa",
                                 },
                                 {
                                     value: "3",
-                                    label: "doujinshi",
+                                    label: "Doujinshi",
                                 },
                             ]}
                         />
                     </div>
                     <div className={cx("item")}>
-                        <p>Tác giả</p>
+                        <p>Tác giả...</p>
 
                         <Input
                             placeholder="Tác giả"
@@ -178,24 +180,25 @@ function Browse() {
                         />
                     </div>
                     <div className={cx("item")}>
-                        <p>Giới tính</p>
+                        <p>Loại truyện</p>
                         <Select
-                            defaultValue="1"
+                            defaultValue="all-po"
                             size="large"
                             options={[
                                 {
-                                    value: "1",
+                                    value: "all-po",
                                     label: "Tất cả",
                                 },
                                 {
-                                    value: "2",
-                                    label: "Con gái",
+                                    value: "popular",
+                                    label: "Popular",
                                 },
                                 {
-                                    value: "3",
-                                    label: "Con trai",
+                                    value: "highlight",
+                                    label: "highlight",
                                 },
                             ]}
+                            onChange={(value) => setPopular(value)}
                         />
                     </div>
                 </div>
@@ -210,14 +213,20 @@ function Browse() {
                         <ListIcon />
                     </button>
                 </div>
-                <div className={cx("result")}>
-                    {mangas?.map((manga) => (
-                        <div className={cx("manga")}>
-                            <img src={manga.image} alt="" />
-                            <p>{manga.name}</p>
-                        </div>
-                    ))}
-                </div>
+                {mangas.length > 0 ? (
+                    <div className={cx("result")}>
+                        {mangas.map((manga) => (
+                            <div className={cx("manga")}>
+                                <img src={manga.image} alt="" />
+                                <p>{manga.name}</p>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p className={cx("not-found")}>
+                        Truyện bạn tìm hiện tại chưa có
+                    </p>
+                )}
             </div>
         </div>
     );

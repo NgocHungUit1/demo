@@ -20,6 +20,9 @@
                 }
                 input {
                     background-color: var(--background-fourth) !important;
+                    &::placeholder {
+                        color: #ccc;
+                    }
                 }
                 div {
                     width: 100%;
@@ -76,6 +79,14 @@
                     -webkit-box-orient: vertical;
                 }
             }
+        }
+        .not-found {
+            text-align: center;
+            background: var(--background-third);
+            border-radius: 8px;
+            padding: 8px;
+            width: 80%;
+            margin: auto;
         }
     }
 }
