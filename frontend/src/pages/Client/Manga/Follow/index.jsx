@@ -11,10 +11,7 @@ function Follow(props) {
         { id: 1, action: "Đang đọc" },
         { id: 2, action: "Hoàn thành" },
         { id: 3, action: "Tạm ngưng" },
-        { id: 4, action: "Giữ lại" },
-        { id: 5, action: "Dự định đọc" },
-        { id: 6, action: "Đọc lại" },
-        { id: 7, action: "Tác giả" },
+        { id: 4, action: "Dự định đọc" },
     ];
     const [actionPopup, setActionPopup] = useState(false);
 

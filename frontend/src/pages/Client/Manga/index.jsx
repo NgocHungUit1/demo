@@ -6,6 +6,7 @@ import {
     ArrowUpOutlined,
     FilterOutlined,
     SettingOutlined,
+    ArrowDownOutlined,
 } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { ReactComponent as BookOutlineIcon } from "@/assets/images/Manga/book-ouline.svg";
@@ -31,6 +32,11 @@ function Manga() {
     const [lastChapter, setLastChapter] = useState();
     const [firstChapter, setFirstChapter] = useState();
     const [comments, setComments] = useState([]);
+    const [vote, setVote] = useState();
+    const [isVote, setIsVote] = useState();
+    const { client } = useSelector((st) => st.client);
+    const [isFollowOpen, setIsFollowOpen] = useState(false);
+    const [comment, setComment] = useState("");
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
@@ -45,7 +51,7 @@ function Manga() {
             }
         }
         fetchData();
-    }, [props.slug]);
+    }, [props.slug, vote]);
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
@@ -59,9 +65,30 @@ function Manga() {
         fetchData();
     }, [props.id]);
 
-    const [isFollowOpen, setIsFollowOpen] = useState(false);
-    const { client } = useSelector((st) => st.client);
-    const [comment, setComment] = useState("");
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await axios.get(
+                    `http://localhost:8000/api/likes/${props.id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${client.access_token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                if (response.data.mangas === 0) {
+                    setIsVote(false);
+                } else {
+                    setIsVote(true);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchData();
+    }, [props.id]);
+
     const createMangaComment = async (comment, commentId, userId) => {
         try {
             const response = await axios.post(
@@ -82,6 +109,32 @@ function Manga() {
             console.error(error);
         }
     };
+    const handelVote = async () => {
+        try {
+            if (isVote) {
+                setVote("up");
+            } else {
+                setVote("down");
+            }
+            await axios.post(
+                `http://localhost:8000/api/favourite-manga/${mangaData.id}`,
+                {
+                    params: {
+                        type: vote,
+                    },
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${client.access_token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div className={cx("wrapper")}>
             <Row style={{ position: "relative", height: "450px" }}>
@@ -171,8 +224,16 @@ function Manga() {
                     </Col>
                     <Col span={22}>
                         <h2 className={cx("title")}>Bình chọn</h2>
-                        <div className={cx("vote")}>
-                            0<ArrowUpOutlined />
+                        <div
+                            className={cx("vote")}
+                            onClick={() => handelVote()}
+                        >
+                            {mangaData.like}
+                            {isVote ? (
+                                <ArrowUpOutlined />
+                            ) : (
+                                <ArrowDownOutlined />
+                            )}
                         </div>
                     </Col>
                     <Col span={22}>
