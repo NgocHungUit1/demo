@@ -18,7 +18,7 @@ class Manga extends Model implements Viewable
 
     public $_views;
     protected $table = 'mangas';
-    protected $fillable = ['name', 'slug', 'des', 'active', 'complete', 'image', 'author', 'last_chapter_uploaded_at', 'tag', 'highlight'];
+    protected $fillable = ['name', 'slug', 'des', 'active', 'complete', 'image', 'author', 'last_chapter_uploaded_at', 'tag', 'highlight','like'];
 
     public function genres()
     {
@@ -87,7 +87,8 @@ class Manga extends Model implements Viewable
 
     public static function getMangaDetails($slug)
     {
-        return self::with('genres', 'chapters', 'favouriteUsers', 'followStatus')
+        return self::with('genres', 'chapters', 'followStatus')
+            ->withCount('favouriteUsers')
             ->where('slug', $slug)
             ->firstOrFail();
     }

@@ -85,4 +85,5 @@ Route::middleware(['auth:api'])->group(function () {
     //Follow status
     Route::post('follows-status/{manga_id}', [FollowController::class, 'follow']);
     Route::get('follows', [FollowController::class, 'getByStatus']);
+    Route::get('likes/{manga_id}', [DetailsController::class, 'likes']);
 });
