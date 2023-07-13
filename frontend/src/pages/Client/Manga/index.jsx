@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./Manga.module.scss";
-import { Col, Input, Row } from "antd";
+import { Col, Input, Row, notification } from "antd";
 import {
     UserOutlined,
     ArrowUpOutlined,
@@ -39,6 +39,24 @@ function Manga() {
     const [isVote, setIsVote] = useState(false);
     const [isFollowOpen, setIsFollowOpen] = useState(false);
     const [comment, setComment] = useState("");
+    const [api, contextHolder] = notification.useNotification();
+    const openVoteNotification = (type) => {
+        if (type === "error") {
+            api[type]({
+                message: "Đăng nhập để bình chọn bạn nhé",
+            });
+        }
+        if (type === "success") {
+            api[type]({
+                message: "Bạn đã bình chọn / bỏ bình chọn thành công",
+            });
+        }
+        if (type === "warning") {
+            api[type]({
+                message: "Opps! Có lỗi rồi nè",
+            });
+        }
+    };
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
@@ -125,9 +143,10 @@ function Manga() {
                 )
                 .then((response) => {
                     setIsVote((prevLiked) => !prevLiked);
-                });
+                })
+                .then(() => openVoteNotification("success"));
         } catch (error) {
-            console.error(error);
+            openVoteNotification("warning");
         }
     };
 
@@ -137,6 +156,7 @@ function Manga() {
 
     return (
         <div className={cx("wrapper")}>
+            {contextHolder}
             <Row style={{ position: "relative", height: "450px" }}>
                 {mangaData ? (
                     <div className={cx("banner")}>
@@ -224,17 +244,28 @@ function Manga() {
                     </Col>
                     <Col span={22}>
                         <h2 className={cx("title")}>Bình chọn</h2>
-                        <div
-                            className={cx("vote")}
-                            onClick={() => handelVote()}
-                        >
-                            {mangaData.like}
-                            {isVote ? (
-                                <ArrowDownOutlined />
-                            ) : (
+                        {client ? (
+                            <div
+                                className={cx("vote")}
+                                onClick={() => handelVote()}
+                            >
+                                {mangaData.like}
+                                {isVote ? (
+                                    <ArrowDownOutlined />
+                                ) : (
+                                    <ArrowUpOutlined />
+                                )}
+                            </div>
+                        ) : (
+                            <div
+                                className={cx("vote")}
+                                onClick={() => openVoteNotification("error")}
+                            >
+                                {mangaData.like}
+
                                 <ArrowUpOutlined />
-                            )}
-                        </div>
+                            </div>
+                        )}
                     </Col>
                     <Col span={22}>
                         <h2 className={cx("title")}>Danh sách chương</h2>
