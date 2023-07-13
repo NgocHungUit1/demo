@@ -1,0 +1,1 @@
+export const API_ENDPOINT = "APP_URL=http://localhost:8000"

@@ -7,6 +7,8 @@ import {
     FilterOutlined,
     SettingOutlined,
     ArrowDownOutlined,
+    UpOutlined,
+    DownOutlined,
 } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { ReactComponent as BookOutlineIcon } from "@/assets/images/Manga/book-ouline.svg";
@@ -26,15 +28,15 @@ import axios from "axios";
 const cx = classNames.bind(styles);
 
 function Manga() {
+    const { client } = useSelector((st) => st.client);
     const location = useLocation();
     const props = location.state;
     const [mangaData, setMangaData] = useState();
     const [lastChapter, setLastChapter] = useState();
     const [firstChapter, setFirstChapter] = useState();
     const [comments, setComments] = useState([]);
-    const [vote, setVote] = useState();
-    const [isVote, setIsVote] = useState();
-    const { client } = useSelector((st) => st.client);
+    const [commentOpen, setCommentOpen] = useState(false);
+    const [isVote, setIsVote] = useState(false);
     const [isFollowOpen, setIsFollowOpen] = useState(false);
     const [comment, setComment] = useState("");
     useEffect(() => {
@@ -51,7 +53,7 @@ function Manga() {
             }
         }
         fetchData();
-    }, [props.slug, vote]);
+    }, [props.slug, isVote]);
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
@@ -68,27 +70,24 @@ function Manga() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get(
-                    `http://localhost:8000/api/likes/${props.id}`,
-                    {
+                await axios
+                    .get(`http://localhost:8000/api/likes/${props.id}`, {
                         headers: {
                             Authorization: `Bearer ${client.access_token}`,
                             "Content-Type": "application/json",
                         },
-                    }
-                );
-                if (response.data.mangas === 0) {
-                    setIsVote(false);
-                } else {
-                    setIsVote(true);
-                }
+                    })
+                    .then((response) => {
+                        const { mangas } = response.data;
+                        const liked = mangas === 1;
+                        setIsVote(liked);
+                    });
             } catch (error) {
                 console.error(error);
             }
         }
         fetchData();
     }, [props.id]);
-
     const createMangaComment = async (comment, commentId, userId) => {
         try {
             const response = await axios.post(
@@ -111,29 +110,30 @@ function Manga() {
     };
     const handelVote = async () => {
         try {
-            if (isVote) {
-                setVote("up");
-            } else {
-                setVote("down");
-            }
-            await axios.post(
-                `http://localhost:8000/api/favourite-manga/${mangaData.id}`,
-                {
-                    params: {
-                        type: vote,
-                    },
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${client.access_token}`,
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            const type = isVote ? "down" : "up";
+
+            await axios
+                .post(
+                    `http://localhost:8000/api/favourite-manga/${mangaData.id}`,
+                    { type },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${client.access_token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }
+                )
+                .then((response) => {
+                    setIsVote((prevLiked) => !prevLiked);
+                });
         } catch (error) {
             console.error(error);
         }
     };
+
+    const commentClassName = cx("item", {
+        open: commentOpen,
+    });
 
     return (
         <div className={cx("wrapper")}>
@@ -230,9 +230,9 @@ function Manga() {
                         >
                             {mangaData.like}
                             {isVote ? (
-                                <ArrowUpOutlined />
-                            ) : (
                                 <ArrowDownOutlined />
+                            ) : (
+                                <ArrowUpOutlined />
                             )}
                         </div>
                     </Col>
@@ -343,7 +343,7 @@ function Manga() {
                                     <div className={cx("child")}>
                                         {comment.replies.map((reply) => (
                                             <div
-                                                className={cx("item")}
+                                                className={commentClassName}
                                                 key={reply.id}
                                             >
                                                 <Comment
@@ -353,6 +353,28 @@ function Manga() {
                                                 />
                                             </div>
                                         ))}
+                                        {comment.replies.length > 0 ? (
+                                            <div
+                                                className={cx("reply-number")}
+                                                onClick={() =>
+                                                    setCommentOpen(
+                                                        (open) => !open
+                                                    )
+                                                }
+                                            >
+                                                <p>
+                                                    {comment.replies.length} câu
+                                                    trả lời{" "}
+                                                </p>
+                                                {commentOpen ? (
+                                                    <UpOutlined />
+                                                ) : (
+                                                    <DownOutlined />
+                                                )}
+                                            </div>
+                                        ) : (
+                                            ""
+                                        )}
                                     </div>
                                 </div>
                             ))}
