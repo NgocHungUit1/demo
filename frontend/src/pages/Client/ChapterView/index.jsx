@@ -226,15 +226,13 @@ function ChapterView() {
                     <div className={cx("inner")}>
                         <p>Chọn chế độ đọc mà bạn muốn</p>
                         <div
-                            value="vertical"
-                            onClick={(value) => handelChangeMode(value)}
+                            onClick={() => handelChangeMode("vertical")}
                         >
                             <VerticalIcon />
                             <p>Đọc theo chiều dọc</p>
                         </div>
                         <div
-                            value="horizontal"
-                            onClick={(value) => handelChangeMode(value)}
+                            onClick={() => handelChangeMode("horizontal")}
                         >
                             <HorizontalIcon />
                             <p>Đọc theo chiều ngang</p>
