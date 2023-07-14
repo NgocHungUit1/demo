@@ -21,6 +21,8 @@ function ChapterView() {
     const location = useLocation();
     const props = location.state;
     const [chapterData, setChapterData] = useState();
+    const [nextChapter, setNextChapter] = useState(null);
+    const [previousChapter, setPreviousChapter] = useState(null);
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -38,16 +40,19 @@ function ChapterView() {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch(
-                `http://localhost:8000/api/mangas/chapter/${props[3]}`
-            );
+            const response = await fetch(`http://localhost:8000/api/mangas/chapter/${props[3]}`);
             const data = await response.json();
             if (data) {
                 setChapterData(data.data);
+                setNextChapter(data.data.next_chapter);
+                setPreviousChapter(data.data.previous_chapter);
             }
         }
+    
         fetchData();
     }, [props]);
+    
+    
     const [filterValue, setFilterValue] = useState("");
 
     const handleInputChange = (e) => {
@@ -80,28 +85,54 @@ function ChapterView() {
                 <h3 className={cx("manga-name")}>{props[0].name}</h3>
                 <p className={cx("chapter-name")}>{props[1]}</p>
                 <div className={cx("action")}>
-                    <div className={cx("prev")}>
-                        <ArrowLeftOutlined />
-                    </div>
-                    <div className={cx("next")}>
-                        <ArrowRightOutlined />
-                    </div>
-                </div>
+    <div className={cx("prev")}>
+        {previousChapter && (
+            <Link
+                to={`/manga-details/${props[0].slug}/${previousChapter.slug_chapter}/${previousChapter.id}`}
+                state={[
+                    props[0],
+                    previousChapter.name,
+                    previousChapter.slug_chapter,
+                    previousChapter.id,
+                ]}
+            >
+                <ArrowLeftOutlined />
+            </Link>
+        )}
+    </div>
+    <div className={cx("next")}>
+        {nextChapter && (
+            <Link
+                to={`/manga-details/${props[0].slug}/${nextChapter.slug_chapter}/${nextChapter.id}`}
+                state={[
+                    props[0],
+                    nextChapter.name,
+                    nextChapter.slug_chapter,
+                    nextChapter.id,
+                ]}
+            >
+                <ArrowRightOutlined />
+            </Link>
+        )}
+    </div>
+</div>
+
                 <div className={cx("chapter-list")}>
-                    <Input
-                        style={{
-                            background: "rgb(95, 95, 95)",
-                            color: "#fff",
-                            height: 32,
-                            borderRadius: 8,
-                        }}
-                        onFocus={['false']}
-                        size="small"
-                        placeholder="Đi đến chương..."
-                        value={filterValue}
-                        onChange={handleInputChange}
-                        suffix={<FilterOutlined style={{ fontSize: 12 }} />}
-                    />
+                <Input
+    style={{
+        background: "rgb(95, 95, 95)",
+        color: "#fff",
+        height: 32,
+        borderRadius: 8,
+    }}
+    size="small"
+    placeholder="Đi đến chương..."
+    value={filterValue}
+    onChange={handleInputChange}
+    onFocus={() => {}} // Thêm dòng này để tránh lỗi
+    suffix={<FilterOutlined style={{ fontSize: 12 }} />}
+/>
+
                     <div className={cx("items")}>
                         {filteredChapters.map((item) => (
                             <Link
