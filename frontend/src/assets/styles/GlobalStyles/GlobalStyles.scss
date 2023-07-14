@@ -94,3 +94,33 @@ body {
 .ant-input:hover {
     border-color: transparent;
 }
+
+.ant-anchor-wrapper-horizontal {
+    padding: 5px 30px;
+    background: var(--background-third);
+    width: 100%;
+    max-width: 620px;
+    border-radius: 10px;
+    margin: auto;
+}
+
+.ant-anchor-wrapper-horizontal .ant-anchor {
+    justify-content: space-between;
+}
+
+.ant-anchor-wrapper .ant-anchor {
+    font-size: 18px;
+}
+
+.ant-anchor-wrapper-horizontal .ant-anchor .ant-anchor-ink {
+    background-color: var(--btn-color);
+}
+.ant-anchor-wrapper
+    .ant-anchor
+    .ant-anchor-link-active
+    > .ant-anchor-link-title {
+    color: var(--btn-color);
+}
+.ant-anchor-wrapper .ant-anchor .ant-anchor-link-title {
+    color: #fff;
+}

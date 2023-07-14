@@ -16,7 +16,7 @@ import {
 import { ReactComponent as SliderIcon } from "@/assets/images/Home/slider-vertical-svgrepo-com.svg";
 import { useState, useEffect } from "react";
 import Sidebar from "../Sidebar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setClient } from "@/store/Slice/client.slice";
 import { useDispatch, useSelector } from "react-redux";
 const cx = classNames.bind(styles);
@@ -42,7 +42,6 @@ function Header() {
     ];
     const [genres, setGenres] = useState([]);
     const [mangas, setMangas] = useState([]);
-
     useEffect(() => {
         async function fetchData() {
             const response = await fetch("http://localhost:8000/api/genres");
@@ -277,10 +276,10 @@ function Header() {
                                     style={{ background: "rgba(47,47,47, 1)" }}
                                 />
                                 <p>{client.user.name}</p>
-                                <div>
+                                <Link to="/follow">
                                     <FollowsIcon />
                                     <p>Theo dõi</p>
-                                </div>
+                                </Link>
                                 <div onClick={handleSignOut}>
                                     <SignoutIcon />
                                     <p>Đăng xuất</p>

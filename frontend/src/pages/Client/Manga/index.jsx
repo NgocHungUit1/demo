@@ -20,7 +20,7 @@ import { ReactComponent as SendIcon } from "@/assets/images/Manga/send-2-svgrepo
 import { ReactComponent as EmojiIcon } from "@/assets/images/Manga/smile-circle-svgrepo-com.svg";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Follow from "./Follow";
+import FollowPopup from "./FollowPopup";
 import { useSelector } from "react-redux";
 import Comment from "@/components/Comment";
 import axios from "axios";
@@ -225,9 +225,8 @@ function Manga() {
                                 </div>
                             </div>
                         </div>
-                        <Follow
-                            image={mangaData.image}
-                            name={mangaData.name}
+                        <FollowPopup
+                            mangaData={mangaData}
                             open={isFollowOpen}
                             onCancel={() => setIsFollowOpen(false)}
                         />

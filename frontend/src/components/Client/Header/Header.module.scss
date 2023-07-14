@@ -139,7 +139,11 @@
                     p {
                         font-size: 17px;
                     }
-                    div {
+                    a {
+                        color: #fff;
+                        text-decoration: none;
+                    }
+                    a, div {
                         @include display-flex-row;
                         padding: 10px;
                         border-radius: 7.5px;

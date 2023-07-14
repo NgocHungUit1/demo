@@ -22,6 +22,7 @@ import { useDispatch } from "react-redux";
 import { setClient } from "@/store/Slice/client.slice";
 import { useEffect } from "react";
 import Browse from "@/pages/Client/Browse";
+import Follow from "@/pages/Client/Follow";
 
 export const RoutesConfig = () => {
     const dispatch = useDispatch();
@@ -37,10 +38,7 @@ export const RoutesConfig = () => {
             <Route path="/admin" element={<Auth />}>
                 <Route element={<AdminLayout />}>
                     <Route index element={<Dashboards />}></Route>
-                    <Route
-                        path="users"
-                        element={<Categories />}
-                    ></Route>
+                    <Route path="users" element={<Categories />}></Route>
                     {/* <Route
                         path="all-categories"
                         element={<Categories />}
@@ -65,6 +63,7 @@ export const RoutesConfig = () => {
                 <Route path="/" index element={<Home />}></Route>
                 <Route path="manga-details/:slug" element={<Manga />}></Route>
                 <Route path="/browse" element={<Browse />}></Route>
+                <Route path="/follow" element={<Follow />}></Route>
             </Route>
             <Route
                 path="/manga-details/:slug/:slug_chapter/:id"
