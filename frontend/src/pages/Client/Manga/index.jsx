@@ -70,20 +70,19 @@ function Manga() {
                 setFirstChapter(data.first_chapter);
             }
         }
+        fetchComments();
         fetchData();
     }, [props.slug, isVote]);
-    useEffect(() => {
-        async function fetchData() {
-            const response = await fetch(
-                `http://localhost:8000/api/comment/details/${props.id}`
-            );
-            const data = await response.json();
-            if (data) {
-                setComments(data.comments);
-            }
+    
+    const fetchComments = async () => {
+        const response = await fetch(
+          `http://localhost:8000/api/comment/details/${props.id}`
+        );
+        const data = await response.json();
+        if (data) {
+          setComments(data.comments);
         }
-        fetchData();
-    }, [props.id]);
+      };
 
     useEffect(() => {
         async function fetchData() {
@@ -122,6 +121,7 @@ function Manga() {
                 }
             );
             setComment("");
+            fetchComments(); // fetch lại comment
         } catch (error) {
             console.error(error);
         }
