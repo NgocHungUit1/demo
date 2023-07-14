@@ -1,7 +1,8 @@
 import classNames from "classnames/bind";
 import styles from "./ChapterView.module.scss";
 import { ReactComponent as LogoIcon } from "@/assets/images/logo.svg";
-import { Drawer, Row, Col, Input } from "antd";
+import { Row, Col, Input, Modal } from "antd";
+import Slider from "react-slick";
 import {
     ArrowLeftOutlined,
     ArrowRightOutlined,
@@ -9,22 +10,57 @@ import {
     FilterOutlined,
     LeftOutlined,
     RightOutlined,
+    SettingOutlined,
 } from "@ant-design/icons";
 import { ReactComponent as BookIcon } from "@/assets/images/Manga/book-icon.svg";
-
-import { useState, useEffect, useRef } from "react";
+import { ReactComponent as VerticalIcon } from "@/assets/images/Manga/vertical.svg";
+import { ReactComponent as HorizontalIcon } from "@/assets/images/Manga/horizontal.svg";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import ArrowButton from "@/components/Client/ArrowButton";
+import imagesHome from "@/assets/images/Home";
 
 const cx = classNames.bind(styles);
 
 function ChapterView() {
+    const settings = {
+        dots: false,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: false,
+        speed: 2000,
+        autoplaySpeed: 4000,
+        nextArrow: (
+            <ArrowButton small style2_next>
+                <RightOutlined />
+            </ArrowButton>
+        ),
+        prevArrow: (
+            <ArrowButton small style2_prev>
+                <LeftOutlined />
+            </ArrowButton>
+        ),
+    };
     const location = useLocation();
     const props = location.state;
     const [chapterData, setChapterData] = useState();
     const [nextChapter, setNextChapter] = useState(null);
     const [previousChapter, setPreviousChapter] = useState(null);
+    const [openSetting, setOpenSetting] = useState(false);
 
     const [isOpen, setIsOpen] = useState(false);
+    var currentMode = localStorage.getItem("readingMode");
+
+    const [readingMode, setReadingMode] = useState(
+        currentMode ? currentMode : "vertical"
+    );
+
+    const handelChangeMode = (mode) => {
+        localStorage.setItem("readingMode", mode);
+        setReadingMode(mode);
+        setOpenSetting(false);
+    };
 
     const handleOpenSidebar = () => {
         setIsOpen(true);
@@ -40,7 +76,9 @@ function ChapterView() {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch(`http://localhost:8000/api/mangas/chapter/${props[3]}`);
+            const response = await fetch(
+                `http://localhost:8000/api/mangas/chapter/${props[3]}`
+            );
             const data = await response.json();
             if (data) {
                 setChapterData(data.data);
@@ -48,11 +86,10 @@ function ChapterView() {
                 setPreviousChapter(data.data.previous_chapter);
             }
         }
-    
+
         fetchData();
     }, [props]);
-    
-    
+
     const [filterValue, setFilterValue] = useState("");
 
     const handleInputChange = (e) => {
@@ -85,53 +122,53 @@ function ChapterView() {
                 <h3 className={cx("manga-name")}>{props[0].name}</h3>
                 <p className={cx("chapter-name")}>{props[1]}</p>
                 <div className={cx("action")}>
-    <div className={cx("prev")}>
-        {previousChapter && (
-            <Link
-                to={`/manga-details/${props[0].slug}/${previousChapter.slug_chapter}/${previousChapter.id}`}
-                state={[
-                    props[0],
-                    previousChapter.name,
-                    previousChapter.slug_chapter,
-                    previousChapter.id,
-                ]}
-            >
-                <ArrowLeftOutlined />
-            </Link>
-        )}
-    </div>
-    <div className={cx("next")}>
-        {nextChapter && (
-            <Link
-                to={`/manga-details/${props[0].slug}/${nextChapter.slug_chapter}/${nextChapter.id}`}
-                state={[
-                    props[0],
-                    nextChapter.name,
-                    nextChapter.slug_chapter,
-                    nextChapter.id,
-                ]}
-            >
-                <ArrowRightOutlined />
-            </Link>
-        )}
-    </div>
-</div>
+                    <div className={cx("prev")}>
+                        {previousChapter && (
+                            <Link
+                                to={`/manga-details/${props[0].slug}/${previousChapter.slug_chapter}/${previousChapter.id}`}
+                                state={[
+                                    props[0],
+                                    previousChapter.name,
+                                    previousChapter.slug_chapter,
+                                    previousChapter.id,
+                                ]}
+                            >
+                                <ArrowLeftOutlined />
+                            </Link>
+                        )}
+                    </div>
+                    <div className={cx("next")}>
+                        {nextChapter && (
+                            <Link
+                                to={`/manga-details/${props[0].slug}/${nextChapter.slug_chapter}/${nextChapter.id}`}
+                                state={[
+                                    props[0],
+                                    nextChapter.name,
+                                    nextChapter.slug_chapter,
+                                    nextChapter.id,
+                                ]}
+                            >
+                                <ArrowRightOutlined />
+                            </Link>
+                        )}
+                    </div>
+                </div>
 
                 <div className={cx("chapter-list")}>
-                <Input
-    style={{
-        background: "rgb(95, 95, 95)",
-        color: "#fff",
-        height: 32,
-        borderRadius: 8,
-    }}
-    size="small"
-    placeholder="Đi đến chương..."
-    value={filterValue}
-    onChange={handleInputChange}
-    onFocus={() => {}} // Thêm dòng này để tránh lỗi
-    suffix={<FilterOutlined style={{ fontSize: 12 }} />}
-/>
+                    <Input
+                        style={{
+                            background: "rgb(95, 95, 95)",
+                            color: "#fff",
+                            height: 32,
+                            borderRadius: 8,
+                        }}
+                        size="small"
+                        placeholder="Đi đến chương..."
+                        value={filterValue}
+                        onChange={handleInputChange}
+                        onFocus={() => {}} // Thêm dòng này để tránh lỗi
+                        suffix={<FilterOutlined style={{ fontSize: 12 }} />}
+                    />
 
                     <div className={cx("items")}>
                         {filteredChapters.map((item) => (
@@ -161,26 +198,95 @@ function ChapterView() {
                         ))}
                     </div>
                 </div>
+                <div
+                    className={cx("setting")}
+                    onClick={() => setOpenSetting(true)}
+                >
+                    <SettingOutlined />
+                    <p>Cài đặt</p>
+                </div>
+                <Modal
+                    className={cx("search-popup")}
+                    maskStyle={{ backdropFilter: "blur(8px)" }}
+                    style={{
+                        top: 40,
+                    }}
+                    bodyStyle={{
+                        overflowX: "hidden",
+                        overflowY: "scroll",
+                        maxHeight: "80vh",
+                    }}
+                    title="Chế độ đọc"
+                    open={openSetting}
+                    onCancel={() => setOpenSetting(false)}
+                    footer={false}
+                    width="60%"
+                    closeIcon={<CloseOutlined style={{ color: "#fff" }} />}
+                >
+                    <div className={cx("inner")}>
+                        <p>Chọn chế độ đọc mà bạn muốn</p>
+                        <div
+                            value="vertical"
+                            onClick={(value) => handelChangeMode(value)}
+                        >
+                            <VerticalIcon />
+                            <p>Đọc theo chiều dọc</p>
+                        </div>
+                        <div
+                            value="horizontal"
+                            onClick={(value) => handelChangeMode(value)}
+                        >
+                            <HorizontalIcon />
+                            <p>Đọc theo chiều ngang</p>
+                        </div>
+                    </div>
+                </Modal>
             </div>
 
             <Col span={24}>
                 <div className={cx("content")}>
-                    <div className={cx("image")}>
-                        {chapterData ? (
-                            chapterData.chapter.pages
+                    {readingMode === "vertical" ? (
+                        <div className={cx("image")}>
+                            {chapterData ? (
+                                chapterData.chapter.pages
 
-                                .map((item) => (
-                                    <img
-                                        key={item.id}
-                                        src={item.image_path}
-                                        alt=""
-                                    />
-                                ))
-                                .reverse()
-                        ) : (
-                            <p>khong co du lieu</p>
-                        )}
-                    </div>
+                                    .map((item) => (
+                                        <img
+                                            key={item.id}
+                                            src={item.image_path}
+                                            alt=""
+                                        />
+                                    ))
+                                    .reverse()
+                            ) : (
+                                <p>khong co du lieu</p>
+                            )}
+                        </div>
+                    ) : (
+                        <Slider
+                            style={{
+                                position: "relative",
+                                width: "80%",
+                                height: "90%",
+                            }}
+                            {...settings}
+                        >
+                            {chapterData ? (
+                                chapterData.chapter.pages
+
+                                    .map((item) => (
+                                        <img
+                                            key={item.id}
+                                            src={item.image_path}
+                                            alt=""
+                                        />
+                                    ))
+                                    .reverse()
+                            ) : (
+                                <p>khong co du lieu</p>
+                            )}
+                        </Slider>
+                    )}
                 </div>
             </Col>
         </Row>

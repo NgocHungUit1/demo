@@ -128,20 +128,29 @@
                 }
             }
         }
+        .setting {
+            width: fit-content;
+            margin: 0 auto;
+            cursor: pointer;
+            display: flex;
+            gap: 10px;
+            &:hover {
+                color: var(--btn-color);
+            }
+        }
     }
 
     .content {
         padding-left: 250px;
         display: flex;
         justify-content: center;
-
+        position: relative;
         align-items: center;
         .image {
             width: 75%;
             display: flex;
-            flex-direction: column;
-
             align-items: center;
+            flex-direction: column;
             img {
                 width: inherit;
             }
@@ -166,6 +175,21 @@
             .image {
                 width: 90%;
             }
+        }
+    }
+}
+.search-popup {
+    .inner {
+        font-size: 18px;
+        color: #fff;
+        div {
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            padding: 7px;
+            border-radius: 9px;
+            gap: 10px;
+            background: var(--background-third);
         }
     }
 }
