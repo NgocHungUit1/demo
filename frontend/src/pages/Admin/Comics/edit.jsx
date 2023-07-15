@@ -18,7 +18,7 @@ const EditComicForm = () => {
 
   useEffect(() => {
     const fetchGenres = async () => {
-      const response = await fetch('${process.env.BASE_URL}api/genres');
+      const response = await fetch('${process.env.REACT_APP_BASE_URL}api/genres');
       const data = await response.json();
       if (Array.isArray(data.data)) {
         setGenres(data.data);
@@ -30,7 +30,7 @@ const EditComicForm = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`${process.env.BASE_URL}api/mangas/${id}`)
+    fetch(`${process.env.REACT_APP_BASE_URL}api/mangas/${id}`)
       .then(response => response.json())
       .then(data => {
         setManga(data.data);
@@ -40,7 +40,7 @@ const EditComicForm = () => {
   }, [id]);
   const handleSubmit = async (values) => {
     try {
-      const result = await axios.put(`${process.env.BASE_URL}api/mangas/${id}`, {
+      const result = await axios.put(`${process.env.REACT_APP_BASE_URL}api/mangas/${id}`, {
         name: values.name,
         des: values.des,
         author: values.author,

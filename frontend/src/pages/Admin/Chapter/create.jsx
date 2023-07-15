@@ -28,7 +28,7 @@ const AddComicForm = () => {
         formData.append(`image_path[${i}]`, imageFiles[i]);
       }
 
-      const response = await axios.post(`${process.env.BASE_URL}api/mangas/${id}/chapter`, formData, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}api/mangas/${id}/chapter`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

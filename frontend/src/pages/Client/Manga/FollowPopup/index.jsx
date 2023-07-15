@@ -47,7 +47,7 @@ function Follow(props) {
         try {
             await axios
                 .post(
-                    `${process.env.BASE_URL}api/follows-status/${props.mangaData.id}`,
+                    `${process.env.REACT_APP_BASE_URL}api/follows-status/${props.mangaData.id}`,
                     {
                         status: actionState[1],
                     },

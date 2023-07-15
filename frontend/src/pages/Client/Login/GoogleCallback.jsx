@@ -12,7 +12,7 @@ function GoogleCallback() {
 
     useEffect(() => {
         async function fetchData() {
-            fetch(`${process.env.BASE_URL}api/auth/callback${location.search}`, {
+            fetch(`${process.env.REACT_APP_BASE_URL}api/auth/callback${location.search}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Accept: "application/json",

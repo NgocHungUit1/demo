@@ -60,7 +60,7 @@ function Manga() {
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
-                `${process.env.BASE_URL}api/manga/details/${props.slug}`
+                `${process.env.REACT_APP_BASE_URL}api/manga/details/${props.slug}`
             );
             const data = await response.json();
             if (data) {
@@ -76,7 +76,7 @@ function Manga() {
     
     const fetchComments = async () => {
         const response = await fetch(
-          `${process.env.BASE_URL}api/comment/details/${props.id}`
+          `${process.env.REACT_APP_BASE_URL}api/comment/details/${props.id}`
         );
         const data = await response.json();
         if (data) {
@@ -88,7 +88,7 @@ function Manga() {
         async function fetchData() {
             try {
                 await axios
-                    .get(`${process.env.BASE_URL}api/likes/${props.id}`, {
+                    .get(`${process.env.REACT_APP_BASE_URL}api/likes/${props.id}`, {
                         headers: {
                             Authorization: `Bearer ${client.access_token}`,
                             "Content-Type": "application/json",
@@ -108,7 +108,7 @@ function Manga() {
     const createMangaComment = async (comment, commentId, userId) => {
         try {
             const response = await axios.post(
-                `${process.env.BASE_URL}api/manga/${mangaData.id}/comments`,
+                `${process.env.REACT_APP_BASE_URL}api/manga/${mangaData.id}/comments`,
                 {
                     comment: comment,
                     id: userId,
@@ -132,7 +132,7 @@ function Manga() {
 
             await axios
                 .post(
-                    `${process.env.BASE_URL}api/favourite-manga/${mangaData.id}`,
+                    `${process.env.REACT_APP_BASE_URL}api/favourite-manga/${mangaData.id}`,
                     { type },
                     {
                         headers: {
