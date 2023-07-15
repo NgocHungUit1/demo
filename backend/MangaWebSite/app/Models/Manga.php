@@ -127,11 +127,11 @@ class Manga extends Model implements Viewable
         }
 
         if (!empty($params['genre'])) {
-            $query->whereHas('genres', function ($query) use ($params) {
-                $query->whereIn('genres.id', (array) $params['genre']);
-            });
+            $genres = (array) $params['genre'];
+            $query->whereHas('genres', function ($query) use ($genres) {
+                $query->whereIn('genres.id', $genres);
+            }, '=', count($genres)); // Thêm tham số "=", chỉ lấy những truyện có tất cả các thể loại được chọn
         }
-
         // Sắp xếp theo lượt xem
         if (!empty($params['views'])) {
             switch ($params['views']) {
@@ -160,8 +160,9 @@ class Manga extends Model implements Viewable
             $query->orderBy('last_chapter_uploaded_at', 'desc');
         }
 
-        if (!empty($params['popular'])) {
-            $query->where('highlight', 'popular');
+        if (!empty($params['highlight'])) {
+            $highlights = (array) $params['highlight'];
+            $query->whereIn('highlight', $highlights);
         }
 
         $query->orderBy('id', 'desc');

@@ -21,15 +21,12 @@ class AppController extends Controller
                 'results' => $results,
             ]);
         }
-
-        // Nếu không có từ khóa được nhập vào
-        $getMangaPopular = Manga::getMangaPopular();
-        $getMangaLastUpdate = Manga::latestUpdatedPaginate();
         return response()->json([
             'success' => true,
+            'getTopLikes'=> Manga::orderBy('like', 'desc')->take(10)->get(),
             'getMangaNew' => Manga::getMangaNewest(),
-            'getMangaPopular' => $getMangaPopular,
-            'getMangaLastUpdate' => $getMangaLastUpdate,
+            'getMangaPopular' => Manga::getMangaPopular(),
+            'getMangaLastUpdate' => Manga::latestUpdatedPaginate()
         ]);
     }
 
