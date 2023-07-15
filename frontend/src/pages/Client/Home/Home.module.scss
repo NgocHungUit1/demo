@@ -137,6 +137,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+           
         }
         ul {
             padding: 0px;
@@ -198,4 +199,12 @@
             }
         }
     }
+    .comic-outstanding ul .item h3 {
+        color: #fff;
+    }
+      
+    .comic-outstanding ul .item:hover h3 {
+        color: red;
+    }
+      
 }

@@ -38,6 +38,7 @@ function Home() {
 
     const [mangaLastUpdate, setMangaLastUpdate] = useState([]);
     const [mangaPopularS, setMangaPopularS] = useState([]);
+    const [mangaTopLikes, setMangaTopLikes] = useState([]);
     // truyện mới
     const [mangaNew, setMangaNew] = useState([]);
     const [mangaPopular, setMangaPopular] = useState({
@@ -52,6 +53,7 @@ function Home() {
             const data = await response.json();
             if (data) {
                 setMangaPopularS(data.getMangaPopular);
+                setMangaTopLikes(data.getTopLikes);
                 setMangaLastUpdate(data.getMangaLastUpdate);
                 setMangaNew(data.getMangaNew);
             }
@@ -185,11 +187,11 @@ function Home() {
                         gap: 10,
                     }}
                 >
-                    <h2 className={cx("title")}>Comics Mùa Xuân</h2>
+                    <h2 className={cx("title")}>Top Bình Chọn</h2>
                 </Col>
                 <Col span={24} style={{ marginBottom: 40 }}>
                     <Slider {...comicsSeasonSettings}>
-                        {mangaLastUpdate.map((item) => (
+                        {mangaTopLikes.map((item) => (
                             <div key={item.id}>
                                 <div className={cx("comic-by-season")}>
                                     <div className={cx("img")}>
@@ -197,7 +199,7 @@ function Home() {
                                     </div>
                                     <div className={cx("content")}>
                                         <h2>{item.name}</h2>
-                                        <p>{item.des}</p>
+                                        <h5>{item.des}</h5>
                                     </div>
                                 </div>
                             </div>
@@ -213,8 +215,10 @@ function Home() {
                                 <li className={cx("item")} key={item.id}>
                                     <img src={item.image} alt="" />
                                     <div>
-                                        <h3>{item.name}</h3>
-                                        <h4>{item.views_count}</h4>
+                                    <Link to={`/manga-details/${item.slug}`} state={item}>
+                                    <h3>{item.name}</h3>
+                                   </Link>
+                                        <h4>View : {item.views_count}</h4>
                                         <ul>
                                             {item.genres.map((genre) => (
                                                 <li key={genre.id}>
@@ -242,8 +246,10 @@ function Home() {
                                     <li className={cx("item")} key={item.id}>
                                         <img src={item.image} alt="" />
                                         <div>
-                                            <h3>{item.name}</h3>
-                                            <h4>{item.views_count}</h4>
+                                        <Link to={`/manga-details/${item.slug}`} state={item}>
+                                    <h3>{item.name}</h3>
+                                   </Link>
+                                            <h4>View : {item.views_count}</h4>
                                             <ul>
                                                 {item.genres.map((genre) => (
                                                     <li key={genre.id}>
@@ -271,8 +277,10 @@ function Home() {
                                     <li className={cx("item")} key={item.id}>
                                         <img src={item.image} alt="" />
                                         <div>
-                                            <h3>{item.name}</h3>
-                                            <h4>{item.views_count}</h4>
+                                        <Link to={`/manga-details/${item.slug}`} state={item}>
+                                    <h3>{item.name}</h3>
+                                   </Link>
+                                            <h4>View : {item.views_count}</h4>
                                             <ul>
                                                 {item.genres.map((genre) => (
                                                     <li key={genre.id}>
@@ -298,8 +306,10 @@ function Home() {
                                 <li className={cx("item")} key={item.id}>
                                     <img src={item.image} alt="" />
                                     <div>
-                                        <h3>{item.name}</h3>
-                                        <h4>{item.views_count}</h4>
+                                    <Link to={`/manga-details/${item.slug}`} state={item}>
+                                    <h3>{item.name}</h3>
+                                   </Link>
+                                        <h4>View : {item.views_count}</h4>
                                         <ul>
                                             {item.genres.map((genre) => (
                                                 <li key={genre.id}>
