@@ -13,7 +13,7 @@ function LoginClient() {
     const [loginUrl, setLoginUrl] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/google", {
+        fetch("${process.env.BASE_URL}api/google", {
             headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",

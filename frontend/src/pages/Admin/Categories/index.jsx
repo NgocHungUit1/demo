@@ -13,7 +13,7 @@ function Categories() {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("http://localhost:8000/api/user");
+            const response = await fetch("${process.env.BASE_URL}api/user");
             const data = await response.json();
             if (data) {
                 setUserViews(data.users);

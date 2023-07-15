@@ -42,7 +42,7 @@ function MangaPage() {
         }
 
         axios
-            .post(`http://localhost:8000/api/mangas/${id}/images`, formData, {
+            .post(`${process.env.BASE_URL}api/mangas/${id}/images`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             })
             .then((response) => {
@@ -60,7 +60,7 @@ function MangaPage() {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await axios.get(`http://localhost:8000/api/mangas/${id}/page`);
+            const response = await axios.get(`${process.env.BASE_URL}api/mangas/${id}/page`);
             setMangaData(response.data.data);
         }
         fetchData();

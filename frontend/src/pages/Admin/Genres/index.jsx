@@ -13,7 +13,7 @@ function Genres() {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("http://localhost:8000/api/genres");
+            const response = await fetch("${process.env.BASE_URL}api/genres");
             const data = await response.json();
             if (Array.isArray(data.data)) {
                 setGenres(data.data);

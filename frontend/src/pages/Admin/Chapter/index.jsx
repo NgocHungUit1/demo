@@ -13,7 +13,7 @@ function Chapter() {
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
-                `http://localhost:8000/api/mangas/${id}/chapter_index`
+                `${process.env.BASE_URL}api/mangas/${id}/chapter_index`
             );
             const data = await response.json();
             if (Array.isArray(data.data)) {

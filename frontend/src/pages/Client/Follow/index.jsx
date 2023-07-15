@@ -18,7 +18,7 @@ function Follow() {
             try {
                 await axios
                     .get(
-                        `http://localhost:8000/api/follows?status=${actionState}`,
+                        `${process.env.BASE_URL}api/follows?status=${actionState}`,
                         {
                             headers: {
                                 Authorization: `Bearer ${client.access_token}`,

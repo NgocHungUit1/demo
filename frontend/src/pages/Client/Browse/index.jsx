@@ -22,7 +22,7 @@ function Browse() {
     const props = location.state;
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("http://localhost:8000/api/genres");
+            const response = await fetch("${process.env.BASE_URL}api/genres");
             const data = await response.json();
             if (Array.isArray(data.data)) {
                 setGenres(data.data);
@@ -38,7 +38,7 @@ function Browse() {
                     setGenre(props.genreId);
                 }
                 const response = await axios.get(
-                    "http://localhost:8000/api/mangas",
+                    "${process.env.BASE_URL}api/mangas",
                     {
                         params: {
                             genre: genre,

@@ -48,7 +48,7 @@ function Home() {
     });
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("http://localhost:8000/api/home");
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}api/home`);
             const data = await response.json();
             if (data) {
                 setMangaPopularS(data.getMangaPopular);
@@ -61,9 +61,7 @@ function Home() {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch(
-                "http://localhost:8000/api/home/topviews"
-            );
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}api/home/topviews`);
             const data = await response.json();
             // if(data) {
             //     setMangaPopular(popular = )

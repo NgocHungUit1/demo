@@ -20,7 +20,7 @@ function CommentInput(props) {
     const createMangaComment = async (comment, commentId, userId) => {
         try {
             const response = await axios.post(
-                `http://localhost:8000/api/manga/${props.mangaId}/comments`,
+                `${process.env.BASE_URL}api/manga/${props.mangaId}/comments`,
                 {
                     comment: comment,
                     comment_id: commentId,

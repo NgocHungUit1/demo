@@ -144,7 +144,7 @@ function Comics() {
 
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/mangas")
+        fetch("${process.env.BASE_URL}api/mangas")
             .then((response) => response.json())
             .then((data) => setMangas(data.data));
     }, []);
@@ -155,13 +155,13 @@ function Comics() {
     }
     const handleSearch = (text) => {
         const params = text ? { name: text } : {};
-        fetch(`http://localhost:8000/api/mangas?${new URLSearchParams(params).toString()}`)
+        fetch(`${process.env.BASE_URL}api/mangas?${new URLSearchParams(params).toString()}`)
             .then(response => response.json())
             .then(data => setMangas(data.data))
     }
 
     const handleConfirmDelete = () => {
-        fetch(`http://localhost:8000/api/mangas/${deleteMangaId}`, {
+        fetch(`${process.env.BASE_URL}api/mangas/${deleteMangaId}`, {
             method: 'DELETE',
         })
             .then(response => response.json())

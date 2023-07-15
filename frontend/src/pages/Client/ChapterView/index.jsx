@@ -77,7 +77,7 @@ function ChapterView() {
     useEffect(() => {
         async function fetchData() {
             const response = await fetch(
-                `http://localhost:8000/api/mangas/chapter/${props[3]}`
+                `${process.env.BASE_URL}api/mangas/chapter/${props[3]}`
             );
             const data = await response.json();
             if (data) {

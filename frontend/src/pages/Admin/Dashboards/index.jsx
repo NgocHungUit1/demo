@@ -35,7 +35,7 @@ function Dashboards() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/dashboard");
+            const response = await axios.get("${process.env.BASE_URL}api/dashboard");
             const data = response.data;
             setPopularAllTime(data.popularAllTime);
             setPopularToday(data.popularToday);
