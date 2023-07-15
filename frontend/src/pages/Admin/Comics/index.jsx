@@ -144,7 +144,7 @@ function Comics() {
 
 
     useEffect(() => {
-        fetch("${process.env.REACT_APP_BASE_URL}api/mangas")
+        fetch(`${process.env.REACT_APP_BASE_URL}api/mangas`)
             .then((response) => response.json())
             .then((data) => setMangas(data.data));
     }, []);

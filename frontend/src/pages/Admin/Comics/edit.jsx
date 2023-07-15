@@ -18,7 +18,7 @@ const EditComicForm = () => {
 
   useEffect(() => {
     const fetchGenres = async () => {
-      const response = await fetch('${process.env.REACT_APP_BASE_URL}api/genres');
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}api/genres`);
       const data = await response.json();
       if (Array.isArray(data.data)) {
         setGenres(data.data);

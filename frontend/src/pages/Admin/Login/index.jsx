@@ -40,7 +40,7 @@ function Login() {
                 method: "POST",
                 body: data,
             };
-            fetch("http://127.0.0.1:8000/api/login", requestOptions)
+            fetch(`${process.env.REACT_APP_BASE_URL}api/login`, requestOptions)
                 .then((res) => res.json())
                 .then((json) => {
                     console.log(json);

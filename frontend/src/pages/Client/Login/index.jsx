@@ -13,7 +13,7 @@ function LoginClient() {
     const [loginUrl, setLoginUrl] = useState(null);
 
     useEffect(() => {
-        fetch("${process.env.REACT_APP_BASE_URL}api/google", {
+        fetch(`${process.env.REACT_APP_BASE_URL}api/google`, {
             headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",

@@ -13,7 +13,7 @@ function Categories() {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("${process.env.REACT_APP_BASE_URL}api/user");
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}api/user`);
             const data = await response.json();
             if (data) {
                 setUserViews(data.users);

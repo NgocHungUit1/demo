@@ -20,7 +20,7 @@ const InsertComic = () => {
 
   useEffect(() => {
     const fetchGenres = async () => {
-      const response = await fetch('${process.env.REACT_APP_BASE_URL}api/genres');
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}api/genres`);
       const data = await response.json();
       if (Array.isArray(data.data)) {
         setGenres(data.data);
@@ -70,7 +70,7 @@ const InsertComic = () => {
       formData.append('complete', values.complete ? '1' : '0');
       formData.append('highlight', values.highlight);
 
-      const response = await axios.post('${process.env.REACT_APP_BASE_URL}api/mangas', formData, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}api/mangas`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

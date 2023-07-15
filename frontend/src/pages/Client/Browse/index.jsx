@@ -22,7 +22,7 @@ function Browse() {
     const props = location.state;
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("${process.env.REACT_APP_BASE_URL}api/genres");
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}api/genres`);
             const data = await response.json();
             if (Array.isArray(data.data)) {
                 setGenres(data.data);
@@ -38,7 +38,7 @@ function Browse() {
                     setGenre(props.genreId);
                 }
                 const response = await axios.get(
-                    "${process.env.REACT_APP_BASE_URL}api/mangas",
+                    `${process.env.REACT_APP_BASE_URL}api/mangas`,
                     {
                         params: {
                             genre: genre,
