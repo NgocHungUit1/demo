@@ -18,8 +18,13 @@ class Manga extends Model implements Viewable
 
     public $_views;
     protected $table = 'mangas';
-    protected $fillable = ['name', 'slug', 'des', 'active', 'complete', 'image', 'author', 'last_chapter_uploaded_at', 'tag', 'highlight','like','user_created'];
+    protected $fillable = ['name', 'slug', 'des', 'active', 'complete', 'image', 'author', 'last_chapter_uploaded_at', 'tag', 'highlight', 'like', 'user_created'];
 
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_created');
+    }
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'mangas_gerens');
@@ -39,11 +44,6 @@ class Manga extends Model implements Viewable
     public function favouriteUsers()
     {
         return $this->belongsToMany(User::class, 'favorite_mangas');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_created');
     }
 
     public function followStatus()
@@ -101,9 +101,9 @@ class Manga extends Model implements Viewable
     public static function latestUpdatedPaginate()
     {
         $latestMangas = self::withCount('chapters')
-        ->whereHas('user', function ($query) {
-            $query->where('role', 'admin');
-        })
+            ->whereHas('user', function ($query) {
+                $query->where('role', 'admin');
+            })
             ->orderBy('last_chapter_uploaded_at', 'desc')
             ->take(10)
             ->get();
@@ -120,7 +120,7 @@ class Manga extends Model implements Viewable
 
         return $latestMangas;
     }
-    public static function searchManga($query,array $params = [])
+    public static function searchManga($query, array $params = [])
     {
 
         if (!empty($params['name'])) {

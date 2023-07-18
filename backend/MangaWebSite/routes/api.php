@@ -47,7 +47,7 @@ Route::delete('genres/{id}', [GenreController::class, 'destroy']);
 
 Route::get('/mangas', [MangaController::class, 'index']);
 Route::get('/mangas-customer', [MangaController::class, 'comicCustomer']);
-Route::get('/mangas-customer/{manga_id}', [MangaController::class, 'approveManga']);
+
 Route::get('/mangas/{id}', [MangaController::class, 'show']);
 
 Route::put('/mangas/{id}', [MangaController::class, 'update']);
@@ -77,6 +77,7 @@ Route::get('/auth/callback', [SocialController::class, 'loginGoogleCallback']);
 
 Route::middleware(['auth:api'])->group(function () {
     Route::post('/mangas', [MangaController::class, 'store']);
+    Route::get('/customer-upload', [MangaController::class, 'customerUpload']);
     //Comment
     Route::post('/chapter/{chapter}/comments', [CommentController::class, 'createChapterComment']);
     Route::post('/manga/{manga}/comments', [CommentController::class, 'createMangaComment']);

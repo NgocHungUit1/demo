@@ -248,10 +248,18 @@ class MangaController extends Controller
     }
 
 
-    public function tag($tag)
+    public function customerUpload()
     {
-        $tags = explode("-", $tag);
-        $manga = Manga::where('tag', $tag)->get();
-        return response()->json($manga);
+        $user = Auth::user(); // Assuming you're using Laravel's authentication system
+        if ($user) {
+            $mangasCreatedByUser = $user->mangas;
+        }
+        foreach ($mangasCreatedByUser as $manga) {
+            $manga->unsetRelation('genres');
+            $manga->genres_list = $manga->genres->pluck('name')->map(function ($genre) {
+                return trim($genre);
+            });
+        }
+        return response()->json(['data' => $mangasCreatedByUser]);
     }
 }
