@@ -230,8 +230,8 @@ function Header() {
                                                         key={genres.id}
                                                         className={cx(
                                                             colors[
-                                                                index %
-                                                                    colors.length
+                                                            index %
+                                                            colors.length
                                                             ]
                                                         )}
                                                     >
@@ -279,6 +279,10 @@ function Header() {
                                 <Link to="/follow">
                                     <FollowsIcon />
                                     <p>Theo dõi</p>
+                                </Link>
+                                <Link to="/customer-upload">
+                                    <FollowsIcon />
+                                    <p>Upload </p>
                                 </Link>
                                 <div onClick={handleSignOut}>
                                     <SignoutIcon />

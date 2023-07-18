@@ -15,6 +15,7 @@ import AdminLayout from "@/layouts/AdminLayout";
 import Home from "@/pages/Client/Home";
 import Auth from "./Auth";
 import Manga from "@/pages/Client/Manga";
+import CustomerUpload from "@/pages/Client/CustomerUpload";
 import ChapterView from "@/pages/Client/ChapterView";
 import LoginClient from "@/pages/Client/Login";
 import GoogleCallback from "@/pages/Client/Login/GoogleCallback";
@@ -67,6 +68,7 @@ export const RoutesConfig = () => {
                 <Route path="manga-details/:slug" element={<Manga />}></Route>
                 <Route path="/browse" element={<Browse />}></Route>
                 <Route path="/follow" element={<Follow />}></Route>
+                <Route path="/customer-upload" element={<CustomerUpload />}></Route>
             </Route>
             <Route
                 path="/manga-details/:slug/:slug_chapter/:id"
