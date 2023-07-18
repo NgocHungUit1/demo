@@ -13,6 +13,7 @@ use App\Http\Controllers\Client\ViewChapterController;
 use App\Http\Controllers\FollowController;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,8 +46,10 @@ Route::put('genres/{id}', [GenreController::class, 'update']);
 Route::delete('genres/{id}', [GenreController::class, 'destroy']);
 
 Route::get('/mangas', [MangaController::class, 'index']);
+Route::get('/mangas-customer', [MangaController::class, 'comicCustomer']);
+Route::get('/mangas-customer/{manga_id}', [MangaController::class, 'approveManga']);
 Route::get('/mangas/{id}', [MangaController::class, 'show']);
-Route::post('/mangas', [MangaController::class, 'store']);
+
 Route::put('/mangas/{id}', [MangaController::class, 'update']);
 Route::delete('/mangas/{id}', [MangaController::class, 'destroy']);
 
@@ -73,6 +76,7 @@ Route::get('/auth/callback', [SocialController::class, 'loginGoogleCallback']);
 
 
 Route::middleware(['auth:api'])->group(function () {
+    Route::post('/mangas', [MangaController::class, 'store']);
     //Comment
     Route::post('/chapter/{chapter}/comments', [CommentController::class, 'createChapterComment']);
     Route::post('/manga/{manga}/comments', [CommentController::class, 'createMangaComment']);

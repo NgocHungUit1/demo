@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class MangaService
 {
-    public function create($data)
+    public function create($data, $userCreated)
     {
         $manga = Manga::create($data);
 
@@ -19,12 +19,15 @@ class MangaService
         $imagePath = $this->saveImageAndGetFilePath($data['image'], $slug);
 
         $data['image'] = $imagePath;
+        $data['user_created'] = $userCreated; // Thêm thông tin người dùng tạo manga vào dữ liệu
+
         $manga->update($data);
 
         $this->syncGenres($manga, $data['genres']);
 
         return $manga;
     }
+
 
     private function saveImageAndGetFilePath($image, $slug)
     {

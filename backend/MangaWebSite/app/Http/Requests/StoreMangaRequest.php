@@ -26,6 +26,7 @@ class StoreMangaRequest extends FormRequest
             'complete' => 'required|boolean',
             'tag' => 'required|string|max:255',
             'genres' => 'required|array|min:1',
+            'user_created' => 'nullable|integer',
             'genres.*' => ['required', 'exists:genres,id'],
             'highlight' => ['required', 'string', Rule::in(['new', 'popular'])],
         ];

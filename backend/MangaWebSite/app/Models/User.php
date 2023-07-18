@@ -26,6 +26,7 @@ class User extends Authenticatable  implements CanVisit
         'password',
         'google_id',
         'image',
+        'role'
     ];
 
     /**
@@ -51,4 +52,11 @@ class User extends Authenticatable  implements CanVisit
     {
         return $this->belongsToMany(Manga::class, 'favorite_mangas');
     }
+    public function mangas()
+{
+    return $this->hasMany(Manga::class, 'user_created');
+}
+
+
+
 }

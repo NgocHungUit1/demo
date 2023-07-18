@@ -29,7 +29,8 @@ class SocialController extends Controller
                 'email' => $googleUser->email,
                 'google_id' => $googleUser->id,
                 'password' => Hash::make('123123'),
-                'image' => $googleUser->avatar
+                'image' => $googleUser->avatar,
+                'role' => 'customer'
             ]);
             Auth::login($user);
         }
