@@ -219,7 +219,7 @@ function Browse() {
             {mangas.map((manga) => (
               <div className={cx("manga")}>
                 <img src={manga.image} alt="" />
-                <h2>{manga.name}</h2>
+                <h1>{manga.name}</h1>
               </div>
             ))}
           </div>

@@ -40,14 +40,16 @@ function Login() {
                 method: "POST",
                 body: data,
             };
-            fetch(`${process.env.REACT_APP_BASE_URL}api/login`, requestOptions)
+            fetch(`http://localhost:8000/api/login`, requestOptions)
                 .then((res) => res.json())
                 .then((json) => {
                     console.log(json);
                     // Lưu thông tin người dùng vào local storage
-                    localStorage.setItem("user", JSON.stringify(loginForm));
+                    localStorage.setItem("user", JSON.stringify(json));
+
                     // Gửi action setUser
-                    dispatch(setUser(loginForm));
+                    dispatch(setUser(json));
+
                 })
         }
     };
@@ -167,55 +169,43 @@ function Login() {
                         <h1>Welcome back!</h1>
                         <p>Start managing your page!</p>
                     </Form.Item>
-                    <Form.Item
-                        label="Email"
-                        name="Email"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input your Email!",
-                            },
-                        ]}
-                    >
-                        <Input
-                            size="large"
-                            prefix={
-                                <UserOutlined className="site-form-item-icon" />
-                            }
-                            placeholder="Email"
-                            onChange={(e) =>
-                                setLoginForm({
-                                    ...loginForm,
-                                    email: e.target.value,
-                                })
-                            }
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        label="Password"
-                        name="password"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input your Password!",
-                            },
-                        ]}
-                        onChange={(e) =>
-                            setLoginForm({
-                                ...loginForm,
-                                password: e.target.value,
-                            })
-                        }
-                    >
-                        <Input
-                            size="large"
-                            prefix={
-                                <LockOutlined className="site-form-item-icon" />
-                            }
-                            type="password"
-                            placeholder="Password"
-                        />
-                    </Form.Item>
+                    <Form.Item label="Email" name="email" rules={[{ required: true, message: "Please input your Email!" }]}>
+  <Input
+    size="large"
+    prefix={<UserOutlined className="site-form-item-icon" />}
+    placeholder="Email"
+    onChange={(e) =>
+      setLoginForm({
+        ...loginForm,
+        email: e.target.value,
+      })
+    }
+  />
+</Form.Item>
+<Form.Item
+  label="Password"
+  name="password"
+  rules={[
+    {
+      required: true,
+      message: "Please input your Password!",
+    },
+  ]}
+>
+  <Input
+    size="large"
+    prefix={<LockOutlined className="site-form-item-icon" />}
+    type="password"
+    placeholder="Password"
+    onChange={(e) =>
+      setLoginForm({
+        ...loginForm,
+        password: e.target.value,
+      })
+    }
+  />
+</Form.Item>
+
                     <Form.Item label=" " colon={false}>
                         <Form.Item
                             name="remember"

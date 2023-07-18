@@ -90,7 +90,7 @@ function MangaCard(props) {
                     </div>
                     <div>
                         <TimeIcon />
-                        {updateTime}
+                       { props.chapters[0].uploaded_at} 
                     </div>
                     <div>
                         <StatusIcon />

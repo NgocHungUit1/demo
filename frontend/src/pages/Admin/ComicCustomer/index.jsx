@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import classNames from "classnames/bind";
-import styles from "./Comics.module.scss";
+import styles from "../Comics/Comics.module.scss";
 import TableComp from "../../../components/Admin/TableComp";
 import { Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -140,11 +140,9 @@ function Comics() {
     const [mangas, setMangas] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [deleteMangaId, setDeleteMangaId] = useState(null);
-    const [searchText, setSearchText] = useState('');
-
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/mangas`)
+        fetch(`http://localhost:8000/api/mangas-customer`)
             .then((response) => response.json())
             .then((data) => setMangas(data.data));
     }, []);
@@ -181,7 +179,7 @@ function Comics() {
 
     return (
         <div className={cx("wrapper")}>
-            <Title title="Comics" />
+            <Title title="Comics Customer" />
             <div className={cx("title")}>
                 <Link to="/admin/insert-comic">
                     <Button

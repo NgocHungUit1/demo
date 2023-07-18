@@ -95,14 +95,17 @@
             }
         }
     }
-    .comic-by-season {
+  
+.comic-by-season {
         display: grid;
         background: var(--background-fourth);
         border-radius: 15px;
         margin: 0 10px;
         grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(10,1fr);
         .img {
             grid-column: 1 / span 1;
+            grid-row: 1 / span 10;
             overflow: hidden;
             img {
                 object-fit: cover;
@@ -113,6 +116,7 @@
             }
         }
         .content {
+            grid-row: 1 / span 10;
             grid-column: 2 / span 4;
             padding: 0 10px;
             h2 {

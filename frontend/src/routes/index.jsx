@@ -10,7 +10,7 @@ import InserChapter from "@/pages/Admin/Chapter/create";
 import InsertComic from "@/pages/Admin/Comics/create";
 import ViewChapter from "@/pages/Admin/Chapter/view";
 import EditComic from "@/pages/Admin/Comics/edit";
-import Login from "@/pages/Admin/Login";
+import ComicCustomer from "@/pages/Admin/ComicCustomer";
 import AdminLayout from "@/layouts/AdminLayout";
 import Home from "@/pages/Client/Home";
 import Auth from "./Auth";
@@ -46,6 +46,9 @@ export const RoutesConfig = () => {
 
                     <Route path="all-genres" element={<Genres />}></Route>
                     <Route path="all-comics" element={<Comics />}>
+                        {/* <Route path="login" element={<Login />}></Route> */}
+                    </Route>
+                    <Route path="all-comics-customer" element={<ComicCustomer />}>
                         {/* <Route path="login" element={<Login />}></Route> */}
                     </Route>
                     <Route path="insert-comic" element={<InsertComic />} />

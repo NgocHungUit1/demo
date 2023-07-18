@@ -65,6 +65,15 @@ const items = [
         "comics",
         <ComicsIcon style={{ fontSize: "22px" }} />
     ),
+    getItem(
+        <Link to="all-comics-customer">
+            <p className={cx("tab-item")}>
+                <b>Comics customer</b>
+            </p>
+        </Link>,
+        "comics",
+        <ComicsIcon style={{ fontSize: "22px" }} />
+    ),
 ];
 
 function Sidebar(props) {

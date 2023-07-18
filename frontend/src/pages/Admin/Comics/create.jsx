@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, Button, Select, Checkbox } from "antd";
-import { Upload, ButtonComics } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-import { ToastContainer, toast } from 'react-toastify';
+import { Upload, ButtonComics } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { ToastContainer, toast } from "react-toastify";
 import Title from "@/components/Admin/Title";
-import axios from 'axios';
+import axios from "axios";
 import styles from "./Comics.module.scss";
+import { useSelector } from "react-redux"
 import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
@@ -13,10 +14,10 @@ const { Option } = Select;
 
 const InsertComic = () => {
   const [form] = Form.useForm();
+  const { user } = useSelector((st) => st.user)
   const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(true);
   const [imageFile, setImageFile] = useState(null);
-
 
   useEffect(() => {
     const fetchGenres = async () => {
@@ -31,49 +32,38 @@ const InsertComic = () => {
     fetchGenres();
   }, []);
 
-  // const handleGenresChange = (checkedValues) => {
-  //   setGenres((prevGenres) => {
-  //     return prevGenres.map((genre) => {
-  //       if (checkedValues.includes(genre.name)) {
-  //         return { ...genre, checked: true };
-  //       } else {
-  //         return { ...genre, checked: false };
-  //       }
-  //     });
-  //   });
-  // };
-
   const handleImageUpload = (file) => {
     setImageFile(file);
     return false;
   };
+
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
-      formData.append('name', values.name);
-      formData.append('des', values.des);
+      formData.append("name", values.name);
+      formData.append("des", values.des);
       if (values.complete) {
-        formData.append('complete', 1);
+        formData.append("complete", 1);
       } else {
-        formData.append('complete', 0);
+        formData.append("complete", 0);
       }
-      formData.append('author', values.author);
-      formData.append('tag', values.tag);
-      formData.append('highlight', values.highlight);
+      formData.append("author", values.author);
+      formData.append("tag", values.tag);
+      formData.append("highlight", values.highlight);
       if (imageFile) {
-        formData.append('image', imageFile);
+        formData.append("image", imageFile);
       }
-      values.genres.forEach(genreId => {
-        formData.append('genres[]', genreId);
+      values.genres.forEach((genreId) => {
+        formData.append("genres[]", genreId);
       });
-      // Thêm field complete và highlight vào formData
-      formData.append('complete', values.complete ? '1' : '0');
-      formData.append('highlight', values.highlight);
-
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}api/mangas`, formData, {
+      formData.append("complete", values.complete ? "1" : "0");
+      formData.append("highlight", values.highlight);
+   
+      const response = await axios.post(`http://localhost:8000/api/mangas`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          Authorization: `Bearer ${user.access_token}`,
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       toast.success("Add Comics Success!");
@@ -81,7 +71,6 @@ const InsertComic = () => {
       console.error(error);
     }
 
-    form.resetFields();
     setImageFile(null);
   };
 

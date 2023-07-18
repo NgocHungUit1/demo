@@ -47,6 +47,7 @@ const EditComicForm = () => {
         tag: values.tag,
         genres: values.genres,
         complete: values.complete,
+        active: values.active,
         highlight: values.highlight
       });
       toast("Update Comics Success!");
@@ -83,6 +84,14 @@ const EditComicForm = () => {
       <Form.Item
         label="Complete"
         name="complete"
+        valuePropName="checked"
+        rules={[{ required: true }]}
+      >
+        <Checkbox />
+      </Form.Item>
+      <Form.Item
+        label="Active"
+        name="active"
         valuePropName="checked"
         rules={[{ required: true }]}
       >
