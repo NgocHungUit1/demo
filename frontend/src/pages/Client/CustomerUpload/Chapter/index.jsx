@@ -1,11 +1,11 @@
 import classNames from "classnames/bind";
-import TableComp from "../../../components/Admin/TableComp";
+import TableComp from "@/components/Admin/TableComp";
 import { Button, Icon } from "antd";
 import { PlusOutlined, EyeOutlined } from "@ant-design/icons";
 import Title from "@/components/Admin/Title";
 import { useParams, Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import styles from "../Comics/Comics.module.scss";
+import styles from "./Customer.module.scss";
 
 const cx = classNames.bind(styles);
 function Chapter() {
@@ -29,7 +29,7 @@ function Chapter() {
         <div className={cx("wrapper")}>
             <Title title="Chapter" />
             <div>
-                <Link to={`/admin/insert-chapter/${id}`}>
+                <Link to={`/customer/insert-chapter/${id}`}>
                     <Button
                         icon={<PlusOutlined />}
                         variant="contained"
@@ -65,7 +65,7 @@ function Chapter() {
                         title: "Action",
                         key: "",
                         render: (text, record) => (
-                            <Link to={`/admin/view-chapter/${record.id}`}>
+                            <Link to={`/customer/view-chapter/${record.id}`}>
                                 <EyeOutlined />
                             </Link>
                         ),

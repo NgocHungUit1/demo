@@ -1,20 +1,19 @@
-import { useState, useEffect } from "react";
-import classNames from "classnames/bind";
-import styles from "../../Admin//Comics/Comics.module.scss";
-import TableComp from "../../../components/Admin/TableComp";
-import { Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import Title from "@/components/Admin/Title";
-import DeleteModal from "@/components/Admin/DeleteModal";
-import { Link } from "react-router-dom";
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import { ToastContainer, toast } from "react-toastify";
-import { useSelector } from "react-redux";
-import GenreButton from "@/components/Admin/GenresButton";
-import axios from "axios";
+import { useState, useEffect } from "react"
+import classNames from "classnames/bind"
+import styles from "../../Admin//Comics/Comics.module.scss"
+import TableComp from "../../../components/Admin/TableComp"
+import { Button } from "antd"
+import { PlusOutlined } from "@ant-design/icons"
+import Title from "@/components/Admin/Title"
+import DeleteModal from "@/components/Admin/DeleteModal"
+import { Link } from "react-router-dom"
+import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons"
+import { ToastContainer, toast } from "react-toastify"
+import { useSelector } from "react-redux"
+import GenreButton from "@/components/Admin/GenresButton"
+import axios from "axios"
 
-
-const cx = classNames.bind(styles);
+const cx = classNames.bind(styles)
 
 function Comics() {
   const columns = [
@@ -38,7 +37,7 @@ function Comics() {
     },
     {
       id: 3,
-      title: "Active",
+      title: "Status",
       dataIndex: "active",
       sorter: {
         compare: (a, b) => a.math - b.math,
@@ -46,7 +45,7 @@ function Comics() {
       },
       render: (text) => (
         <span style={{ color: text ? "green" : "red" }}>
-          {text ? "Active" : "Not Yet Completed"}
+          {text ? "Public" : "Pending"}
         </span>
       ),
     },
@@ -76,7 +75,7 @@ function Comics() {
       title: "Author",
       dataIndex: "author",
       sorter: {
-        compare: (a, b) => a.english
+        compare: (a, b) => a.english,
       },
     },
     {
@@ -84,14 +83,14 @@ function Comics() {
       title: "Genres",
       dataIndex: "genres_list",
       render: (genres) => {
-        const genreNames = genres.map((genre) => genre.trim());
+        const genreNames = genres.map((genre) => genre.trim())
         return (
           <div>
             {genreNames.map((genre, index) => (
               <GenreButton key={index} genre={genre} />
             ))}
           </div>
-        );
+        )
       },
     },
     {
@@ -122,12 +121,12 @@ function Comics() {
       title: "Action",
       render: (text, record) => (
         <div className={cx("action")}>
-          <Link to={`/admin/edit-comic/${record.id}`}>
+          <Link to={`/customer/edit-comic/${record.id}`}>
             <Button variant="success" icon={<EditOutlined />} />
           </Link>
-          <Link to={`/admin/chapter/${record.id}`}>
+          <Link to={`/customer/chapter/${record.id}`}>
             <Button variant="success" icon={<EyeOutlined />} />
-          </Link >
+          </Link>
           <Button
             variant="outlined"
             color="error"
@@ -135,76 +134,75 @@ function Comics() {
             icon={<DeleteOutlined />}
           />
           <ToastContainer />
-        </div >
+        </div>
       ),
     },
-  ];
-  const [mangas, setMangas] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [deleteMangaId, setDeleteMangaId] = useState(null);
-  const { client } = useSelector((st) => st.client);
-
+  ]
+  const [mangas, setMangas] = useState([])
+  const [showModal, setShowModal] = useState(false)
+  const [deleteMangaId, setDeleteMangaId] = useState(null)
+  const { client } = useSelector((st) => st.client)
 
   useEffect(() => {
+    var userLoad = localStorage.getItem("clientData")
+    var user = JSON.parse(userLoad)
     async function fetchData() {
       try {
-        const response = await fetch('http://localhost:8000/api/customer-upload', {
-          headers: {
-            Authorization: `Bearer ${client.access_token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        const data = await response.json();
-        setMangas(data.data);
+        const response = await fetch(
+          "http://localhost:8000/api/customer-upload",
+          {
+            headers: {
+              Authorization: `Bearer ${user.access_token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+
+        const data = await response.json()
+        setMangas(data.data)
       } catch (error) {
-        console.error(error);
+        console.error(error)
       }
     }
-    fetchData();
-  }, []);
-
+    fetchData()
+  }, [])
 
   const handleDelete = (id) => {
-    setDeleteMangaId(id);
-    setShowModal(true);
-  }
-  const handleSearch = (text) => {
-    const params = text ? { name: text } : {};
-    fetch(`${process.env.REACT_APP_BASE_URL}api/mangas?${new URLSearchParams(params).toString()}`)
-      .then(response => response.json())
-      .then(data => setMangas(data.data))
+    setDeleteMangaId(id)
+    setShowModal(true)
   }
 
   const handleConfirmDelete = () => {
     fetch(`${process.env.REACT_APP_BASE_URL}api/mangas/${deleteMangaId}`, {
-      method: 'DELETE',
+      method: "DELETE",
     })
-      .then(response => response.json())
+      .then((response) => response.json())
       .then(() => {
-        const filteredMangas = mangas.filter(manga => manga.id !== deleteMangaId)
+        const filteredMangas = mangas.filter(
+          (manga) => manga.id !== deleteMangaId
+        )
         setMangas(filteredMangas)
-        toast.success("Delete Comics Succe!");
-      });
-    setShowModal(false);
+        toast.success("Delete Comics Succe!")
+      })
+    setShowModal(false)
   }
 
   const handleCancelDelete = () => {
-    setDeleteMangaId(null);
-    setShowModal(false);
+    setDeleteMangaId(null)
+    setShowModal(false)
   }
-
 
   return (
     <div className={cx("wrapper")}>
       <Title title="Comics" />
       <div className={cx("title")}>
-        <Link to="/admin/insert-comic">
+        <Link to="/customer-upload-manga">
           <Button
             icon={<PlusOutlined />}
             variant="contained"
-            style={{ backgroundColor: '#6a0dad', color: '#fff' }}
+            style={{ backgroundColor: "#6a0dad", color: "#fff" }}
           >
-            Add new comic
+            Add Manga 
           </Button>
         </Link>
       </div>
@@ -215,12 +213,11 @@ function Comics() {
       <TableComp data={mangas} columns={columns} />
       <DeleteModal
         visible={showModal}
-        onOk
-        ={handleConfirmDelete}
+        onOk={handleConfirmDelete}
         onCancel={handleCancelDelete}
       />
       <ToastContainer />
     </div>
-  );
+  )
 }
-export default Comics;
+export default Comics

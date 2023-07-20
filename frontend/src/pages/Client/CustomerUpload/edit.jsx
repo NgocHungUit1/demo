@@ -4,12 +4,16 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import classNames from "classnames/bind";
+import styles from "../../Admin//Comics/Comics.module.scss";
+
+const cx = classNames.bind(styles);
 
 const { Option } = Select;
 
 const EditComicForm = () => {
   const { id } = useParams();
-  const { user } = useSelector((st) => st.user);
+  const { client } = useSelector((st) => st.client);
   const [form] = Form.useForm();
   const [genres, setGenres] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,7 +44,7 @@ const EditComicForm = () => {
 
   const handleSubmit = async (values) => {
     try {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${user.access_token}`; // Thêm token vào tiêu đề của yêu cầu
+      axios.defaults.headers.common['Authorization'] = `Bearer ${client.access_token}`; // Thêm token vào tiêu đề của yêu cầu
 
       const result = await axios.put(
         `${process.env.REACT_APP_BASE_URL}api/mangas/${id}`,
@@ -59,6 +63,7 @@ const EditComicForm = () => {
   }
 
   return (
+    <div className={cx("wrapper")}>
     <Form layout="vertical" form={form} onFinish={handleSubmit} initialValues={{ ...manga }}>
       <Form.Item label="Comic Name" name="name" rules={[{ required: true }]}>
         <Input />
@@ -87,14 +92,6 @@ const EditComicForm = () => {
       >
         <Checkbox />
       </Form.Item>
-      <Form.Item
-        label="Active"
-        name="active"
-        valuePropName="checked"
-        rules={[{ required: true }]}
-      >
-        <Checkbox />
-      </Form.Item>
       {/* Thêm trường Select cho giá trị Highlight */}
       <Form.Item
         label="Highlight"
@@ -114,6 +111,7 @@ const EditComicForm = () => {
       </Form.Item>
       <ToastContainer />
     </Form>
+    </div>
   );
 };
 
