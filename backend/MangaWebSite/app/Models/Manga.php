@@ -101,9 +101,7 @@ class Manga extends Model implements Viewable
     public static function latestUpdatedPaginate()
     {
         $latestMangas = self::withCount('chapters')
-            ->whereHas('user', function ($query) {
-                $query->where('role', 'admin');
-            })
+            ->where('active', true)
             ->orderBy('last_chapter_uploaded_at', 'desc')
             ->take(10)
             ->get();
@@ -184,9 +182,7 @@ class Manga extends Model implements Viewable
             ->with(['genres', 'chapters' => function ($query) {
                 $query->orderBy('order', 'asc');
             }])
-            ->whereHas('user', function ($query) {
-                $query->where('role', 'admin');
-            })
+            ->where('active', true)
             ->get()
             ->map(function ($manga) {
                 $chapter = $manga->chapters->last();
@@ -205,9 +201,7 @@ class Manga extends Model implements Viewable
             ->with(['genres', 'chapters' => function ($query) {
                 $query->orderBy('order', 'asc');
             }])
-            ->whereHas('user', function ($query) {
-                $query->where('role', 'admin');
-            });
+            ->where('active', true);
 
         return $query->get()->map(function ($manga) {
             $chapter = $manga->chapters->last();
@@ -227,9 +221,7 @@ class Manga extends Model implements Viewable
             ->with(['genres', 'chapters' => function ($query) {
                 $query->orderBy('order', 'desc')->take(1);
             }])
-            ->whereHas('user', function ($query) {
-                $query->where('role', 'admin');
-            })
+            ->where('active', true)
             ->orderBy('views_count', 'desc')
             ->take(5)
             ->get();
@@ -252,9 +244,7 @@ class Manga extends Model implements Viewable
             ->with(['genres', 'chapters' => function ($query) {
                 $query->orderBy('order', 'desc')->take(1);
             }])
-            ->whereHas('user', function ($query) {
-                $query->where('role', 'admin');
-            })
+            ->where('active', true)
             ->orderBy('views_count', 'desc')
             ->take(5)
             ->get();
@@ -276,9 +266,7 @@ class Manga extends Model implements Viewable
             ->with(['genres', 'chapters' => function ($query) {
                 $query->orderBy('order', 'desc')->take(1);
             }])
-            ->whereHas('user', function ($query) {
-                $query->where('role', 'admin');
-            })
+            ->where('active', true)
             ->orderBy('views_count', 'desc')
             ->take(5)
             ->get();
@@ -295,9 +283,7 @@ class Manga extends Model implements Viewable
             ->with(['genres', 'chapters' => function ($query) {
                 $query->orderBy('order', 'desc')->take(1);
             }])
-            ->whereHas('user', function ($query) {
-                $query->where('role', 'admin');
-            })
+            ->where('active', true)
             ->orderBy('views_count', 'desc')
             ->take(5)
             ->get();

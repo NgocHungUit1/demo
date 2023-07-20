@@ -250,7 +250,7 @@ class MangaController extends Controller
 
     public function customerUpload()
     {
-        $user = Auth::user(); // Assuming you're using Laravel's authentication system
+        $user = Auth::user();
         if ($user) {
             $mangasCreatedByUser = $user->mangas;
         }

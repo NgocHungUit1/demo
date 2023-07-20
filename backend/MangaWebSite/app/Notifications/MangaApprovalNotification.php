@@ -27,7 +27,7 @@ class MangaApprovalNotification extends Notification implements ShouldQueue
         return ['database'];
     }
 
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
 
         return [
@@ -38,13 +38,13 @@ class MangaApprovalNotification extends Notification implements ShouldQueue
         ];
     }
 
-    // public function toBroadcast($notifiable)
-    // {
-    //     return new BroadcastMessage([
-    //         'id' => $this->user->id,
-    //         'name' => $this->user->name,
-    //         'image' => $this->user->image,
-    //         'manga_id' => $this->manga->id,
-    //     ]);
-    // }
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'id' => $this->user->id,
+            'name' => $this->user->name,
+            'image' => $this->user->image,
+            'manga_id' => $this->manga->id,
+        ]);
+    }
 }
