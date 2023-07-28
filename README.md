@@ -29,8 +29,9 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
 Manga website
+## About The Project
+
 <img width="880" alt="image" src="https://github.com/NgocHungUit1/demo/assets/108797023/287bf720-fdaf-4730-813d-5b3b054ed3c7">
 
 <img width="895" alt="image" src="https://github.com/NgocHungUit1/demo/assets/108797023/281b73d4-e753-4107-9bff-a083a7b20baf">
