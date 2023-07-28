@@ -36,6 +36,9 @@ Manga website
 
 <img width="895" alt="image" src="https://github.com/NgocHungUit1/demo/assets/108797023/281b73d4-e753-4107-9bff-a083a7b20baf">
 
+<img width="914" alt="image" src="https://github.com/NgocHungUit1/demo/assets/108797023/a5f7b810-8748-4b29-b554-9bc6be148bb3">
+
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
